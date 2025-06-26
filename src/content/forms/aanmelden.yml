@@ -1,0 +1,20 @@
+action: /bedankt/
+inbox: thegymharen-leads
+fields:
+  - type: text
+    name: Voornaam
+    label: Voornaam
+    required: true
+  - type: text
+    name: Achternaam
+    label: Achternaam
+    required: true
+  - type: email
+    name: Email
+    label: Email
+    required: true
+  - type: tel
+    name: Telefoon
+    label: Telefoon
+    required: true
+submit: Verstuur aanmelding

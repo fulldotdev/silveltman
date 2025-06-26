@@ -1,0 +1,16 @@
+action: /bedankt/
+inbox: silveltman
+fields:
+  - type: text
+    name: Naam
+    label: Naam
+    required: true
+  - type: email
+    name: Email
+    label: Email
+    required: true
+  - type: tel
+    name: Telefoon
+    label: Telefoon
+    required: true
+submit: Verstuur bericht

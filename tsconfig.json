@@ -1,0 +1,28 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@blocks/*": ["src/blocks/*"],
+      "@components/*": ["src/components/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@schemas/*": ["src/schemas/*"]
+    },
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "exclude": ["node_modules", "dist"]
+}

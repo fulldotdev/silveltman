@@ -1,0 +1,30 @@
+action: /x-fittt-bedankt/
+inbox: thegymharen-facebook-leads
+fields:
+  - type: text
+    name: Voornaam
+    label: Voornaam
+    required: true
+  - type: text
+    name: Achternaam
+    label: Achternaam
+    required: true
+  - type: email
+    name: Email
+    label: Email
+    required: true
+  - type: tel
+    name: Telefoon
+    label: Telefoon
+    required: true
+  - type: select
+    name: ContactTijd
+    label: Wanneer kunnen wij het beste telefonisch contact opnemen?
+    placeholder: Kies een tijd
+    required: true
+    options:
+      - Ochtend (09:00-12:00)
+      - Middag (12:00-18:00)
+      - Avond (18:00-21:00)
+submit: Verzenden
+description: "* Let op: Het X-Fittt programma wordt vergoed vanuit de basisverzekering (zonder eigen bijdrage). Het sportabonnement bij The Gym Haren en eventuele extra kosten voor het gebruik van de faciliteiten zijn niet inbegrepen in deze vergoeding. "
