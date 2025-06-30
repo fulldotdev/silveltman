@@ -52,7 +52,7 @@
   --sidebar-accent-foreground: oklch(1 0 0);
   --sidebar-border: oklch(0.8083 0.0174 271.1982);
   --sidebar-ring: oklch(0.5547 0.2503 297.0156);
-  --radius: 0.95rem;
+  --radius: 0.35rem;
   --shadow-2xs: 0px 4px 6px 0px hsl(240 30% 25% / 0.06);
   --shadow-xs: 0px 4px 6px 0px hsl(240 30% 25% / 0.06);
   --shadow-sm:
@@ -84,14 +84,14 @@
 }
 
 .dark {
-  --background: #111111;
-  --foreground: #ffffff;
+  --background: oklch(0.1776 0 0);
+  --foreground: oklch(0.9491 0 0);
   --card: oklch(0.252 0 0);
   --card-foreground: oklch(0.9491 0 0);
   --popover: oklch(0.252 0 0);
   --popover-foreground: oklch(0.9491 0 0);
-  --primary: #0072d7;
-  --primary-foreground: #ffffff;
+  --primary: oklch(0.5605 0.2414 266.4601);
+  --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.285 0 0);
   --secondary-foreground: oklch(0.9491 0 0);
   --muted: oklch(0.2134 0 0);
@@ -142,6 +142,7 @@
   --shadow-offset-y: 4px;
   --letter-spacing: 0em;
   --spacing: 0.25rem;
+  --radius: 0.35rem;
 }
 
 @theme inline {
@@ -191,7 +192,7 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
-  --radius: 0.95rem;
+  --radius: 0.35rem;
   --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
   --tracking-tight: calc(var(--tracking-normal) - 0.025em);
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
