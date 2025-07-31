@@ -1,12 +1,9 @@
-import { Check } from "lucide-react"
-
 import type { BlockProps } from "@/lib/types"
-import { Link } from "@/components/ui/link"
+import { Icon } from "@/components/ui/icon"
 import {
   Section,
   SectionContainer,
   SectionContent,
-  SectionFooter,
   SectionGrid,
 } from "@/components/ui/section"
 import {
@@ -16,36 +13,32 @@ import {
   TileTitle,
 } from "@/components/ui/tile"
 
-export default function ({ children, links, items }: BlockProps) {
+export default function ({ children, tagline, items }: BlockProps) {
   return (
     <Section>
       <SectionContainer>
-        {children && <SectionContent size="4xl">{children}</SectionContent>}
-        {links && links.length > 0 && (
-          <SectionFooter className="mt-8">
-            {links.map(({ text, href }, i) => (
-              <Link
-                key={href}
-                href={href}
-                variant={i === 0 ? "default" : "ghost"}
-                size="lg"
-              >
-                {text}
-              </Link>
-            ))}
-          </SectionFooter>
+        {tagline && (
+          <span className="text-accent-foreground text-sm font-medium">
+            {tagline}
+          </span>
         )}
-        <SectionGrid className="not-first:mt-16">
-          {items?.map(({ title, description }) => (
-            <Tile key={title} panel={false}>
-              <TileContent>
-                <Check
-                  className="text-primary-foreground bg-primary size-6 rounded-full p-1.5"
-                  strokeWidth={4}
-                />
-                <TileTitle className="mt-3 text-lg">{title}</TileTitle>
+        {children && (
+          <SectionContent className="not-first:mt-4">{children}</SectionContent>
+        )}
+        <SectionGrid className="gap-8 not-first:mt-16">
+          {items?.map(({ title, description, icon }, i) => (
+            <Tile key={i} panel={false}>
+              <TileContent className="items-start">
+                {icon && (
+                  <div className="bg-accent rounded-full p-3">
+                    <Icon name={icon} />
+                  </div>
+                )}
+                <TileTitle className="text-lg not-first:mt-2">
+                  {title}
+                </TileTitle>
                 {description && (
-                  <TileDescription className="mt-2 text-base/7">
+                  <TileDescription className="text-base">
                     {description}
                   </TileDescription>
                 )}

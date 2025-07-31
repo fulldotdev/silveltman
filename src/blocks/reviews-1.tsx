@@ -1,37 +1,52 @@
 import type { BlockProps } from "@/lib/types"
-import { Paragraph } from "@/components/ui/paragraph"
+import {
+  Review,
+  ReviewContent,
+  ReviewImage,
+  ReviewRating,
+} from "@/components/ui/review"
 import {
   Section,
   SectionContainer,
   SectionContent,
   SectionMasonry,
 } from "@/components/ui/section"
-import { Tile, TileContent, TileImage, TileTitle } from "@/components/ui/tile"
-import { Rating } from "@/components/rating"
+import {
+  Tile,
+  TileContent,
+  TileDescription,
+  TileTitle,
+} from "@/components/ui/tile"
 
-export default function ({ children, items }: BlockProps) {
+export default function ({ children, tagline, items }: BlockProps) {
   return (
     <Section>
-      <SectionContainer className="flex flex-col">
-        <SectionContent size="4xl">{children}</SectionContent>
-        <SectionMasonry className="gap-4 space-y-6 not-first:mt-12">
-          {items?.map(({ title, description, rating, avatar, image }) => (
-            <Tile key={title}>
-              <TileImage {...image} />
+      <SectionContainer className="flex flex-col items-center">
+        {tagline && (
+          <span className="text-accent-foreground text-sm font-medium">
+            {tagline}
+          </span>
+        )}
+        {children && (
+          <SectionContent className="text-center not-first:mt-4" size="lg">
+            {children}
+          </SectionContent>
+        )}
+        <SectionMasonry className="gap-4 space-y-6 not-first:mt-16">
+          {items?.map(({ title, description, rating, image, tagline }, i) => (
+            <Tile key={i}>
               <TileContent>
-                <div className="flex w-full items-center gap-4">
-                  {avatar?.src && (
-                    <img
-                      className="size-12 shrink-0 grow-0 rounded-full object-cover"
-                      {...avatar}
-                    />
-                  )}
-                  <div className="flex w-full flex-col gap-3">
-                    {rating && <Rating score={rating} />}
-                    <TileTitle>{title}</TileTitle>
-                  </div>
-                </div>
-                {description && <Paragraph>{description}</Paragraph>}
+                <Review>
+                  {image && <ReviewImage {...image} />}
+                  <ReviewContent>
+                    {rating && <ReviewRating rating={rating} />}
+                    {tagline}
+                  </ReviewContent>
+                </Review>
+                <TileTitle className="not-first:mt-2">{title}</TileTitle>
+                {description && (
+                  <TileDescription>{description}</TileDescription>
+                )}
               </TileContent>
             </Tile>
           ))}

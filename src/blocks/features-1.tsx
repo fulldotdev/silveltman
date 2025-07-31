@@ -1,60 +1,54 @@
-import { Check } from "lucide-react"
-
 import type { BlockProps } from "@/lib/types"
-import { Heading } from "@/components/ui/heading"
-import { Link } from "@/components/ui/link"
-import { Paragraph } from "@/components/ui/paragraph"
+import { Icon } from "@/components/ui/icon"
 import {
   Section,
   SectionContainer,
   SectionContent,
-  SectionFooter,
 } from "@/components/ui/section"
+import {
+  Tile,
+  TileContent,
+  TileDescription,
+  TileTitle,
+} from "@/components/ui/tile"
 
-export default function ({ children, links, items }: BlockProps) {
+export default function ({ children, tagline, items }: BlockProps) {
   return (
     <Section>
       <SectionContainer className="flex flex-col items-center">
+        {tagline && (
+          <span className="text-accent-foreground text-sm font-medium">
+            {tagline}
+          </span>
+        )}
         {children && (
-          <SectionContent className="text-center" size="4xl">
+          <SectionContent className="text-center not-first:mt-4" size="lg">
             {children}
           </SectionContent>
         )}
-        {links && links.length > 0 && (
-          <SectionFooter className="mt-8">
-            {links.map(({ text, href }, i) => (
-              <Link
-                key={href}
-                href={href}
-                variant={i === 0 ? "default" : "ghost"}
-                size="lg"
-              >
-                {text}
-              </Link>
-            ))}
-          </SectionFooter>
-        )}
-        <div className="mt-16 flex flex-wrap justify-center gap-16">
-          {items?.map(({ title, description }) => (
-            <div
-              key={title}
-              className="flex max-w-md min-w-2xs grow-1 basis-xs flex-col items-center"
+        <div className="flex flex-wrap justify-center gap-x-16 gap-y-8 not-first:mt-16">
+          {items?.map(({ title, description, icon }, i) => (
+            <Tile
+              className="flex max-w-md min-w-2xs grow-1 basis-2xs flex-col items-center"
+              key={i}
+              panel={false}
             >
-              <div className="bg-primary flex size-7 items-center justify-center rounded-full">
-                <Check
-                  className="text-primary-foreground size-3"
-                  strokeWidth={4}
-                />
-              </div>
-              <Heading className="mt-5 text-center" size="xl" as="h3">
-                {title}
-              </Heading>
-              {description && (
-                <Paragraph className="mt-4 text-center">
-                  {description}
-                </Paragraph>
-              )}
-            </div>
+              <TileContent className="flex flex-col items-center text-center">
+                {icon && (
+                  <div className="bg-accent rounded-full p-3">
+                    <Icon name={icon} />
+                  </div>
+                )}
+                <TileTitle className="text-lg not-first:mt-2">
+                  {title}
+                </TileTitle>
+                {description && (
+                  <TileDescription className="text-base">
+                    {description}
+                  </TileDescription>
+                )}
+              </TileContent>
+            </Tile>
           ))}
         </div>
       </SectionContainer>

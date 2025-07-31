@@ -6,7 +6,6 @@ import {
   SectionContainer,
   SectionContent,
   SectionFooter,
-  SectionProse,
   SectionSplit,
 } from "@/components/ui/section"
 
@@ -23,7 +22,7 @@ export default function ({
       <SectionContainer>
         <SectionSplit className="gap-y-16">
           <div className="top-24 flex flex-col lg:sticky">
-            <SectionContent size="4xl">
+            <SectionContent>
               {published && (
                 <span>{new Date(published).toLocaleDateString("nl-NL")}</span>
               )}
@@ -34,8 +33,8 @@ export default function ({
             </SectionContent>
             {list && list.length > 0 && (
               <List className="mt-3">
-                {list.map((item) => (
-                  <ListItem className="text-sm" key={item}>
+                {list.map((item, i) => (
+                  <ListItem className="text-sm" key={i}>
                     {item}
                   </ListItem>
                 ))}
@@ -45,7 +44,7 @@ export default function ({
               <SectionFooter className="mt-8">
                 {links.map(({ href, text }, i) => (
                   <Link
-                    key={href}
+                    key={i}
                     href={href}
                     variant={i === 0 ? "default" : "ghost"}
                   >
@@ -56,12 +55,12 @@ export default function ({
             )}
           </div>
           <div className="flex flex-col">
-            <SectionProse>{children}</SectionProse>
+            <SectionContent>{children}</SectionContent>
             {links && links.length > 0 && (
               <SectionFooter className="mt-8 md:hidden">
                 {links.map(({ href, text }, i) => (
                   <Link
-                    key={href}
+                    key={i}
                     href={href}
                     variant={i === 0 ? "default" : "ghost"}
                   >

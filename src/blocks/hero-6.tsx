@@ -1,52 +1,70 @@
-import ReactPlayer from "react-player"
-
 import type { BlockProps } from "@/lib/types"
+import { Chip } from "@/components/ui/chip"
 import { Link } from "@/components/ui/link"
+import {
+  Review,
+  ReviewContent,
+  ReviewImage,
+  ReviewRating,
+} from "@/components/ui/review"
 import {
   Section,
   SectionContainer,
   SectionContent,
   SectionFooter,
+  SectionGrid,
 } from "@/components/ui/section"
-import { Rating } from "@/components/rating"
+import {
+  Tile,
+  TileContent,
+  TileDescription,
+  TileImage,
+  TileTitle,
+} from "@/components/ui/tile"
 
 export default function ({
   children,
   links,
-  image,
+  chip,
   rating,
   tagline,
-  avatars,
+  images,
+  items,
 }: BlockProps) {
   return (
-    <Section>
-      <SectionContainer className="flex flex-col items-center">
-        {rating && tagline && avatars && (
-          <div className="flex items-center">
-            {avatars?.map((avatar, i) => (
-              <img
-                key={avatar.src}
-                className="size-10 rounded-full object-cover not-first:-ml-4"
-                alt={`Avatar ${i + 1}`}
-                {...avatar}
-              />
-            ))}
-            <div className="flex flex-col gap-1 not-first:ml-3.5">
-              <Rating score={rating} />
-              <span className="text-muted-foreground text-sm">{tagline}</span>
-            </div>
-          </div>
+    <Section className="pt-16">
+      <div className="from-primary/15 pointer-events-none absolute -top-14 bottom-0 left-0 z-20 w-full bg-radial-[at_15%_0%] via-transparent to-transparent" />
+      <SectionContainer className="flex flex-col">
+        {chip && (
+          <Chip className="animate-fade-4" variant="secondary" href={chip.href}>
+            {chip.text}
+          </Chip>
         )}
-        <SectionContent size="6xl" className="text-center not-first:mt-5">
+        {rating && (
+          <Review className="animate-fade-4 not-first:mt-5">
+            {images?.map((image, i) => (
+              <ReviewImage key={i} {...image} />
+            ))}
+            <ReviewContent>
+              <ReviewRating rating={rating} />
+              {tagline}
+            </ReviewContent>
+          </Review>
+        )}
+        <SectionContent
+          size="xl"
+          className="animate-fade-1 text-balance not-first:mt-8"
+        >
           {children}
         </SectionContent>
         {links && links.length > 0 && (
           <SectionFooter className="mt-8">
             {links.map(({ href, text }, i) => (
               <Link
-                key={href}
+                className={i === 0 ? "animate-fade-2" : "animate-fade-3"}
+                key={i}
                 href={href}
-                variant={i === 0 ? "default" : "ghost"}
+                variant={i === 0 ? "default" : "outline"}
                 size="lg"
               >
                 {text}
@@ -54,16 +72,31 @@ export default function ({
             ))}
           </SectionFooter>
         )}
-        <div className="bg-muted relative aspect-video w-full overflow-hidden rounded-lg not-first:mt-16">
-          <iframe
-            src="https://player.vimeo.com/video/1089099775?h=af11215c1b&amp;title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&autoplay=1&loop=1"
-            width="1920"
-            height="1080"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-            title="The Gym Banner 2025"
-            className="absolute inset-0 h-full w-full"
-          ></iframe>
-        </div>
+        <SectionGrid className="not-first:mt-16">
+          {items?.map(({ title, description, image, href }, i) => (
+            <Tile
+              key={i}
+              href={href}
+              className={`${
+                i === 0
+                  ? "animate-fade-2"
+                  : i === 1
+                    ? "animate-fade-3"
+                    : "animate-fade-4"
+              }`}
+            >
+              <TileImage className="aspect-4/3 object-cover" {...image} />
+              <TileContent>
+                <TileTitle className="text-lg">{title}</TileTitle>
+                {description && (
+                  <TileDescription className="text-base">
+                    {description}
+                  </TileDescription>
+                )}
+              </TileContent>
+            </Tile>
+          ))}
+        </SectionGrid>
       </SectionContainer>
     </Section>
   )

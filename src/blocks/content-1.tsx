@@ -8,20 +8,20 @@ import {
   SectionSplit,
 } from "@/components/ui/section"
 
-export default function ({ children, links, image, reverse }: BlockProps) {
+export default function ({ children, links, image }: BlockProps) {
   return (
     <Section>
       <SectionContainer>
-        <SectionSplit className="items-center" reverse={reverse}>
+        <SectionSplit className="items-center">
           <div className="flex flex-col items-start">
-            {children && <SectionContent size="4xl">{children}</SectionContent>}
+            {children && <SectionContent>{children}</SectionContent>}
             {links && links.length > 0 && (
               <SectionFooter className="not-first:mt-6">
                 {links?.map(({ text, href, ...link }, i) => (
                   <Link
-                    key={href}
+                    key={i}
                     href={href}
-                    variant={i === 0 ? "default" : "ghost"}
+                    variant={i === 0 ? "secondary" : "ghost"}
                     {...link}
                   >
                     {text}

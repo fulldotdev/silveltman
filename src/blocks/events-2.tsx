@@ -20,10 +20,10 @@ export default function ({ children, items }: BlockProps) {
     <Section>
       <SectionContainer>
         <SectionSplit sticky>
-          {children && <SectionContent size="4xl">{children}</SectionContent>}
+          {children && <SectionContent>{children}</SectionContent>}
           <div className="flex flex-col gap-4">
-            {items?.map(({ href, title, description, tagline, links }) => (
-              <Tile key={href} href={href}>
+            {items?.map(({ href, title, description, tagline, links }, i) => (
+              <Tile className="gap-2" key={i} href={href}>
                 <TileContent>
                   {tagline && <TileTagline>{tagline}</TileTagline>}
                   <TileTitle>{title}</TileTitle>
@@ -35,7 +35,7 @@ export default function ({ children, items }: BlockProps) {
                   <TileFooter>
                     {links.map(({ href, text }, i) => (
                       <Link
-                        key={href}
+                        key={i}
                         href={href}
                         variant={i === 0 ? "outline" : "ghost"}
                         size="sm"

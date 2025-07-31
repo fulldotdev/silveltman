@@ -18,10 +18,10 @@ export default function ({ children, items }: BlockProps) {
   return (
     <Section>
       <SectionContainer className="max-w-screen-md lg:px-12">
-        {children && <SectionContent size="4xl">{children}</SectionContent>}
+        {children && <SectionContent>{children}</SectionContent>}
         <div className="flex flex-col gap-4 not-first:mt-12">
-          {items?.map(({ href, title, description, tagline, links }) => (
-            <Tile key={href} href={href}>
+          {items?.map(({ href, title, description, tagline, links }, i) => (
+            <Tile className="gap-2" key={i} href={href}>
               <TileContent>
                 {tagline && <TileTagline>{tagline}</TileTagline>}
                 <TileTitle>{title}</TileTitle>
@@ -31,9 +31,9 @@ export default function ({ children, items }: BlockProps) {
               </TileContent>
               {links && links.length > 0 && (
                 <TileFooter>
-                  {links.map(({ href, text }, i) => (
+                  {links.map(({ href, text }, i: number) => (
                     <Link
-                      key={href}
+                      key={i}
                       href={href}
                       variant={i === 0 ? "outline" : "ghost"}
                       size="sm"

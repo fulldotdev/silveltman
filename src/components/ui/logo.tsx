@@ -23,7 +23,7 @@ function LogoImage({ className, ...props }: React.ComponentProps<"img">) {
   return (
     <img
       className={cn(
-        "h-9 w-auto max-w-[200px] shrink-0 rounded-md object-contain",
+        "h-9 w-auto max-w-[200px] shrink-0 object-contain",
         className
       )}
       {...props}

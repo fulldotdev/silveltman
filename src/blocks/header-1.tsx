@@ -2,36 +2,31 @@ import type { BlockProps } from "@/lib/types"
 import { Header, HeaderContainer } from "@/components/ui/header"
 import { Link } from "@/components/ui/link"
 import { Logo, LogoImage } from "@/components/ui/logo"
-import { DrawerMenu } from "@/components/drawer-menu"
-import { NavigationMenu } from "@/components/navigation-menu"
+import { MainMenu } from "@/components/main-nav"
+import { MobileMenu } from "@/components/mobile-nav"
 
-export default function ({ logo, menus, links }: BlockProps) {
+export default function ({ image, menus, links }: BlockProps) {
   return (
-    <Header>
-      <HeaderContainer>
-        <div className="flex items-center gap-2">
-          {menus && <DrawerMenu className="-ml-2.5 lg:hidden" items={menus} />}
-          {logo && (
-            <Logo href="/" className="mr-4 max-sm:hidden">
-              {logo.src && <LogoImage {...logo} />}
-              {logo.title && logo.title}
-            </Logo>
-          )}
-          {menus && (
-            <NavigationMenu
-              className="max-xl:-ml-3 max-lg:hidden"
-              items={menus}
-            />
-          )}
-        </div>
+    <Header className="z-50">
+      <HeaderContainer className="flex items-center gap-2">
+        {menus && menus.length > 0 && (
+          <MobileMenu className="lg:hidden" items={menus} />
+        )}
+        {image && (
+          <Logo href="/" className="mr-4 max-sm:hidden">
+            {image.src && <LogoImage {...image} />}
+            {image.title && image.title}
+          </Logo>
+        )}
+        {menus && <MainMenu className="mr-auto max-lg:hidden" items={menus} />}
         {links && links.length > 0 && (
-          <div className="inline-flex flex-nowrap items-center gap-2">
+          <div className="ml-auto inline-flex flex-nowrap items-center gap-2">
             {links.map(({ text, href }, i) => (
               <Link
                 className={i < links.length - 1 ? "max-sm:hidden" : ""}
-                key={href}
+                key={i}
                 href={href}
-                variant={i === links.length - 1 ? "default" : "ghost"}
+                variant={i === links.length - 1 ? "outline" : "ghost"}
               >
                 {text}
               </Link>

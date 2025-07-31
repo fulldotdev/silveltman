@@ -1,74 +1,37 @@
 ---
-import site from "@/data/site.json"
+import layout from "@/data/layout.yaml"
 import { Font } from "astro:assets"
-
-import { Block } from "@/components/block"
 
 import "@/styles/globals.css"
 
-import Banner1 from "@/blocks/banner-1"
-import Footer2 from "@/blocks/footer-2"
-import Header1 from "@/blocks/header-1"
 import { SEO } from "astro-seo"
 
-type Props = {
-  id?: string
-  title?: string
-  description?: string
-  image?: {
-    src?: string
-    alt?: string
-  }
-  head?: string
-  body?: string
-  css?: string
-  blocks?: any[]
-}
+import type { PageProps } from "@/lib/types"
+import { Social } from "@/components/ui/social"
+import { Block } from "@/components/block"
 
-let {
-  id,
-  name,
-  title,
-  description,
-  image,
-  head,
-  body,
-  css,
-  blocks,
-  banner,
-  header,
-  footer,
-  logo,
-} = {
-  ...site,
-  ...Astro.props,
-}
+type Props = PageProps
 
-if (
-  id === "aanbod/x-fittt-aanmelden" ||
-  id === "aanbod/the-gym-kids-aanmelden"
-) {
-  banner = null
-  header = null
-  footer = null
-}
+const { title, description, image, seo, published, block } =
+  Astro.props as Props
+const { banner, header, footer, name, bubble } = layout
 ---
 
 <!doctype html>
-<html
-  class="layout text-foreground bg-background dark h-full w-full font-sans text-base scheme-light dark:scheme-dark"
-  lang="nl"
->
+<html class="layout light" lang="nl">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <SEO
       charset="UTF-8"
-      title={title}
-      description={description}
+      title={seo?.title || title}
+      description={seo?.description || description}
+      canonical={Astro.url.href.endsWith("/")
+        ? Astro.url.href
+        : Astro.url.href + "/"}
       openGraph={{
         basic: {
-          title: title || "",
+          title: seo?.title || title || "",
           image: Astro.url.origin + image?.src,
           type: "website",
           url: Astro.url.href,
@@ -78,24 +41,39 @@ if (
           alt: image?.alt,
         },
         optional: {
-          description: description,
-          siteName: name,
+          description: seo?.description || description,
+          siteName: name || "",
+        },
+        article: {
+          publishedTime: block?.startsWith("article")
+            ? published?.toISOString()
+            : undefined,
         },
       }}
     />
     <Font cssVariable="--font-sans" preload />
     <Font cssVariable="--font-serif" preload />
-    <Fragment set:html={head} />
+    <Fragment set:html={seo?.head} />
   </head>
-  <body>
-    {banner && <Banner1 {...banner} />}
-    {header && <Header1 client:load {...header} logo={logo} />}
+  <body
+    class="text-foreground dark bg-background overscroll-none font-sans antialiased"
+  >
+    <Block client:load {...banner} />
+    <Block client:load {...header} />
     <main>
       <slot />
-      {blocks?.map((block) => <Block client:load {...block} />)}
     </main>
-    {footer && <Footer2 {...footer} logo={logo} copyright={name} />}
-    <style set:html={css}></style>
-    <Fragment set:html={body} />
+    <Block client:load {...footer} />
+    {
+      bubble && (
+        <Social
+          className="fixed right-4 bottom-4 p-6 *:!size-6 z-50"
+          variant="default"
+          href={bubble}
+        />
+      )
+    }
+    <style set:html={seo?.css}></style>
+    <Fragment set:html={seo?.body} />
   </body>
 </html>

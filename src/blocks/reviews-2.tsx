@@ -1,7 +1,9 @@
 import type { BlockProps } from "@/lib/types"
+import { Review, ReviewContent, ReviewRating } from "@/components/ui/review"
 import {
   Section,
   SectionContainer,
+  SectionContent,
   SectionMasonry,
 } from "@/components/ui/section"
 import {
@@ -11,21 +13,26 @@ import {
   TileImage,
   TileTitle,
 } from "@/components/ui/tile"
-import { Writeup } from "@/components/ui/writeup"
-import { Rating } from "@/components/rating"
 
 export default function ({ children, items }: BlockProps) {
   return (
     <Section>
       <SectionContainer>
-        <Writeup size="4xl">{children}</Writeup>
+        {children && <SectionContent>{children}</SectionContent>}
         <SectionMasonry className="not-first:mt-12">
-          {items?.map(({ title, description, rating, avatar }, i) => (
-            <Tile className="break-inside-avoid" key={title}>
-              {avatar?.src && <TileImage alt={`Review ${i + 1}`} {...avatar} />}
+          {items?.map(({ title, description, rating, image, tagline }, i) => (
+            <Tile key={i}>
+              {image && <TileImage {...image} />}
               <TileContent>
-                {rating && <Rating score={rating} />}
-                <TileTitle>{title}</TileTitle>
+                {(rating || tagline) && (
+                  <Review>
+                    <ReviewContent>
+                      {rating && <ReviewRating rating={rating} />}
+                      {tagline}
+                    </ReviewContent>
+                  </Review>
+                )}
+                <TileTitle className="not-first:mt-2">{title}</TileTitle>
                 {description && (
                   <TileDescription>{description}</TileDescription>
                 )}

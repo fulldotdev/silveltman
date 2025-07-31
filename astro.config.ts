@@ -1,5 +1,6 @@
 import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
+import yaml from "@rollup/plugin-yaml"
 import tailwindcss from "@tailwindcss/vite"
 import favicons from "astro-favicons"
 import robotsTxt from "astro-robots-txt"
@@ -28,7 +29,7 @@ export default defineConfig({
       },
       {
         provider: fontProviders.google(),
-        name: "Geist",
+        name: "Crimson Text",
         cssVariable: "--font-serif",
         weights: [
           "100",
@@ -44,6 +45,11 @@ export default defineConfig({
       },
     ],
   },
+  trailingSlash: "never",
+  i18n: {
+    defaultLocale: "nl",
+    locales: ["nl"],
+  },
   prefetch: {
     prefetchAll: true,
   },
@@ -52,19 +58,7 @@ export default defineConfig({
   },
   integrations: [robotsTxt(), sitemap(), react(), favicons()],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), yaml()],
   },
-  redirects: {
-    "/disclaimer": "/beleid/disclaimer",
-    "/cookies": "/beleid/cookies",
-    "/privacy": "/beleid/privacy",
-    "/algemene-voorwaarden": "/beleid/algemene-voorwaarden",
-    "/lid-worden": "/aanmelden/",
-    "/contact/lidmaatschapstest/": "/gratis-proefles/",
-    "/contact/gratis-proefles/": "/gratis-proefles/",
-    "/contact/aanmelden/": "/aanmelden/",
-    "/proefles":
-      "https://thegymharen.gotgrib.nl/member/selfservice/registration/proeflesformulier",
-    "/review": "https://g.page/r/Cab34zE9QjuTEAE/review",
-  },
+  redirects: {},
 })
