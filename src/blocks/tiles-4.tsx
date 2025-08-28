@@ -26,17 +26,12 @@ export default function ({ children, tagline, items }: BlockProps) {
           </SectionContent>
         )}
         <div className="flex max-w-lg flex-col gap-12 not-first:mt-12">
-          {items?.map(({ title, href, description }, i) => (
-            <Tile
-              className="flex flex-col items-center"
-              key={i}
-              href={href}
-              panel={false}
-            >
+          {items?.map(({ title, description, href }, i) => (
+            <Tile className="flex flex-col items-center" key={i} panel={false}>
               <div className="aspect-video w-full overflow-hidden rounded-lg">
                 <iframe
                   className="h-full w-full"
-                  src="https://www.youtube.com/embed/TptEeAaCS8Y?si=Rozx-lwhzpTpvTKk"
+                  src={href}
                   title="YouTube video player"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen

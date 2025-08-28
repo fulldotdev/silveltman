@@ -40,8 +40,9 @@ blocks:
       <h2>Video's</h2>
     items:
       - title: Waarom ik video's ben gaan maken; de voordelen en uitdagingen
-        description: >-
-          Sil Veltman ⋅ 31 juli 2025
+        href: https://www.youtube.com/embed/TptEeAaCS8Y?si=Rozx-lwhzpTpvTKk
+      - title: Je weet het niet, je gelooft het
+        href: https://www.youtube.com/embed/kkNBO7D5jqo?si=CWKC98kqH57hJS9h
 seo:
   title: Maak kennis met fitness bij sportschool The Gym in Haren
   description: >-
