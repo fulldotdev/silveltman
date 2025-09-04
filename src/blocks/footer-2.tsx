@@ -6,7 +6,7 @@ import { Social } from "@/components/elements/social"
 
 export default function ({ image, title, links, socials }: BlockProps) {
   return (
-    <Section>
+    <Section id="footer">
       <Container className="flex flex-col items-center gap-8">
         {(image || title) && (
           <Logo href="/">

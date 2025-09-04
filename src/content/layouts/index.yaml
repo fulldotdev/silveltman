@@ -1,0 +1,38 @@
+bubble: https://wa.me/31618830660
+banner:
+  html: "Nieuw geopend: extra sportruimte ⚡"
+header:
+  title: fulldev
+  href: /
+  menus:
+    - text: Home
+      href: /
+    - text: Projecten
+      href: /projecten/
+    - text: Ervaringen
+      href: /ervaringen/
+    - text: Over ons
+      href: /over-ons/
+  links:
+    - text: Neem contact op
+      href: /contact/
+footer:
+  block: footer-2
+  links:
+    - text: 06 8348 5163
+      href: tel:0683485163
+    - text: sil@full.dev
+      href: mailto:sil@full.dev
+  socials:
+    - https://www.linkedin.com/in/silveltman
+    - https://www.youtube.com/@silveltm
+    - https://www.x.com/silveltm
+    - https://www.instagram.com/silveltman
+legal:
+  block: legal-1
+  title: "fulldev"
+  links:
+    - text: Algemene voorwaarden
+      href: /algemene-voorwaarden/
+    - text: Privacyverklaring
+      href: /privacyverklaring/
