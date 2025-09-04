@@ -1,20 +1,21 @@
 import type { BlockProps } from "@/lib/types"
-import { Logo, LogoImage } from "@/components/ui/logo"
-import { Section, SectionContainer } from "@/components/ui/section"
-import { Social } from "@/components/ui/social"
+import { Container } from "@/components/elements/container"
+import { Logo, LogoImage } from "@/components/elements/logo"
+import { Section } from "@/components/elements/section"
+import { Social } from "@/components/elements/social"
 
-export default function ({ image, links, socials }: BlockProps) {
+export default function ({ image, title, links, socials }: BlockProps) {
   return (
     <Section>
-      <SectionContainer className="flex flex-col items-center gap-8">
-        {image && (
+      <Container className="flex flex-col items-center gap-8">
+        {(image || title) && (
           <Logo href="/">
             {image?.src && <LogoImage {...image} />}
-            {image?.title && image.title}
+            {title}
           </Logo>
         )}
         {links && links.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
             {links?.map(({ text, href }, i) => (
               <a
                 className="text-muted-foreground hover:text-foreground text-sm transition-colors"
@@ -38,7 +39,7 @@ export default function ({ image, links, socials }: BlockProps) {
             ))}
           </div>
         )}
-      </SectionContainer>
+      </Container>
     </Section>
   )
 }

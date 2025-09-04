@@ -1,10 +1,12 @@
 import type { BlockProps } from "@/lib/types"
-import { Logo, LogoImage } from "@/components/ui/logo"
-import { Section, SectionContainer } from "@/components/ui/section"
-import { Social } from "@/components/ui/social"
+import { Container } from "@/components/elements/container"
+import { Logo, LogoImage } from "@/components/elements/logo"
+import { Section } from "@/components/elements/section"
+import { Social } from "@/components/elements/social"
 
 export default function ({
   image,
+  title,
   description,
   links,
   socials,
@@ -12,12 +14,12 @@ export default function ({
 }: BlockProps) {
   return (
     <Section className="py-0">
-      <SectionContainer className="grid w-full grid-cols-[repeat(auto-fit,minmax(30px,1fr))] justify-between gap-16 py-16">
-        <div className="col-span-3 flex max-w-xs flex-col">
-          {image && (
+      <Container className="flex w-full flex-col justify-between gap-8 py-16 md:grid md:grid-cols-[repeat(auto-fit,minmax(160px,1fr))]">
+        <div className="col-span-2 flex max-w-xs flex-col">
+          {(image || title) && (
             <Logo href="/">
               {image?.src && <LogoImage {...image} />}
-              {image?.title && image.title}
+              {title}
             </Logo>
           )}
           {description && (
@@ -64,7 +66,7 @@ export default function ({
             </menu>
           </div>
         ))}
-      </SectionContainer>
+      </Container>
     </Section>
   )
 }

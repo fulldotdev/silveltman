@@ -1,64 +1,19 @@
-import react from "@astrojs/react"
-import sitemap from "@astrojs/sitemap"
-import yaml from "@rollup/plugin-yaml"
-import tailwindcss from "@tailwindcss/vite"
-import favicons from "astro-favicons"
-import robotsTxt from "astro-robots-txt"
-import { defineConfig, fontProviders } from "astro/config"
+import { defineConfig } from "astro/config"
 
-// https://astro.build/config
+import fulldev from "./src/lib/integration"
+
 export default defineConfig({
-  site: "https://silveltman.nl",
-  experimental: {
-    fonts: [
-      {
-        provider: fontProviders.google(),
-        name: "Geist",
-        cssVariable: "--font-sans",
-        weights: [
-          "100",
-          "200",
-          "300",
-          "400",
-          "500",
-          "600",
-          "700",
-          "800",
-          "900",
-        ],
+  integrations: [
+    fulldev({
+      name: "Van Dillen antieke bouwmaterialen",
+      site: "https://vdabouwmaterialen.nl",
+      fonts: {
+        base: "Geist",
+        heading: "Geist",
       },
-      {
-        provider: fontProviders.google(),
-        name: "Crimson Text",
-        cssVariable: "--font-serif",
-        weights: [
-          "100",
-          "200",
-          "300",
-          "400",
-          "500",
-          "600",
-          "700",
-          "800",
-          "900",
-        ],
-      },
-    ],
-  },
-  trailingSlash: "never",
-  i18n: {
-    defaultLocale: "nl",
-    locales: ["nl"],
-  },
-  prefetch: {
-    prefetchAll: true,
-  },
-  devToolbar: {
-    enabled: false,
-  },
-  integrations: [robotsTxt(), sitemap(), react(), favicons()],
-  vite: {
-    plugins: [tailwindcss(), yaml()],
-  },
-  redirects: {},
+      defaultLocale: "nl",
+      locales: ["nl", "en", "de", "fr"],
+      favicon: "src/assets/favicon.svg",
+    }),
+  ],
 })

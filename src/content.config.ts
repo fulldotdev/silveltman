@@ -3,10 +3,17 @@ import { glob } from "astro/loaders"
 import { pageSchema } from "src/lib/schemas"
 
 export const collections = {
-  content: defineCollection({
+  pages: defineCollection({
     loader: glob({
       pattern: "**/[^_]*.{md,mdx}",
-      base: `src/content`,
+      base: "src/content/pages",
+    }),
+    schema: pageSchema,
+  }),
+  layouts: defineCollection({
+    loader: glob({
+      pattern: "**/[^_]*.{yaml,yml,json}",
+      base: "src/content/layouts",
     }),
     schema: pageSchema,
   }),

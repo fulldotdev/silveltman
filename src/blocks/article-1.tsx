@@ -1,35 +1,33 @@
-import { CalendarIcon } from "lucide-react"
-
 import type { BlockProps } from "@/lib/types"
-import {
-  Section,
-  SectionContainer,
-  SectionContent,
-} from "@/components/ui/section"
+import { Background } from "@/components/elements/background"
+import { Column } from "@/components/elements/column"
+import { Container } from "@/components/elements/container"
+import { Prose } from "@/components/elements/prose"
+import { Section } from "@/components/elements/section"
+import { Writeup } from "@/components/elements/writeup"
 
 export default function ({
   children,
   title,
-  published,
   description,
   image,
+  size,
+  align,
 }: BlockProps) {
   return (
     <Section>
-      <SectionContainer className="flex flex-col items-center gap-16">
-        <SectionContent className="text-center" size="xl">
-          {published && (
-            <p className="inline-flex items-center gap-2 text-sm font-medium">
-              <CalendarIcon className="size-4" />
-              {new Date(published).toLocaleDateString("nl-NL")}
-            </p>
+      <Container>
+        <Column align="center" className="gap-16">
+          {children && (
+            <Writeup size={size} align={align}>
+              {title && <h1>{title}</h1>}
+              {description && <p>{description}</p>}
+            </Writeup>
           )}
-          {title && <h1 className="!mt-4">{title}</h1>}
-          {description && <p>{description}</p>}
-        </SectionContent>
-        {image && <img className="max-w-5xl rounded-md" {...image} />}
-        <SectionContent>{children}</SectionContent>
-      </SectionContainer>
+          {image?.src && <img className="max-w-5xl rounded-lg" {...image} />}
+          <Prose size={size}>{children}</Prose>
+        </Column>
+      </Container>
     </Section>
   )
 }

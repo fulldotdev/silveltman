@@ -5,17 +5,19 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import {
-  Section,
-  SectionContainer,
-  SectionContent,
-} from "@/components/ui/section"
+import { Container } from "@/components/elements/container"
+import { Section } from "@/components/elements/section"
+import { Writeup } from "@/components/elements/writeup"
 
-export default function ({ children, items }: BlockProps) {
+export default function ({ children, items, size, align }: BlockProps) {
   return (
     <Section>
-      <SectionContainer className="max-w-screen-md lg:px-12">
-        {children && <SectionContent>{children}</SectionContent>}
+      <Container className="max-w-screen-md lg:px-12">
+        {children && (
+          <Writeup size={size} align={align}>
+            {children}
+          </Writeup>
+        )}
         <Accordion
           className="w-full max-w-2xl not-first:mt-12"
           type="single"
@@ -28,7 +30,7 @@ export default function ({ children, items }: BlockProps) {
             </AccordionItem>
           ))}
         </Accordion>
-      </SectionContainer>
+      </Container>
     </Section>
   )
 }

@@ -1,38 +1,58 @@
 import type { BlockProps } from "@/lib/types"
-import { Link } from "@/components/ui/link"
-import {
-  Section,
-  SectionContainer,
-  SectionContent,
-  SectionFooter,
-  SectionSplit,
-} from "@/components/ui/section"
+import { Background } from "@/components/elements/background"
+import { Column } from "@/components/elements/column"
+import { Container } from "@/components/elements/container"
+import { Link } from "@/components/elements/link"
+import { Section } from "@/components/elements/section"
+import { Split } from "@/components/elements/split"
+import { Wrap } from "@/components/elements/wrap"
+import { Writeup } from "@/components/elements/writeup"
 
-export default function ({ children, links, image }: BlockProps) {
+export default function ({
+  children,
+  links,
+  image,
+  background,
+  size,
+  align = "center",
+  index,
+}: BlockProps) {
   return (
     <Section>
-      <SectionContainer>
-        <SectionSplit sticky={true}>
-          <div className="flex flex-col items-start">
-            {children && <SectionContent>{children}</SectionContent>}
+      <Background
+        className="mask-b-from-white mask-b-from-50% mask-b-to-transparent"
+        variant={background}
+      />
+      <Container>
+        <Split
+          align={align}
+          reverse={index !== undefined && index % 2 === 1}
+          className="bg-card rounded-2xl border p-4 lg:p-8"
+        >
+          <Column align="start" className="py-12 lg:py-16">
+            {children && (
+              <Writeup className="animate-fade-1 text-balance" size={size}>
+                {children}
+              </Writeup>
+            )}
             {links && links.length > 0 && (
-              <SectionFooter className="not-first:mt-6">
-                {links?.map(({ text, href, ...link }, i) => (
+              <Wrap className="gap-2 not-first:mt-8">
+                {links.map((link, i) => (
                   <Link
                     key={i}
-                    href={href}
-                    variant={i === 0 ? "secondary" : "ghost"}
+                    variant={i === 0 ? "outline" : "ghost"}
+                    size={size}
                     {...link}
-                  >
-                    {text}
-                  </Link>
+                  />
                 ))}
-              </SectionFooter>
+              </Wrap>
             )}
-          </div>
-          {image && <img className="rounded-lg" {...image} />}
-        </SectionSplit>
-      </SectionContainer>
+          </Column>
+          {image?.src && (
+            <img className="animate-fade-5 rounded-lg" {...image} />
+          )}
+        </Split>
+      </Container>
     </Section>
   )
 }
