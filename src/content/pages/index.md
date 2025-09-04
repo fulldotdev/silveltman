@@ -4,7 +4,7 @@ blocks:
     background: meteors
     html: >-
       <h1>Ik <strong>deel wat ik leer</strong> en <br> ik <strong>leer van wat ik deel</strong></h1>
-      <p>In onderstaande video leg ik uit waarom ik video's ben gaan opnemen. Daar onder vind je de volgende video's.</p>
+      <p>In onderstaande video leg ik uit waarom ik video's ben gaan opnemen. Scroll naar rechts voor de volgende video's.</p>
     image: ../../assets/profielfoto.jpg
   - block: quote-1
     title: Je weet het niet, je gelooft het.
