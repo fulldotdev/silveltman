@@ -19,9 +19,8 @@ blocks:
         href: "#footer"
         variant: default
 seo:
-  title: Maak kennis met fitness bij sportschool The Gym in Haren
+  title: Sil Veltman - Spreker & Software Ontwikkelaar | Deel wat ik leer
   description: >-
-    Wil jij nu eindelijk écht (weer) fit worden? Start met fitness met een
-    Gratis Proefles bij The Gym Haren, de sportschool voor echt resultaat in
-    Haren e.o..
+    Software ontwikkelaar met een passie voor delen van kennis. Boek mij als
+    spreker voor evenementen en podcasts. Ik deel wat ik leer en leer van wat ik deel.
 ---
