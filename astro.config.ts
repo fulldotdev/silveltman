@@ -9,7 +9,7 @@ export default defineConfig({
       name: "Sil Veltman",
       defaultLocale: "nl",
       locales: ["nl"],
-      favicon: "src/assets/favicon.jpg",
+      favicon: "src/assets/favicon.png",
       fonts: {
         base: "Geist",
         heading: "Geist",

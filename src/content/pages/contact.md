@@ -2,8 +2,8 @@
 sections:
   - block: features-1
     html: |
-      <h1><strong>Ik ben Sil Veltman</strong> <br> spreker & web developer</h1>
-      <p>Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en werk samen aan jouw <a href="/contact/">website of webshop</a>.</p>
+      <h1><strong>Ik ben Sil Veltman</strong> <br> neem contact op</h1>
+      <p>Neem contact met mij op via telefoon, email of WhatsApp. Ik help je graag met jouw website, webshop of vragen over ondernemerschap en technologie.</p>
     items:
       - title: Bellen
         description: "316 8348 5163"
@@ -24,6 +24,6 @@ sections:
           - text: Stuur een bericht
             href: https://wa.me/31683485163
 seo:
-  title: Sil Veltman - Spreker & Web developer
-  description: Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en werk samen aan jouw website of webshop.
+  title: Contact - Sil Veltman
+  description: Neem contact op met Sil Veltman via telefoon, email of WhatsApp voor een website, webshop of vragen over ondernemerschap en technologie.
 ---
