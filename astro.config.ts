@@ -5,11 +5,11 @@ import integration from "./src/lib/integration"
 export default defineConfig({
   integrations: [
     integration({
-      site: "https://ui.full.dev",
-      name: "fulldev/ui",
-      defaultLocale: "en",
-      locales: ["en"],
-      favicon: "src/assets/favicon.svg",
+      site: "https://silveltman.nl",
+      name: "Sil Veltman",
+      defaultLocale: "nl",
+      locales: ["nl"],
+      favicon: "src/assets/favicon.jpg",
       fonts: {
         base: "Geist",
         heading: "Geist",
