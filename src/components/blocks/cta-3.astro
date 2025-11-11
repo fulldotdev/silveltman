@@ -47,8 +47,8 @@ interface Props {
 const { list, buttons, image, item } = Astro.props
 ---
 
-<Section>
-  <SectionSpread>
+<Section variant="box">
+  <SectionSpread class="lg:items-end">
     <SectionContent>
       <SectionTypography>
         <slot />

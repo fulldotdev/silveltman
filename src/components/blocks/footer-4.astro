@@ -1,0 +1,75 @@
+---
+import { Button } from "@/components/ui/button"
+import {
+  Footer,
+  FooterContainer,
+  FooterMenu,
+  FooterMenuItem,
+  FooterMenuLink,
+} from "@/components/ui/footer"
+import { Icon } from "@/components/ui/icon"
+import { Logo, LogoImage, LogoText } from "@/components/ui/logo"
+import { SectionActions } from "@/components/ui/section"
+
+interface Props {
+  class?: string
+  title?: string
+  logo?: {
+    src?: string
+    alt?: string
+    title?: string
+    href?: string
+  }
+  description?: string
+  links?: {
+    text?: string
+    href?: string
+  }[]
+  socials?: string[]
+  menus?: {
+    text?: string
+    links?: {
+      text?: string
+      href?: string
+    }[]
+  }[]
+}
+
+const { title, logo, links, socials } = Astro.props
+---
+
+<Footer>
+  <FooterContainer
+    class="flex flex-col items-start gap-8 lg:flex-row lg:items-center"
+  >
+    <Logo href="/">
+      <LogoImage {...logo} />
+      <LogoText>{title}</LogoText>
+    </Logo>
+    {
+      links && links.length > 0 && (
+        <FooterMenu orientation="horizontal">
+          {links?.map(({ text, href }) => (
+            <FooterMenuItem>
+              <FooterMenuLink href={href}>{text}</FooterMenuLink>
+            </FooterMenuItem>
+          ))}
+        </FooterMenu>
+      )
+    }
+    <SectionActions class="flex gap-4 lg:ml-auto">
+      {
+        socials?.map((social) => (
+          <Button
+            variant="ghost"
+            size="icon"
+            class="text-muted-foreground"
+            href={social}
+          >
+            <Icon href={social} />
+          </Button>
+        ))
+      }
+    </SectionActions>
+  </FooterContainer>
+</Footer>

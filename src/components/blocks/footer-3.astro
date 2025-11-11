@@ -42,6 +42,10 @@ interface Props {
     target?: string
   }[]
   socials?: string[]
+  links?: {
+    text?: string
+    href?: string
+  }[]
   menus?: {
     text?: string
     href?: string
@@ -52,7 +56,7 @@ interface Props {
   }[]
 }
 
-const { logo, menus, buttons, socials } = Astro.props
+const { logo, links, menus, buttons, socials } = Astro.props
 ---
 
 <Header class="sticky top-0 z-50 flex items-center border-t">

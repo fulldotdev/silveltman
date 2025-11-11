@@ -1,10 +1,14 @@
 ---
 sections:
-  - block: videos-1
+  - block: videos-3
     html: |
-      <h1><strong>Ik ben Sil Veltman</strong> <br> Spreker & Web developer</h1>
-      <p>Software ontwikkelaar en spreker met een passie voor kennisdeling. Ik help mensen en organisaties groeiden door middel van technologie en inspirerende presentaties. Deel wat ik leer, leer van wat ik deel.</p>
-    items:
+      <h1><strong>Ik ben Sil Veltman</strong> <br> spreker & web developer</h1>
+      <p>Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en werk samen aan jouw <a href="/contact/">website of webshop</a>.</p>
+    buttons:
+      - text: Neem contact op
+        href: /contact/
+        icon: message-circle
+    tiles:
       - title: 3 levels van werken
         video:
           src: https://www.youtube.com/shorts/kY3peE-h6cg
@@ -29,7 +33,13 @@ sections:
       - title: Waarom ik video's ben gaan opnemen
         video:
           src: https://www.youtube.com/shorts/t4QBjBEraKw
+  - block: cta-3
+    html: <h2><strong>Koffie</strong> is mijn favoriete drank</h2>
+    buttons:
+      - text: Neem contact op
+        href: /contact/
+        icon: message-circle
 seo:
   title: Sil Veltman - Spreker & Web developer
-  description: Software ontwikkelaar en spreker met een passie voor kennisdeling. Ik help mensen en organisaties groeiden door middel van technologie en inspirerende presentaties. Deel wat ik leer, leer van wat ik deel.
+  description: Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en werk samen aan jouw website of webshop.
 ---

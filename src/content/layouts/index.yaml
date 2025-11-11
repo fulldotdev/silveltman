@@ -1,3 +1,16 @@
 title: Sil Veltman - Spreker & Web developer
 description: >-
   Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en werk samen aan jouw website of webshop.
+footer:
+  block: footer-4
+  title: Sil Veltman
+  links:
+    - text: Home
+      href: /
+    - text: Contact
+      href: /contact/
+  socials:
+    - https://www.linkedin.com/in/silveltman/
+    - https://www.youtube.com/@silveltman
+    - https://x.com/silveltm
+    - https://www.instagram.com/silveltman/
