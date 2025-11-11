@@ -41,5 +41,5 @@ sections:
         icon: message-circle
 seo:
   title: Sil Veltman - Spreker & Web developer
-  description: Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en help met jouw website of webshop.
+  description: Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen met video's en schakel mij in voor een website of webshop.
 ---

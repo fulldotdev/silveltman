@@ -24,6 +24,6 @@ sections:
           - text: Stuur een bericht
             href: https://wa.me/31683485163
 seo:
-  title: Contact - Sil Veltman
+  title: Contact met Sil Veltman
   description: Neem contact op met Sil Veltman via telefoon, email of WhatsApp voor een website, webshop of vragen over ondernemerschap en technologie.
 ---
