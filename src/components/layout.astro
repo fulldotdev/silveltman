@@ -68,14 +68,17 @@ console.log({ image, found, transformedImage })
     <meta property="og:type" content="website" />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:locale" content={Astro.currentLocale} />
-    <meta property="og:image" content={`${baseUrl}${transformedImage?.src}`} />
+    <meta
+      property="og:image"
+      content={`${baseUrl}${transformedImage?.src}?format=png`}
+    />
     <meta
       property="og:image:url"
-      content={`${baseUrl}${transformedImage?.src}`}
+      content={`${baseUrl}${transformedImage?.src}?format=png`}
     />
     <meta
       property="og:image:secure_url"
-      content={`${baseUrl}${transformedImage?.src}`}
+      content={`${baseUrl}${transformedImage?.src}?format=png`}
     />
     <meta
       property="og:image:type"
