@@ -42,7 +42,7 @@ const found = foundPath ? images[foundPath]() : (undefined as any)
 const transformedImage = found
   ? await getImage({
       src: found || image?.src,
-      format: "png",
+      format: "webp",
       width: 1200,
       height: 630,
       quality: "low",
@@ -68,21 +68,18 @@ console.log({ image, found, transformedImage })
     <meta property="og:type" content="website" />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:locale" content={Astro.currentLocale} />
-    <meta
-      property="og:image"
-      content={`${baseUrl}${transformedImage?.src}?format=png`}
-    />
+    <meta property="og:image" content={`${baseUrl}${transformedImage?.src}`} />
     <meta
       property="og:image:url"
-      content={`${baseUrl}${transformedImage?.src}?format=png`}
+      content={`${baseUrl}${transformedImage?.src}`}
     />
     <meta
       property="og:image:secure_url"
-      content={`${baseUrl}${transformedImage?.src}?format=png`}
+      content={`${baseUrl}${transformedImage?.src}`}
     />
     <meta
       property="og:image:type"
-      content={transformedImage?.attributes.format || "image/png"}
+      content={transformedImage?.attributes.format}
     />
     <meta
       property="og:image:width"
