@@ -1,19 +1,19 @@
 import { defineConfig } from "astro/config"
 
-import fulldev from "./src/lib/integration"
+import integration from "./src/lib/integration"
 
 export default defineConfig({
   integrations: [
-    fulldev({
-      name: "Van Dillen antieke bouwmaterialen",
-      site: "https://vdabouwmaterialen.nl",
+    integration({
+      site: "https://ui.full.dev",
+      name: "fulldev/ui",
+      defaultLocale: "en",
+      locales: ["en"],
+      favicon: "src/assets/favicon.svg",
       fonts: {
         base: "Geist",
         heading: "Geist",
       },
-      defaultLocale: "nl",
-      locales: ["nl", "en", "de", "fr"],
-      favicon: "src/assets/favicon.svg",
     }),
   ],
 })

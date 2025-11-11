@@ -1,0 +1,47 @@
+---
+import Moon from "lucide-static/icons/moon.svg"
+import Sun from "lucide-static/icons/sun.svg"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<Button
+  data-slot="mode-toggle"
+  variant="ghost"
+  size="icon"
+  aria-label="Toggle theme"
+  class={cn("relative", className)}
+>
+  <Sun class="dark:hidden [&:is([data-theme=dark]_&)]:hidden" />
+  <Moon class="hidden dark:block [&:is([data-theme=dark]_&)]:block" />
+</Button>
+
+<style>
+  :global(html.no-transitions *) {
+    @apply !transition-none !duration-0;
+  }
+</style>
+
+<script>
+  document.querySelectorAll("[data-slot='mode-toggle']").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const html = document.documentElement
+      html.classList.add("no-transitions")
+      html.classList.toggle("dark")
+
+      const isDark = html.classList.contains("dark")
+      html.setAttribute("data-theme", isDark ? "dark" : "light")
+
+      requestAnimationFrame(() => {
+        html.classList.remove("no-transitions")
+      })
+    })
+  })
+</script>

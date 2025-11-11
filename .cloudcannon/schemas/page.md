@@ -1,5 +1,0 @@
----
-title:
-blocks:
-seo:
----

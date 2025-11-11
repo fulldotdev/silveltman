@@ -1,0 +1,53 @@
+---
+import { Form } from "@/components/ui/form"
+import { Icon } from "@/components/ui/icon"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+import {
+  Section,
+  SectionContent,
+  SectionTypography,
+} from "@/components/ui/section"
+
+interface Props {
+  form?: any
+  items?: {
+    icon?: string
+    title?: string
+    description?: string
+    href?: string
+  }[]
+}
+
+const { form, items } = Astro.props
+---
+
+<Section>
+  <SectionContent>
+    <SectionTypography>
+      <slot />
+    </SectionTypography>
+    <ItemGroup class="gap-4">
+      {
+        items?.map(({ icon, title, description, href }) => (
+          <Item href={href}>
+            <ItemMedia variant="icon">
+              <Icon name={icon} href={href} />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>{title}</ItemTitle>
+              <ItemDescription>{description}</ItemDescription>
+            </ItemContent>
+          </Item>
+        ))
+      }
+    </ItemGroup>
+  </SectionContent>
+  <Form {...form} />
+</Section>

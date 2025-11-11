@@ -20,7 +20,8 @@ module.exports = {
     "^@/hooks/(.*)$",
     "^@/components/ui/(.*)$",
     "^@/components/(.*)$",
-    "^@/blocks/(.*)$",
+    // Blocks have moved under components/blocks
+    "^@/components/blocks/(.*)$",
     "^@/registry/(.*)$",
     "^@/styles/(.*)$",
     "^@/app/(.*)$",
@@ -39,4 +40,5 @@ module.exports = {
     "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss",
   ],
+  tailwindFunctions: ["cva", "cn"],
 }

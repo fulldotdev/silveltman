@@ -1,31 +1,40 @@
-import react from "@astrojs/react"
 import sitemap from "@astrojs/sitemap"
 import tailwindcss from "@tailwindcss/vite"
 import type { AstroIntegration } from "astro"
 import favicons from "astro-favicons"
 import robotsTxt from "astro-robots-txt"
 import { fontProviders } from "astro/config"
-import { mapToObj } from "remeda"
 
-export interface FulldevOptions {
-  name: string
+export interface Options {
   site: string
-  fonts: {
-    base: string
-    heading: string
-  }
+  name: string
+  favicon: string
   defaultLocale: string
   locales: string[]
-  favicon: string
+  fonts: {
+    base: string
+    heading?: string
+  }
 }
 
-export default function (options: FulldevOptions): AstroIntegration {
+export default function (options: Options): AstroIntegration {
   return {
-    name: "fulldev",
+    name: "fulldev/ui",
     hooks: {
       "astro:config:setup": ({ updateConfig }) => {
         updateConfig({
           site: options.site,
+          trailingSlash: "always",
+          image: {
+            responsiveStyles: true,
+            breakpoints: [640, 750, 828, 1080, 1280, 1668, 2048, 2560],
+          },
+          prefetch: {
+            prefetchAll: true,
+          },
+          devToolbar: {
+            enabled: false,
+          },
           i18n: {
             defaultLocale: options.defaultLocale,
             locales: options.locales,
@@ -35,14 +44,6 @@ export default function (options: FulldevOptions): AstroIntegration {
               fallbackType: "redirect",
             },
           },
-          // image: {
-          //   responsiveStyles: true,
-          //   layout: "constrained",
-          //   objectFit: "cover",
-          //   objectPosition: "center",
-          //   breakpoints: [320, 768, 1024, 1280, 1536, 1920],
-          // },
-          trailingSlash: "always",
           experimental: {
             fonts: [
               {
@@ -64,7 +65,7 @@ export default function (options: FulldevOptions): AstroIntegration {
               {
                 provider: fontProviders.google(),
                 cssVariable: "--font-heading",
-                name: options.fonts.heading,
+                name: options.fonts.heading || options.fonts.base,
                 weights: [
                   "100",
                   "200",
@@ -81,16 +82,14 @@ export default function (options: FulldevOptions): AstroIntegration {
           },
           integrations: [
             robotsTxt(),
-            react(),
             sitemap({
               changefreq: "weekly",
               lastmod: new Date(),
               i18n: {
                 defaultLocale: options.defaultLocale,
-                locales: mapToObj(options.locales, (locale) => [
-                  locale,
-                  locale,
-                ]),
+                locales: Object.fromEntries(
+                  options.locales.map((locale) => [locale, locale])
+                ),
               },
             }),
             favicons({
@@ -102,10 +101,22 @@ export default function (options: FulldevOptions): AstroIntegration {
             }),
           ],
           vite: {
-            plugins: [tailwindcss()],
-          },
-          prefetch: {
-            prefetchAll: true,
+            plugins: [
+              tailwindcss(),
+              {
+                name: "fulldev-config",
+                resolveId(id) {
+                  if (id === "fulldev:config") {
+                    return "\0fulldev:config"
+                  }
+                },
+                load(id) {
+                  if (id === "\0fulldev:config") {
+                    return `export default ${JSON.stringify(options, null, 2)}`
+                  }
+                },
+              },
+            ],
           },
         })
       },

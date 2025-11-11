@@ -1,0 +1,59 @@
+---
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { Image } from "@/components/ui/image"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+import {
+  Section,
+  SectionContent,
+  SectionTypography,
+} from "@/components/ui/section"
+
+interface Props {
+  title?: string
+  description?: string
+  image?: {
+    src: string
+    alt: string
+    title?: string
+  }
+  person?: {
+    href?: string
+    avatar?: {
+      src: string
+      alt: string
+      title?: string
+    }
+    title?: string
+    tagline?: string
+  }
+}
+
+const { title, description, image, person } = Astro.props
+---
+
+<Section>
+  <SectionContent class="max-w-screen-lg">
+    <SectionTypography title={title} description={description} />
+    <Item class="-m-4" size="sm" href={person?.href}>
+      <ItemMedia>
+        <Avatar class="size-10">
+          <AvatarImage {...person?.avatar} />
+        </Avatar>
+      </ItemMedia>
+      <ItemContent>
+        <ItemTitle>{person?.title}</ItemTitle>
+        <ItemDescription>{person?.tagline}</ItemDescription>
+      </ItemContent>
+    </Item>
+    <Image class="rounded-lg" {...image} />
+    <SectionTypography class="mx-auto max-w-screen-md">
+      <slot />
+    </SectionTypography>
+  </SectionContent>
+</Section>

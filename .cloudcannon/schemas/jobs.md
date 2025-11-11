@@ -1,6 +1,0 @@
----
-title:
-image:
-jobs:
-seo:
----

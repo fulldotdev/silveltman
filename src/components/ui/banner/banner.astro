@@ -1,0 +1,56 @@
+---
+import type { HTMLAttributes } from "astro/types"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+interface Props
+  extends HTMLAttributes<"header">,
+    VariantProps<typeof variants> {}
+
+const variants = cva("relative mx-auto flex", {
+  variants: {
+    frame: {
+      default: "w-full max-w-none",
+      float: [
+        "bg-card my-3 max-w-screen-xl overflow-hidden rounded-md border",
+        "w-[calc(100%-16px)] md:w-[calc(100%-48px)] xl:w-[calc(100%-128px)]",
+      ],
+    },
+    variant: {
+      default: "bg-primary text-primary-foreground",
+      outline: "border-border not-first:border-t not-last:border-b",
+      secondary: "bg-secondary text-secondary-foreground",
+      ghost: "bg-transparent",
+    },
+    align: {
+      start: "items-start",
+      center: "items-center",
+      end: "items-end",
+    },
+  },
+  defaultVariants: {
+    frame: "default",
+    variant: "default",
+    align: "start",
+  },
+})
+
+const { class: className, frame, variant, align, ...props } = Astro.props
+
+const slot = await Astro.slots.render("default")
+---
+
+{
+  slot.trim().length > 0 && (
+    <header
+      class={cn(variants({ frame, variant, align }), className)}
+      {...props}
+      style={{
+        "--banner-gutter": frame === "float" ? "8px" : "0px",
+      }}
+    >
+      <Fragment set:html={slot} />
+    </header>
+  )
+}

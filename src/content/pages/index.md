@@ -1,26 +1,35 @@
 ---
-blocks:
-  - block: hero-3
-    background: meteors
-    html: >-
-      <h1>Ik <strong>deel wat ik leer</strong> en <br> ik <strong>leer van wat ik deel</strong></h1>
-      <p>In onderstaande video leg ik uit waarom ik video's ben gaan opnemen. Scroll naar rechts voor de volgende video's.</p>
-    image: ../../assets/profielfoto.jpg
-  - block: quote-1
-    title: Je weet het niet, je gelooft het.
-  - block: cta-1
-    background: particles
-    size: lg
-    html: >-
-      <h2><strong>Boek mij als spreker</strong></h2>
-      <p>Voor evenementen, podcasts en meer.</p>
-    links:
-      - text: Neem contact op
-        href: "#footer"
-        variant: default
+sections:
+  - block: videos-1
+    html: |
+      <h1><strong>Ik ben Sil Veltman</strong> <br> Spreker & Web developer</h1>
+      <p>Software ontwikkelaar en spreker met een passie voor kennisdeling. Ik help mensen en organisaties groeiden door middel van technologie en inspirerende presentaties. Deel wat ik leer, leer van wat ik deel.</p>
+    items:
+      - title: 3 levels van werken
+        video:
+          src: https://www.youtube.com/shorts/kY3peE-h6cg
+      - title: Zo ben ik op mijn kernwaarde 'eerlijkheid' gekomen
+        video:
+          src: https://www.youtube.com/shorts/R717yCYXecg
+      - title: Hierin heb ik gefaald
+        video:
+          src: https://www.youtube.com/shorts/Yi4UcKYis-Q
+      - title: Eerlijkheid is controle loslaten
+        video:
+          src: https://www.youtube.com/shorts/SK-DPWgWqCY
+      - title: 3 levels van geloven
+        video:
+          src: https://www.youtube.com/shorts/xvFfYGyZeWc
+      - title: Opbouwen versus afbreken
+        video:
+          src: https://www.youtube.com/shorts/FIBPeCToFLY
+      - title: Je weet het niet, je gelooft het
+        video:
+          src: https://www.youtube.com/shorts/PZ-Ay2LUsbo
+      - title: Waarom ik video's ben gaan opnemen
+        video:
+          src: https://www.youtube.com/shorts/t4QBjBEraKw
 seo:
-  title: Sil Veltman - Spreker & Software Ontwikkelaar | Deel wat ik leer
-  description: >-
-    Software ontwikkelaar met een passie voor delen van kennis. Boek mij als
-    spreker voor evenementen en podcasts. Ik deel wat ik leer en leer van wat ik deel.
+  title: Sil Veltman - Spreker & Web developer
+  description: Software ontwikkelaar en spreker met een passie voor kennisdeling. Ik help mensen en organisaties groeiden door middel van technologie en inspirerende presentaties. Deel wat ik leer, leer van wat ik deel.
 ---

@@ -1,0 +1,67 @@
+---
+import { Button } from "@/components/ui/button"
+import {
+  Footer,
+  FooterContainer,
+  FooterMenu,
+  FooterMenuItem,
+  FooterMenuLink,
+} from "@/components/ui/footer"
+import { Icon } from "@/components/ui/icon"
+import { Logo, LogoImage, LogoText } from "@/components/ui/logo"
+import { SectionActions } from "@/components/ui/section"
+
+interface Props {
+  class?: string
+  logo?: {
+    src?: string
+    alt?: string
+    title?: string
+    href?: string
+  }
+  description?: string
+  links?: {
+    text?: string
+    href?: string
+  }[]
+  socials?: string[]
+  menus?: {
+    text?: string
+    links?: {
+      text?: string
+      href?: string
+    }[]
+  }[]
+}
+
+const { logo, links, socials } = Astro.props
+---
+
+<Footer>
+  <FooterContainer class="flex flex-col items-center gap-8">
+    <Logo href="/">
+      <LogoImage {...logo} />
+      <LogoText>{logo?.title}</LogoText>
+    </Logo>
+    {
+      links && links.length > 0 && (
+        <FooterMenu orientation="horizontal">
+          {links?.map(({ text, href }) => (
+            <FooterMenuItem>
+              <FooterMenuLink href={href}>{text}</FooterMenuLink>
+            </FooterMenuItem>
+          ))}
+        </FooterMenu>
+      )
+    }
+    <SectionActions class="flex gap-4">
+      {
+        socials?.map((social) => (
+          <Button variant="ghost" size="icon" href={social}>
+            <Icon href={social} />
+          </Button>
+        ))
+      }
+    </SectionActions>
+  </FooterContainer>
+</Footer>

@@ -1,6 +1,0 @@
----
-title:
-description:
-avatar:
-rating:
----
