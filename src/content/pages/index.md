@@ -2,7 +2,7 @@
 sections:
   - block: videos-3
     html: |
-      <h1><strong>Ik ben Sil Veltman</strong> <br> spreker & web developer</h1>
+      <h1><strong>Ik ben Sil Veltman -</strong> <br> spreker & web developer</h1>
       <p>Ik praat over ondernemerschap, technologie en persoonlijke ontwikkeling. Leer mij kennen door middel van mijn video's en werk samen aan jouw <a href="/contact/">website of webshop.</a></p>
     buttons:
       - text: Neem contact op
