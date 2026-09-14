@@ -65,6 +65,7 @@ const { title, logo, links, socials } = Astro.props
             size="icon"
             class="text-muted-foreground"
             href={social}
+            aria-label={social.includes("linkedin.com") ? "LinkedIn" : undefined}
           >
             <Icon href={social} />
           </Button>

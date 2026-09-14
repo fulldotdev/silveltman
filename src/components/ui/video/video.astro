@@ -7,33 +7,71 @@ interface Props extends Omit<HTMLAttributes<"div">, "src"> {
   src?: string
 }
 
-const { class: className, src, ...props } = Astro.props
+const { class: className, src, title = "Video", ...props } = Astro.props
+const videoUrl = src ? new URL(src) : undefined
+const isShort = videoUrl?.pathname.startsWith("/shorts/")
+const videoId = isShort
+  ? videoUrl?.pathname.split("/")[2]
+  : videoUrl?.searchParams.get("v")
 ---
 
 {
-  src?.includes("youtube.com/watch") && (
-    <iframe
-      src={
-        src.replace("youtube.com/watch?v=", "youtube.com/embed/").split("&")[0]
-      }
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      class={cn("aspect-video h-auto w-full", className)}
+  videoId && (
+    <div
+      class={cn(
+        "relative w-full overflow-hidden",
+        isShort ? "aspect-9/16" : "aspect-video",
+        className
+      )}
       {...props}
-    />
+    >
+      <a
+        href={src}
+        data-video-player
+        data-video-id={videoId}
+        data-video-title={title}
+        aria-label={`Speel video: ${title}`}
+        class="group/video absolute inset-0 grid place-items-center bg-black focus-visible:outline-4 focus-visible:-outline-offset-4 focus-visible:outline-white"
+      >
+        <img
+          src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+          alt=""
+          width="480"
+          height="360"
+          loading="lazy"
+          decoding="async"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <span
+          class="relative grid size-16 place-items-center rounded-full bg-black/80 text-white group-hover/video:bg-black"
+          aria-hidden="true"
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </span>
+      </a>
+    </div>
   )
 }
 
-{
-  src?.includes("youtube.com/shorts") && (
-    <iframe
-      src={
-        src.replace("youtube.com/shorts/", "youtube.com/embed/").split("&")[0]
-      }
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      class={cn("aspect-9/16 h-auto w-full", className)}
-      {...props}
-    />
-  )
-}
+<script>
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-video-player]")
+    .forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+          return
+        event.preventDefault()
+        const iframe = document.createElement("iframe")
+        iframe.src = `https://www.youtube.com/embed/${link.dataset.videoId}?autoplay=1&playsinline=1`
+        iframe.title = link.dataset.videoTitle || "Video"
+        iframe.allow =
+          "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        iframe.allowFullscreen = true
+        iframe.className = "absolute inset-0 h-full w-full"
+        link.replaceWith(iframe)
+        iframe.focus()
+      })
+    })
+</script>
