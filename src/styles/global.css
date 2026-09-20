@@ -16,6 +16,7 @@
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-link: var(--link);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
@@ -51,6 +52,7 @@
   --popover-foreground: oklch(0.145 0 0);
   --primary: #2563eb;
   --primary-foreground: #ffffff;
+  --link: #2563eb;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
@@ -85,6 +87,9 @@
   --popover-foreground: oklch(0.985 0 0);
   --primary: #2563eb;
   --primary-foreground: #ffffff;
+  /* The brand blue measures 3.4:1 as text on the dark surfaces, below the
+     4.5:1 minimum, so link text uses a lighter blue in dark mode. */
+  --link: #60a5fa;
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
