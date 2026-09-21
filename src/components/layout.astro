@@ -1,6 +1,8 @@
 ---
 import { getImage } from "astro:assets"
 
+import Posthog from "@/components/posthog.astro"
+
 import "@/styles/global.css"
 
 type Props = {
@@ -50,8 +52,6 @@ const transformedImage = found
       position: "center",
     })
   : undefined
-
-console.log({ image, found, transformedImage })
 ---
 
 <html class="bg-background scroll-smooth" lang={Astro.currentLocale}>
@@ -78,7 +78,7 @@ console.log({ image, found, transformedImage })
     />
     <meta
       property="og:image:type"
-      content={transformedImage?.attributes.format}
+      content={transformedImage && `image/${transformedImage.options.format}`}
     />
     <meta
       property="og:image:width"
@@ -119,6 +119,7 @@ console.log({ image, found, transformedImage })
         2
       )}</script>`}
     />
+    <Posthog />
     <slot name="head" />
   </head>
   <body
