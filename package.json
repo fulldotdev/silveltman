@@ -10,7 +10,8 @@
     "check": "astro check",
     "preview": "astro preview",
     "build:prod": "astro check && astro build",
-    "test": "astro check && astro build && astro preview --host"
+    "test": "astro check && astro build && astro preview --host",
+    "test:visual": "pnpm build && playwright test"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -21,16 +22,18 @@
     "astro-robots-txt": "^1.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "lucide-static": "^0.546.0",
     "sharp": "^0.34.5",
+    "simple-icons": "^15.16.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17",
-    "typescript": "^5.9.3",
-    "lucide-static": "^0.546.0",
-    "simple-icons": "^15.16.1"
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.5",
+    "@argos-ci/playwright": "^7.6.0",
+    "@astrojs/check": "^0.9.10",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^24.10.0",
     "prettier": "3.6.2",
     "prettier-plugin-astro": "0.14.1",
