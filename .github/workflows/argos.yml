@@ -6,16 +6,15 @@ on:
   push:
     branches: [main, preview]
 
-concurrency:
-  group: argos-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   screenshots:
     if: >-
       github.event_name != 'pull_request' ||
       (!github.event.pull_request.draft &&
       (github.event.action != 'edited' || github.event.changes.base != null))
+    concurrency:
+      group: argos-${{ github.ref }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     permissions:
       contents: read
