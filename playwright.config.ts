@@ -1,6 +1,11 @@
 import { createArgosReporterOptions } from "@argos-ci/playwright/reporter"
 import { defineConfig } from "@playwright/test"
 
+const baseURL = process.env.PLAYWRIGHT_BASE_URL
+if (process.env.GITHUB_ACTIONS && !baseURL) {
+  throw new Error("GitHub browser tests require an exact Netlify deployment")
+}
+
 export default defineConfig({
   testDir: "./tests",
   forbidOnly: !!process.env.CI,
@@ -15,7 +20,7 @@ export default defineConfig({
     ],
   ],
   use: {
-    baseURL: "http://127.0.0.1:4176",
+    baseURL: baseURL || "http://127.0.0.1:4176",
     colorScheme: "light",
     reducedMotion: "reduce",
     locale: "nl-NL",
@@ -35,9 +40,23 @@ export default defineConfig({
         hasTouch: true,
       },
     },
+    {
+      name: "mobile-webkit",
+      // A compact engine check. This is not a physical iPhone.
+      grep: /(?:^|\s)(?:homepage|\/|\/contact\/?)$/,
+      use: {
+        browserName: "webkit",
+        viewport: { width: 390, height: 844 },
+        isMobile: true,
+        hasTouch: true,
+        launchOptions: {},
+      },
+    },
   ],
-  webServer: {
-    command: "pnpm exec astro preview --host 127.0.0.1 --port 4176",
-    url: "http://127.0.0.1:4176",
-  },
+  webServer: baseURL
+    ? undefined
+    : {
+        command: "pnpm exec astro preview --host 127.0.0.1 --port 4176",
+        url: "http://127.0.0.1:4176",
+      },
 })
