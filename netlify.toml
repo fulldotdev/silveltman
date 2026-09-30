@@ -1,1 +1,4 @@
+[build.environment]
+  pnpm_config_ignore_scripts = "true"
+
 

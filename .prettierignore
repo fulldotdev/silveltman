@@ -19,3 +19,13 @@ bun.lockb
 
 # misc
 **/.DS_Store
+
+# Generated output and CMS-written content
+_site/
+public/r/
+src/content/
+src/globals/
+_data/
+_posts/
+public/uploads/
+assets/img/uploads/
