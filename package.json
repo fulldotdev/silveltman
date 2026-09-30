@@ -6,7 +6,7 @@
     "astro": "astro",
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro check",
+    "check": "prettier --check . && astro check",
     "preview": "astro preview"
   },
   "dependencies": {
