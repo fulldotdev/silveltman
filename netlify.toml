@@ -1,4 +1,9 @@
+[build]
+command = "pnpm run build"
+publish = "dist"
+
 [build.environment]
-  pnpm_config_ignore_scripts = "true"
-
-
+NODE_VERSION = "24"
+PNPM_FLAGS = "--frozen-lockfile --ignore-scripts --ignore-pnpmfile"
+pnpm_config_ignore_scripts = "true"
+pnpm_config_ignore_pnpmfile = "true"
