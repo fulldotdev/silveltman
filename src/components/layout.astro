@@ -9,7 +9,7 @@ type Props = {
   name: string
   title: string
   description: string
-  image: {
+  image?: {
     src: string
     alt?: string
   }
@@ -52,6 +52,7 @@ const transformedImage = found
       position: "center",
     })
   : undefined
+const imageUrl = transformedImage && `${baseUrl}${transformedImage.src}`
 ---
 
 <html class="bg-background scroll-smooth" lang={Astro.currentLocale}>
@@ -67,28 +68,28 @@ const transformedImage = found
     <meta property="og:type" content="website" />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:locale" content={Astro.currentLocale} />
-    <meta property="og:image" content={`${baseUrl}${transformedImage?.src}`} />
-    <meta
-      property="og:image:url"
-      content={`${baseUrl}${transformedImage?.src}`}
-    />
-    <meta
-      property="og:image:secure_url"
-      content={`${baseUrl}${transformedImage?.src}`}
-    />
-    <meta
-      property="og:image:type"
-      content={transformedImage && `image/${transformedImage.options.format}`}
-    />
-    <meta
-      property="og:image:width"
-      content={transformedImage?.attributes.width.toString()}
-    />
-    <meta
-      property="og:image:height"
-      content={transformedImage?.attributes.height.toString()}
-    />
-    <meta property="og:image:alt" content={image?.alt} />
+    {
+      transformedImage && (
+        <>
+          <meta property="og:image" content={imageUrl} />
+          <meta property="og:image:url" content={imageUrl} />
+          <meta property="og:image:secure_url" content={imageUrl} />
+          <meta
+            property="og:image:type"
+            content={`image/${transformedImage.options.format}`}
+          />
+          <meta
+            property="og:image:width"
+            content={transformedImage.attributes.width.toString()}
+          />
+          <meta
+            property="og:image:height"
+            content={transformedImage.attributes.height.toString()}
+          />
+          {image?.alt && <meta property="og:image:alt" content={image.alt} />}
+        </>
+      )
+    }
     <meta
       name="robots"
       content={`${noindex ? "noindex" : "index"}, ${nofollow ? "nofollow" : "follow"}`}
@@ -100,12 +101,12 @@ const transformedImage = found
           "@type": "WebSite",
           name: name,
           url: pageUrl,
-          logo: {
+          logo: transformedImage && {
             "@type": "ImageObject",
-            url: `${baseUrl}${transformedImage?.src}`,
+            url: imageUrl,
             alt: image?.alt,
-            width: transformedImage?.attributes.width.toString(),
-            height: transformedImage?.attributes.height.toString(),
+            width: transformedImage.attributes.width.toString(),
+            height: transformedImage.attributes.height.toString(),
           },
           description: description,
           headline: title,
