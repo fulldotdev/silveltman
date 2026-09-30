@@ -1,0 +1,33 @@
+name: Check fast (experiment)
+
+# Temporary experiment, 2026-09-30. Delete when the CI plan is decided.
+# Same work as the org Check, with corepack instead of pnpm/action-setup
+# and a node_modules cache keyed on the lockfile.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check fast
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - run: corepack enable
+      - id: modules
+        uses: actions/cache@v6
+        with:
+          path: node_modules
+          key: modules-${{ runner.os }}-node24-${{ hashFiles('pnpm-lock.yaml') }}
+      - if: steps.modules.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm check
