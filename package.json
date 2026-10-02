@@ -3,12 +3,11 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "astro": "astro",
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && html-validate dist && linkinator dist",
     "check": "prettier --check . && astro check",
     "preview": "astro preview",
-    "format": "prettier --write ."
+    "fix": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
@@ -30,6 +29,8 @@
     "@astrojs/check": "^0.9.10",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
     "@types/node": "^24.19.0",
+    "html-validate": "^11.16.1",
+    "linkinator": "^8.1.0",
     "prettier": "3.6.2",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.7.4",
