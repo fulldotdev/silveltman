@@ -1,0 +1,14 @@
+version: 2
+updates:
+  # Security updates only. Version update PRs are off (limit 0), and all
+  # security fixes for this repository land in one grouped PR.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    groups:
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
