@@ -20,7 +20,7 @@ How silveltman.nl looks and reads. Follow it for every section, component or cop
 - Hero: centred title, lead and two actions (contact, the videos), with the studio portrait below it at 20rem wide, 4:5.
 - Videos: every Short, newest first, as 9:16 frames with a play button and the title below; four per row from `lg`, three from `sm`, two on phones, with a centred last row. A click swaps the frame for YouTube's player.
 - Footer: the dark end, centred, as above.
-- `/contact/`: a centred head, the contact buttons, then the Cal.com booking inline (`cal-embed.astro`, as on full.dev's contact page), at most 896px wide, without a box or a heading of its own: Cal.com shows the meeting itself. While it loads, a spinner holds the space the booking takes, and the booking appears once, complete with its times: no skeleton, no growing, and the footer stays put. The frame never shows a scrollbar, also not while Cal.com moves. A direct link to the calendar shows when Cal.com's script is blocked.
+- `/contact/`: a centred head, the contact buttons, then the Cal.com booking inline (`cal-embed.astro`, as on full.dev's contact page), at most 896px wide, without a box or a heading of its own: Cal.com shows the meeting itself. While it loads, a spinner holds the space the booking takes, and the booking appears once, complete with its times: no skeleton and no growing. From 809px wide the footer stays put; narrower, it stays below the fold while the booking loads. The frame never shows a scrollbar, also not while Cal.com moves. A direct link to the calendar shows when Cal.com fails or is blocked.
 - Photos are real: the studio portrait from full.dev's team row and the Shorts' own frames, saved in `src/assets/videos`. No stock.
 
 ## Library gaps

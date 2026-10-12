@@ -15,8 +15,10 @@
 // - at most 896px wide, as on full.dev: Cal.com's layout needs 1040px once
 //   its frame is 1024px wide or more.
 // The space: up to a 768px frame, the viewport less 40px of padding, Cal.com
-// stacks the booking, about 85vw + 50rem high with a day of times; wider, it
-// is one row of 534 to 571px.
+// stacks the booking, about 85vw + 50rem high with a day of times, and less
+// as the day's times pass. That is held only while it loads, so no space is
+// left over below the fold. Wider, it is one row of 534 to 571px, held
+// throughout so the footer in view stays put.
 // The attribute is not data-cal-link: embed.js opens a popup for any click
 // inside an element with that attribute.
 import { Spinner } from "@/components/ui/spinner"
@@ -36,7 +38,7 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
   data-cal-embed={calLink}
   class:list={[
     "group relative w-full max-w-4xl text-center",
-    "data-[state=loading]:min-h-[calc(85vw+50rem)] data-[state=ready]:min-h-[calc(85vw+50rem)]",
+    "data-[state=loading]:min-h-[calc(85vw+50rem)]",
     "min-[809px]:data-[state=loading]:min-h-143 min-[809px]:data-[state=ready]:min-h-143",
     "[&>cal-inline]:transition-opacity [&:not([data-state=ready])>cal-inline]:opacity-0",
     "[&:not([data-state=ready])_iframe]:absolute [&:not([data-state=ready])_iframe]:top-0",
