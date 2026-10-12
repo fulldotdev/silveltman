@@ -110,13 +110,13 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
   })
   Cal("ui", { theme: "light", layout: "month_view" })
 
-  // Show the booking once it has settled, or Cal.com's own error page. When
-  // it is not there after 10 seconds, the link shows until it is.
+  // Show the booking once it has settled. When Cal.com fails, or the booking
+  // is not there after 10 seconds, the link shows until it is.
   Cal("on", {
     action: "bookerReady",
     callback: () => setTimeout(() => setState("ready"), 500),
   })
-  Cal("on", { action: "linkFailed", callback: () => setState("ready") })
+  Cal("on", { action: "linkFailed", callback: () => setState("failed") })
   setTimeout(() => {
     if (box.dataset.state === "loading") setState("failed")
   }, 10000)
