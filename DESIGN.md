@@ -5,7 +5,7 @@ How silveltman.nl looks and reads. Follow it for every section, component or cop
 ## Reader and copy
 
 - The site is Sil's own, not a company site: who he is, his videos, and how to reach him. Work, clients and services belong on full.dev.
-- One page with the videos. The action is "Contact opnemen" to `/contact/`: mail, phone and WhatsApp as buttons, and Sil's Cal.com booking (cal.com/silveltman/meeting) inline. The privacy statement and the 404 are the only other pages.
+- One page with the videos. The action is "Contact opnemen" to `/contact/`: mail, phone and WhatsApp as buttons, and Sil's Cal.com booking (cal.com/silveltman/meeting) inline. The privacy statement, `/meeting/` and the 404 are the only other pages.
 - Dutch only, in Sil's words (`~/.agents/global/references/sil-writing-style.md`). Titles end without a full stop. No em dashes.
 - No projects, client logos, reviews, figures or posts (owner decision, 12 October 2026: too much like a company site).
 
@@ -20,7 +20,8 @@ How silveltman.nl looks and reads. Follow it for every section, component or cop
 - Hero: centred title, lead and two actions (contact, the videos), with the studio portrait below it at 20rem wide, 4:5.
 - Videos: every Short, newest first, as 9:16 frames with a play button and the title below; four per row from `lg`, three from `sm`, two on phones, with a centred last row. A click swaps the frame for YouTube's player.
 - Footer: the dark end, centred, as above.
-- `/contact/`: a centred head, the contact buttons, then the Cal.com booking inline (`cal-embed.astro`, as on full.dev's contact page), at most 896px wide, without a box or a heading of its own: Cal.com shows the meeting itself. While it loads, a spinner holds the space the booking takes, and the booking appears once, complete with its times: no skeleton and no growing. From 809px wide the footer stays put; narrower, it stays below the fold while the booking loads. The frame never shows a scrollbar, also not while Cal.com moves. A direct link to the calendar shows when Cal.com fails or is blocked.
+- `/contact/`: a centred head, the contact buttons, then the Cal.com booking inline (`cal-embed.astro`, as on full.dev's contact page), at most 896px wide, without a box or a heading of its own: Cal.com shows the meeting itself. It loads the way Cal.com does: Cal.com's own skeleton at once in the space the booking takes, then the calendar with the times sliding in (owner decision, 12 October 2026). A spinner shows only until that skeleton is there. From 809px wide the footer stays put; narrower, the booking grows below the fold. The frame never shows a scrollbar, also not while Cal.com moves. A direct link to the calendar shows when Cal.com fails or is blocked.
+- `/meeting/`: Cal.com's own booking page in a frame across the viewport, without header and footer, as full.dev/meeting/.
 - Photos are real: the studio portrait from full.dev's team row and the Shorts' own frames, saved in `src/assets/videos`. No stock.
 
 ## Library gaps

@@ -1,0 +1,27 @@
+---
+// Cal.com's own booking page in a frame across the viewport, without the
+// site's header and footer, as full.dev/meeting/. Visitors keep this address;
+// Cal.com's page scrolls in its frame.
+import type { GlobalSchema } from "@/schemas/global"
+import type { MeetingSchema } from "@/schemas/layouts/meeting"
+import Base from "@/layouts/base.astro"
+
+type Props = {
+  global: GlobalSchema
+  page: MeetingSchema
+}
+
+const { global, page } = Astro.props
+const calendar = new URL(page.booking)
+calendar.searchParams.set("layout", "month_view")
+---
+
+<Base global={global} page={page} bare>
+  <h1 class="sr-only">{page.title}</h1>
+  <iframe
+    src={calendar.href}
+    title={page.title}
+    allow="payment"
+    class="block h-dvh w-full border-0 bg-white"
+  ></iframe>
+</Base>
