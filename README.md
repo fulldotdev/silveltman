@@ -16,6 +16,7 @@ pnpm ui:add @fulldev/<component>
 ## Content
 
 - The page is `src/content/pages/index.md`: the hero and the list of videos. Add a Short with its title, link and frame in `src/assets/videos`.
-- Name, contact details, the closing and the footer are in `src/content/globals/nl.yaml`.
+- The contact page is `src/content/pages/contact.md`: the contact buttons and the Cal.com booking link.
+- Name, the header button and the footer are in `src/content/globals/nl.yaml`.
 
 Netlify builds `main` to silveltman.nl and every PR to a Deploy Preview.

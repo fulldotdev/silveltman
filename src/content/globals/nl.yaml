@@ -21,31 +21,17 @@ person:
 contact:
   email: sil@full.dev
   phone: "+31 6 83485163"
-  phoneHref: tel:+31683485163
-  whatsapp: https://wa.me/31683485163
-  meeting: https://full.dev/meeting/
   city: Groningen
 header:
   button:
     label: Contact opnemen
-    href: /#contact
-closing:
-  id: contact
-  title: Koffie is mijn favoriete drank
-  description: Zin om te praten over je website, webshop of webapp, of over bouwen met AI? Plan een gesprek van 30 minuten, of mail of app me.
-  buttons:
-    - label: Plan een gesprek
-      href: https://full.dev/meeting/
-      icon: calendar
-    - label: Mail mij
-      href: mailto:sil@full.dev
-      icon: mail
-    - label: WhatsApp
-      href: https://wa.me/31683485163
-      icon: message-circle
+    href: /contact/
 footer:
-  description: Developer en oprichter van Fulldev in Groningen. Ik bouw websites, webshops en webapps, en ik maak video's over persoonlijke ontwikkeling, werken en AI.
-  contactTitle: Contact
+  title: Koffie is mijn favoriete drank
+  description: Zin om te praten over je website, webshop of webapp, of over bouwen met AI?
+  button:
+    label: Contact opnemen
+    href: /contact/
   socials:
     - label: LinkedIn
       href: https://www.linkedin.com/in/silveltman/

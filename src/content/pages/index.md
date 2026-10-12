@@ -10,7 +10,7 @@ hero:
   description: Ik bouw websites, webshops en webapps, en ik maak video's over persoonlijke ontwikkeling, werken en AI. Leer me kennen via mijn video's, of neem contact op.
   buttons:
     - label: Contact opnemen
-      href: /#contact
+      href: /contact/
     - label: Bekijk mijn video's
       href: /#videos
   image:

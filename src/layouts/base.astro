@@ -17,7 +17,6 @@ import {
   LayoutHead,
   LayoutMain,
 } from "@/components/ui/layout"
-import Closing from "@/components/closing.astro"
 import Posthog from "@/components/posthog.astro"
 import SiteFooter from "@/components/site-footer.astro"
 import SiteHeader from "@/components/site-header.astro"
@@ -63,6 +62,7 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     url: site,
     image: new URL(avatar.src, site).href,
     email: global.contact.email,
+    telephone: global.contact.phone,
     worksFor: {
       "@type": "Organization",
       name: "Fulldev",
@@ -142,25 +142,13 @@ const jsonLd: WithContext<WebSite | Person>[] = [
       <slot />
     </LayoutMain>
     <div class="dark dark-tail">
-      <Closing {...global.closing} person={global.person} />
       <SiteFooter
-        name={global.name}
-        href={global.logo.href}
-        description={global.footer.description}
-        socials={global.footer.socials}
-        contact={{
-          title: global.footer.contactTitle,
-          links: [
-            {
-              label: global.contact.email,
-              href: `mailto:${global.contact.email}`,
-            },
-            { label: global.contact.phone, href: global.contact.phoneHref },
-            { label: "WhatsApp", href: global.contact.whatsapp },
-            { label: "Gesprek plannen", href: global.contact.meeting },
-          ],
-        }}
-        legal={global.footer.legal}
+        {...global.footer}
+        button={
+          Astro.url.pathname === global.footer.button.href
+            ? undefined
+            : global.footer.button
+        }
         copyright={`© ${new Date().getFullYear()} ${global.footer.copyright}`}
       />
     </div>

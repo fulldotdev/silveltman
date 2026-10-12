@@ -59,7 +59,7 @@
   --text-ui: 0.9375rem; /* 15px: buttons, links and interface copy */
   --text-copy: 1.0625rem; /* 17px: body copy, answers and quotes */
   --text-copy--line-height: 1.6;
-  /* The footer name and the closing title, which the registry has no part for. */
+  /* Card titles and the footer title, which the registry has no part for. */
   --text-title: 1.375rem; /* 22px */
   --text-title--line-height: 1.3;
   --text-title--letter-spacing: var(--tracking-tight);
@@ -70,7 +70,7 @@
   --text-closing--font-weight: 500;
   /* Every title is semibold (the registry's `font-semibold`) at 550. */
   --font-weight-semibold: 550;
-  /* The one settling curve: video frames on hover, blocks settling. */
+  /* The one settling curve: video frames on hover. */
   --ease-settle: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
@@ -107,11 +107,6 @@
   --fd-control-edge-hover: var(--fd-field-hover);
   --fd-primary-shadow: var(--fd-brand-primary-shadow-light);
   --ring: var(--primary);
-  --fd-block-line: #d6d3cc;
-  --fd-block-fill: #ffffff;
-  /* Sides and floor shadow of a 3D block (block-3d.astro). */
-  --fd-block-side: linear-gradient(135deg, #e9e7e1, #cfccc4);
-  --fd-block-side-lit: linear-gradient(135deg, #1540d2, #082590);
   --fd-block-shadow: var(--fd-brand-shadow-light);
   --radius: 0.75rem;
   /* Preset compatibility, not brand. */
@@ -152,7 +147,7 @@
   --destructive-foreground: #ffffff;
   --border: #221f1a;
   --input: rgb(255 255 255 / 20%);
-  /* The raised face of buttons and of the closing floor's blocks. */
+  /* The raised face of buttons on the dark end. */
   --fd-face-raised: var(--fd-brand-control-face-dark);
   --fd-control-face: var(--fd-face-raised);
   --fd-control-edge: var(--fd-brand-control-edge-dark);
@@ -160,13 +155,7 @@
   /* A tinted shadow reads as a glow on the dark panel. */
   --fd-primary-shadow: var(--fd-brand-primary-shadow-dark);
   --ring: var(--primary);
-  --fd-block-line: rgb(255 255 255 / 30%);
-  --fd-block-fill: #1d1b17;
-  --fd-block-side: linear-gradient(135deg, #17150f, #050403);
-  --fd-block-side-lit: linear-gradient(135deg, #c13a0c, #782404);
   --fd-block-shadow: var(--fd-brand-shadow-dark);
-  --fd-block-fill-floor: var(--fd-face-raised);
-  --fd-block-side-floor: linear-gradient(135deg, #282621, #0c0b09);
   --sidebar: var(--card);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -190,7 +179,6 @@
   --fd-r-button: var(--fd-brand-r-control);
   --fd-r-panel: 18px;
   --fd-r-avatar: 9px;
-  --fd-block-ratio: calc(0.3 * 9 / 16);
   /* Text measures: leads beside art, reading text, centred section heads. */
   --fd-measure-narrow: 32.5rem;
   --fd-measure: 45rem;
@@ -202,7 +190,6 @@
 @supports (corner-shape: squircle) {
   :root {
     --fd-r-panel: 32px;
-    --fd-block-ratio: 0.3;
   }
 }
 @media (width >= 64rem) {
@@ -253,15 +240,6 @@
   outline: none;
 }
 
-/* Every block composition (block-scene.astro, [data-wait]) holds its first
-   frame until it scrolls into view, then plays, and pauses again while it
-   is off screen. Only with script; never under reduced motion. */
-@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
-  [data-wait]:not([data-inview]) * {
-    animation-play-state: paused !important;
-  }
-}
-
 /* Every animation stops under reduced motion. A near-zero duration instead
    of none keeps the animationend and transitionend events the registry's
    sheet waits for. */
@@ -288,7 +266,7 @@
 }
 
 /* The dark end of every page is one rounded panel set into the stone page:
-   the closing call to action and the footer. */
+   the footer. */
 .dark-tail {
   width: auto;
   margin: 0 var(--fd-tail-inset) var(--fd-tail-inset);
@@ -303,13 +281,7 @@
     padding-inline: calc(var(--gutter) - var(--fd-tail-inset));
   }
 }
-/* The closing sets its own padding; its floor of blocks runs into the
-   footer. */
-.closing {
-  padding-block: clamp(5rem, 8vw, 7rem) 0;
-}
-
-/* Long text: articles, the about page and the legal pages. */
+/* Long text: the legal pages. */
 .site-prose {
   max-width: var(--fd-measure);
   color: var(--muted-foreground);
@@ -491,19 +463,6 @@ a:is(:hover, :focus-visible) span[data-slot="button"][data-variant] {
 }
 [data-slot="button"][data-variant="default"]:is(:hover, :active) {
   background: var(--fd-primary-hover);
-}
-
-/* Avatars: the avatar radius with squircle corners and no edge. */
-[data-slot="avatar"] {
-  border-radius: var(--fd-r-avatar);
-  corner-shape: squircle;
-  &::after {
-    content: none;
-  }
-  & > * {
-    border-radius: inherit;
-    corner-shape: inherit;
-  }
 }
 
 /* The header takes the page colour. The logo is Sil's face in the avatar

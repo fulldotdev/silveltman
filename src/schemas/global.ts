@@ -19,35 +19,29 @@ export const globalSchema = ({ image }: SchemaContext) =>
         href: z.string(),
         src: image(),
       }),
-      // The person the site is about: the face in the closing and the Person
-      // in the structured data.
+      // The person the site is about: the Person in the structured data, and
+      // the image when a page has none of its own.
       person: z.object({
         name: z.string(),
         role: z.string(),
         avatar: image(),
         sameAs: z.string().array(),
       }),
+      // For the structured data; the contact page has its own options.
       contact: z.object({
         email: z.email(),
         phone: z.string(),
-        phoneHref: z.string(),
-        whatsapp: z.string(),
-        meeting: z.string(),
         city: z.string(),
       }),
       // The one action in the header.
       header: z.object({ button: linkSchema }),
-      // The dark closing call to action at the end of every page.
-      closing: z.object({
-        // An anchor, so the header can link to /#<id>.
-        id: z.string(),
+      // The dark footer at the end of every page, centred: a title, one
+      // line, the button to the contact page, the social buttons and the
+      // legal line.
+      footer: z.object({
         title: z.string(),
         description: z.string(),
-        buttons: linkSchema.extend({ icon: z.string() }).array(),
-      }),
-      footer: z.object({
-        description: z.string(),
-        contactTitle: z.string(),
+        button: linkSchema,
         socials: linkSchema.array(),
         legal: linkSchema.array(),
         copyright: z.string(),
