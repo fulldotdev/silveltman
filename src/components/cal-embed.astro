@@ -1,0 +1,66 @@
+---
+// The Cal.com booking page of `url`, inline through Cal.com's official
+// embed.js, as on full.dev's contact page. The embed grows with the
+// booking, so the page scrolls instead of the frame. The direct link shows
+// until the calendar is in, so it stays when JavaScript or Cal.com's script
+// does not run.
+type Props = {
+  url: string
+  linkLabel: string
+  class?: string
+}
+
+const { url, linkLabel, class: className } = Astro.props
+const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
+---
+
+<div
+  data-cal-link={calLink}
+  class:list={["min-h-96 text-center has-[iframe]:[&>a]:hidden", className]}
+>
+  <a href={url} class="underline underline-offset-4">
+    {linkLabel}
+  </a>
+</div>
+
+<script is:inline>
+  // The loader of Cal.com's Embed Snippet Generator
+  // (cal.com/help/embedding/adding-embed), with rest parameters.
+  ;(function (C, A, L) {
+    const p = (a, ar) => a.q.push(ar)
+    const d = C.document
+    C.Cal =
+      C.Cal ||
+      function (...ar) {
+        const cal = C.Cal
+        if (!cal.loaded) {
+          cal.ns = {}
+          cal.q = cal.q || []
+          d.head.appendChild(d.createElement("script")).src = A
+          cal.loaded = true
+        }
+        if (ar[0] === L) {
+          const api = (...args) => p(api, args)
+          const namespace = ar[1]
+          api.q = api.q || []
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api
+            p(cal.ns[namespace], ar)
+            p(cal, ["initNamespace", namespace])
+          } else p(cal, ar)
+          return
+        }
+        p(cal, ar)
+      }
+  })(window, "https://app.cal.com/embed/embed.js", "init")
+
+  Cal("init", { origin: "https://app.cal.com" })
+  for (const element of document.querySelectorAll("[data-cal-link]")) {
+    Cal("inline", {
+      elementOrSelector: element,
+      calLink: element.dataset.calLink,
+      config: { layout: "month_view" },
+    })
+  }
+  Cal("ui", { theme: "light", layout: "month_view" })
+</script>

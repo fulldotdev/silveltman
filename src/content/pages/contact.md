@@ -1,29 +1,22 @@
 ---
-sections:
-  - block: features-1
-    html: |
-      <h1><strong>Ik ben Sil Veltman</strong> <br> neem contact op</h1>
-      <p>Neem contact met mij op via telefoon, email of WhatsApp. Ik help je graag met jouw website, webshop of vragen over ondernemerschap en technologie.</p>
-    items:
-      - title: Bellen
-        description: "316 8348 5163"
-        icon: phone
-        buttons:
-          - text: Bel mij
-            href: tel:31683485163
-      - title: Mailen
-        description: sil@full.dev
-        icon: mail
-        buttons:
-          - text: Mail mij
-            href: mailto:sil@full.dev
-      - title: WhatsApp
-        description: "316 8348 5163"
-        icon: whatsapp
-        buttons:
-          - text: Stuur een bericht
-            href: https://wa.me/31683485163
+type: contact
+translationKey: contact
+title: Contact
+description: Neem contact op met Sil Veltman via mail, telefoon of WhatsApp, of plan direct een videogesprek in zijn agenda.
 seo:
-  title: Contact met Sil Veltman
-  description: Neem contact op met Sil Veltman via telefoon, email of WhatsApp voor een website, webshop of vragen over ondernemerschap en technologie.
+  title: Contact | Sil Veltman
+lead: Mail, bel of app me, of plan direct een gesprek.
+options:
+  - label: sil@full.dev
+    href: mailto:sil@full.dev
+    icon: mail
+  - label: +31 6 83485163
+    href: tel:+31683485163
+    icon: phone
+  - label: WhatsApp
+    href: https://wa.me/31683485163
+    icon: message-circle
+booking:
+  url: https://cal.com/silveltman/meeting
+  linkLabel: Open de agenda op cal.com
 ---

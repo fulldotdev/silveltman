@@ -1,0 +1,168 @@
+---
+import { Font, getImage } from "astro:assets"
+import type { Person, WebSite, WithContext } from "schema-dts"
+
+import type { GlobalSchema } from "@/schemas/global"
+import type { BaseSchema } from "@/schemas/layouts/base"
+import {
+  defaultLocale,
+  getMarkdownHref,
+  getPageHref,
+  getTranslations,
+  locales,
+} from "@/lib/content"
+import {
+  Layout,
+  LayoutBody,
+  LayoutHead,
+  LayoutMain,
+} from "@/components/ui/layout"
+import Posthog from "@/components/posthog.astro"
+import SiteFooter from "@/components/site-footer.astro"
+import SiteHeader from "@/components/site-header.astro"
+
+type Props = {
+  global: GlobalSchema
+  page: BaseSchema
+}
+
+const { global, page } = Astro.props
+const locale = Astro.currentLocale ?? defaultLocale
+
+const site = Astro.site?.href
+const markdown = !page.seo?.noindex && getMarkdownHref(Astro.url.pathname)
+
+// The indexed translations of this page, including itself, by locale. They
+// get hreflang links, with the default locale as x-default.
+const translations = new Map(
+  page.seo?.noindex
+    ? []
+    : [...(await getTranslations(page.translationKey))]
+        .filter(([, translation]) => !translation.data.seo?.noindex)
+        .map(([language, translation]) => [language, getPageHref(translation)])
+)
+const alternates = translations.size > 1 ? [...translations] : []
+const defaultHref = alternates.length && translations.get(defaultLocale)
+if (defaultHref) alternates.push(["x-default", defaultHref])
+
+const avatar = await getImage({ src: global.person.avatar, width: 512 })
+const jsonLd: WithContext<WebSite | Person>[] = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: global.name,
+    url: site,
+    inLanguage: locale,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: global.person.name,
+    jobTitle: global.person.role,
+    url: site,
+    image: new URL(avatar.src, site).href,
+    email: global.contact.email,
+    telephone: global.contact.phone,
+    worksFor: {
+      "@type": "Organization",
+      name: "Fulldev",
+      url: "https://full.dev",
+    },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: global.contact.city,
+      addressCountry: "NL",
+    },
+    sameAs: global.person.sameAs,
+  },
+]
+---
+
+<Layout lang={locale}>
+  <LayoutHead
+    name={global.name}
+    title={page.seo?.title ?? page.title}
+    description={page.seo?.description ?? page.description}
+    image={page.seo?.image ?? global.image}
+    canonical={page.seo?.canonical}
+    noindex={page.seo?.noindex}
+  >
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" />
+    <link rel="sitemap" href="/sitemap.xml" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta name="twitter:creator" content={global.person.x} />
+    {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
+    {alternates.map(([language, href]) => (
+      <link rel="alternate" hreflang={language} href={new URL(href, site)} />
+    ))}
+    {locales.length > 1 && <script
+      is:inline
+      define:vars={{ locale, locales, defaultLocale }}
+    >
+      // Netlify sends a first visit to the homepage to the visitor's
+      // browser language (netlify.toml). The nf_lang cookie overrides
+      // that: it holds the language of the last page a visitor saw, and
+      // follows a link to another language, such as the switch, before it
+      // opens, also in a new tab.
+      const remember = (language) =>
+        (document.cookie = `nf_lang=${language}; path=/; max-age=31536000; samesite=lax`)
+      remember(locale)
+      const follow = (event) => {
+        const link = event.target.closest?.("a[href]")
+        if (!link || link.origin !== location.origin) return
+        // Files such as a PDF have no language.
+        if (link.pathname.split("/").pop().includes(".")) return
+        const folder = link.pathname.split("/")[1]
+        const language =
+          folder !== defaultLocale && locales.includes(folder)
+            ? folder
+            : defaultLocale
+        if (language !== locale) remember(language)
+      }
+      for (const type of ["click", "auxclick", "contextmenu"])
+        document.addEventListener(type, follow)
+    </script>}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(jsonLd).replaceAll("<", "\\u003c")}
+    />
+    <slot name="head" />
+    <Posthog />
+  </LayoutHead>
+  <LayoutBody>
+    <a
+      href="#main"
+      class="bg-background sr-only z-50 p-3 focus:not-sr-only focus:fixed"
+    >
+      {global.labels.skipToContent}
+    </a>
+    <SiteHeader
+      logo={global.logo}
+      button={
+        Astro.url.pathname === global.header.button.href
+          ? undefined
+          : global.header.button
+      }
+    />
+    <LayoutMain id="main">
+      <slot />
+    </LayoutMain>
+    <div class="dark dark-tail">
+      <SiteFooter
+        cta={
+          Astro.url.pathname === global.footer.button.href
+            ? undefined
+            : {
+                title: global.footer.title,
+                description: global.footer.description,
+                button: global.footer.button,
+              }
+        }
+        socials={global.footer.socials}
+        legal={global.footer.legal}
+        copyright={`© ${new Date().getFullYear()} ${global.footer.copyright}`}
+      />
+    </div>
+  </LayoutBody>
+</Layout>

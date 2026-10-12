@@ -1,0 +1,63 @@
+/* The Fulldev brand tokens: the one source of the values that the websites
+   (./globals.css) and the app (apps/app/src/ui/styles/globals.css) share.
+   CSS only, no Tailwind. Each stylesheet imports this file and maps the
+   tokens onto its own semantic names (--background, --primary, ...) for
+   light and dark; what only one of them uses stays in its own file.
+   DESIGN.md ("Tokens") has the roles and contrast. */
+:root {
+  /* Light: a warm stone page with white cards; blue is the action, a
+     calm blue of lower chroma than a pure screen blue. */
+  --fd-brand-page-light: #f8f7f4;
+  --fd-brand-text-light: #1d1f24;
+  --fd-brand-card-light: #ffffff;
+  --fd-brand-muted-light: #efeee9;
+  --fd-brand-muted-text-light: #555861;
+  --fd-brand-action-light: #1442e9;
+  --fd-brand-action-hover-light: #0d32c3;
+  /* Control edges at 3:1: buttons, selects and text fields. */
+  --fd-brand-control-edge-light: #8a867d;
+  --fd-brand-control-edge-hover-light: #61646d;
+  /* The floor shadow of a block and of every lifted face; the primary's
+     mixes in the dark end of the lit side. */
+  --fd-brand-shadow-light: rgb(40 32 20 / 0.24);
+  --fd-brand-primary-shadow-light: color-mix(
+    in oklab,
+    #082590 60%,
+    var(--fd-brand-shadow-light)
+  );
+
+  /* Dark: a warm near black; orange is the action. */
+  --fd-brand-page-dark: #0c0b09;
+  --fd-brand-text-dark: #f2f1ee;
+  --fd-brand-card-dark: #161512;
+  --fd-brand-muted-text-dark: #aaa59c;
+  --fd-brand-action-dark: #d34110;
+  --fd-brand-action-hover-dark: #bc390d;
+  /* The raised face of buttons, with a white edge. */
+  --fd-brand-control-face-dark: #2e2c27;
+  --fd-brand-control-edge-dark: rgb(255 255 255 / 40%);
+  --fd-brand-control-edge-hover-dark: rgb(255 255 255 / 62%);
+  --fd-brand-shadow-dark: rgb(0 0 0 / 0.6);
+  --fd-brand-primary-shadow-dark: var(--fd-brand-shadow-dark);
+
+  /* Text and the mark on the action, in both modes. */
+  --fd-brand-action-text: #ffffff;
+
+  --fd-brand-font-sans:
+    "Geist Variable", Geist, ui-sans-serif, system-ui, sans-serif;
+  /* The one menu shadow. */
+  --fd-brand-shadow-sheet: 0 24px 48px -12px rgb(40 32 20 / 0.18);
+  /* Controls change state quickly. */
+  --fd-brand-duration-control: 0.18s;
+
+  /* Corners: buttons and fields, and tags (6px in both). Squircles need a
+     larger radius for the same look; browsers without corner-shape keep
+     the plain one. */
+  --fd-brand-r-control: 9px;
+  --fd-brand-r-tag: 6px;
+}
+@supports (corner-shape: squircle) {
+  :root {
+    --fd-brand-r-control: 16px;
+  }
+}

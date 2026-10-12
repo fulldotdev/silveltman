@@ -3,17 +3,15 @@ import type { HTMLAttributes } from "astro/types"
 
 import { cn } from "@/lib/utils"
 
-interface Props extends HTMLAttributes<"span"> {}
+type Props = HTMLAttributes<"span">
 
-const { class: className, ...props } = Astro.props
-
-const slot = await Astro.slots.render("default")
+const {
+  class: className,
+  "data-slot": dataSlot = "logo-text",
+  ...props
+} = Astro.props
 ---
 
-{
-  slot.trim().length > 0 && (
-    <span class={cn("", className)} {...props}>
-      <Fragment set:html={slot} />
-    </span>
-  )
-}
+<span class={cn("text-lg", className)} data-slot={dataSlot} {...props}>
+  <slot />
+</span>

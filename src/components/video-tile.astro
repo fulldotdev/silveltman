@@ -1,0 +1,73 @@
+---
+// A Short as a tile: its own frame with a play button and the title below.
+// A click swaps the frame for YouTube's player, so the page loads no player
+// until someone wants to watch. Without script, or with a modifier key, the
+// link opens the Short on YouTube.
+import type { ImageMetadata } from "astro"
+import { Image } from "astro:assets"
+import Play from "@lucide/astro/icons/play"
+
+import { Button } from "@/components/ui/button"
+
+type Props = {
+  title: string
+  href: string
+  thumbnail: ImageMetadata
+}
+
+const { title, href, thumbnail } = Astro.props
+const id = new URL(href).pathname.split("/").pop()
+---
+
+<figure class="m-0 flex flex-col gap-3">
+  <div class="panel bg-muted relative aspect-9/16">
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      data-video-id={id}
+      data-video-title={title}
+      aria-label={`Speel video: ${title}`}
+      class="group absolute inset-0 block"
+    >
+      <Image
+        src={thumbnail}
+        alt=""
+        widths={[240, 360, 480, 720]}
+        sizes="(min-width: 64rem) 19rem, (min-width: 40rem) 33vw, 50vw"
+        class="ease-settle size-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+      />
+      <Button
+        as="span"
+        variant="outline"
+        size="icon-lg"
+        class="absolute bottom-3 left-3"
+        aria-hidden="true"
+      >
+        <Play />
+      </Button>
+    </a>
+  </div>
+  <figcaption class="text-ui font-medium text-balance">{title}</figcaption>
+</figure>
+
+<script>
+  for (const link of document.querySelectorAll<HTMLAnchorElement>(
+    "[data-video-id]"
+  )) {
+    link.addEventListener("click", (event) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey)
+        return
+      event.preventDefault()
+      const player = document.createElement("iframe")
+      player.src = `https://www.youtube-nocookie.com/embed/${link.dataset.videoId}?autoplay=1&playsinline=1`
+      player.title = link.dataset.videoTitle ?? ""
+      player.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      player.allowFullscreen = true
+      player.className = "absolute inset-0 size-full"
+      link.replaceWith(player)
+      player.focus()
+    })
+  }
+</script>

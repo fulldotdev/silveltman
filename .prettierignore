@@ -1,31 +1,12 @@
-# folders
-.astro/
-.netlify/
-dist/
-.stackbit/
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Lock files
 pnpm-lock.yaml
-package-lock.json
-yarn.lock
-bun.lockb
 
-# misc
-**/.DS_Store
+# Fulldev UI copies, kept as the registry installs them. React components
+# from the shadcn registry are formatted by `pnpm ui:add`.
+src/components/ui/**/*.astro
+src/components/ui/**/*.ts
+src/components/ui/**/*.css
+src/components/blocks/**/*.astro
+src/components/blocks/**/*.ts
 
-# Generated output and CMS-written content
-_site/
-public/r/
+# Content written by editors and the CMS
 src/content/
-src/globals/
-_data/
-_posts/
-public/uploads/
-assets/img/uploads/

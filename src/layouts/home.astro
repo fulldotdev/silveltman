@@ -1,0 +1,88 @@
+---
+import { Image } from "astro:assets"
+
+import type { GlobalSchema } from "@/schemas/global"
+import type { HomeSchema } from "@/schemas/layouts/home"
+import Base from "@/layouts/base.astro"
+import { Button } from "@/components/ui/button"
+import {
+  Section,
+  SectionContainer,
+  SectionDescription,
+  SectionTitle,
+} from "@/components/ui/section"
+import { TypographyH1, TypographyLead } from "@/components/ui/typography"
+import VideoTile from "@/components/video-tile.astro"
+
+type Props = {
+  global: GlobalSchema
+  page: HomeSchema
+}
+
+const { global, page } = Astro.props
+const { hero, videos } = page
+---
+
+<Base global={global} page={page}>
+  <Section class="pt-16! pb-0! sm:pt-24!">
+    <SectionContainer class="flex flex-col items-center text-center">
+      <TypographyH1 size="lg" class="max-w-(--fd-measure)">
+        {hero.title}
+      </TypographyH1>
+      <TypographyLead class="mt-6 max-w-(--fd-measure-narrow)">
+        {hero.description}
+      </TypographyLead>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        {hero.buttons.map((button, index) => (
+          <Button
+            as="a"
+            href={button.href}
+            size="lg"
+            variant={index === 0 ? "default" : "outline"}
+          >
+            {button.label}
+          </Button>
+        ))}
+      </div>
+      <div class="panel bg-muted mt-16 aspect-4/5 w-full max-w-80 sm:mt-20">
+        <Image
+          src={hero.image.src}
+          alt={hero.image.alt}
+          widths={[320, 480, 640]}
+          sizes="20rem"
+          loading="eager"
+          fetchpriority="high"
+          class="size-full object-cover"
+        />
+      </div>
+    </SectionContainer>
+  </Section>
+
+  <Section id={videos.id}>
+    <SectionContainer class="flex flex-col">
+      <div class="section-head">
+        <SectionTitle>{videos.title}</SectionTitle>
+        <SectionDescription>{videos.description}</SectionDescription>
+      </div>
+      {/* A centred last row, so fourteen Shorts still sit evenly. */}
+      <ul class="mt-16 flex flex-wrap justify-center gap-x-5 gap-y-8">
+        {videos.items.map((video) => (
+          <li class="w-[calc((100%-1.25rem)/2)] sm:w-[calc((100%-2.5rem)/3)] lg:w-[calc((100%-3.75rem)/4)]">
+            <VideoTile {...video} />
+          </li>
+        ))}
+      </ul>
+      <Button
+        as="a"
+        href={videos.button.href}
+        target="_blank"
+        rel="noreferrer"
+        size="lg"
+        variant="outline"
+        class="mt-12 self-center"
+      >
+        {videos.button.label}
+      </Button>
+    </SectionContainer>
+  </Section>
+</Base>
