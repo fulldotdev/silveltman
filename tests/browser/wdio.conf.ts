@@ -18,7 +18,22 @@ const runDir = fileURLToPath(
 
 // Without WEBDRIVER_URL, WebdriverIO starts a local driver for Chrome,
 // Firefox or Safari. Devices and remote grids always need an endpoint.
-const endpoint = env.WEBDRIVER_URL ? new URL(env.WEBDRIVER_URL) : undefined
+let endpoint: URL | undefined
+if (env.WEBDRIVER_URL) {
+  try {
+    endpoint = new URL(env.WEBDRIVER_URL)
+    if (
+      !/^https?:$/.test(endpoint.protocol) ||
+      endpoint.username ||
+      endpoint.password
+    )
+      throw new Error()
+  } catch {
+    throw new Error(
+      "WEBDRIVER_URL must be an http(s) endpoint without credentials."
+    )
+  }
+}
 if (mobile && !endpoint)
   throw new Error(`BROWSER_TARGET=${target} needs WEBDRIVER_URL (Appium).`)
 
@@ -79,8 +94,6 @@ export const config: WebdriverIO.Config = {
     hostname: endpoint.hostname,
     port: Number(endpoint.port) || (endpoint.protocol === "https:" ? 443 : 80),
     path: endpoint.pathname,
-    user: decodeURIComponent(endpoint.username) || undefined,
-    key: decodeURIComponent(endpoint.password) || undefined,
   }),
   baseUrl: env.BASE_URL,
   outputDir: runDir,
