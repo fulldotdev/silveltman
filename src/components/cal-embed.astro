@@ -1,38 +1,59 @@
 ---
 // The Cal.com booking page of `url`, inline through Cal.com's official
-// embed.js, as on full.dev's contact page. The embed grows with the
-// booking, so the page scrolls instead of the frame. The direct link shows
-// until the calendar is in, so it stays when JavaScript or Cal.com's script
-// does not run.
+// embed.js, once per page. The embed grows with the booking, so the page
+// scrolls instead of the frame. The direct link shows when JavaScript or
+// Cal.com does not load.
 //
-// No scrollbars inside the frame:
-// - Cal.com's layout needs 1040px once its frame is 1024px wide or more,
-//   so a frame of 1024 to 1039px scrolls sideways. At most 896px, as on
-//   full.dev, keeps the frame below that range.
-// - Cal.com shows the frame at 300px high before it measures the booking,
-//   which scrolls for a moment. The frame stays transparent until Cal.com
-//   reports linkReady, after its first measurement (see reveal below), and
-//   the space the booking takes at 896px is kept free meanwhile.
+// Cal.com builds the booking in steps: a spinner, a skeleton of two columns,
+// then the calendar with the times beside it, which slides into place for
+// about 350ms and overflows the frame meanwhile. So:
+// - a spinner holds the space the booking takes, and the embed stays
+//   transparent, inert and out of the layout until Cal.com reports
+//   bookerReady and has settled;
+// - the frame never scrolls (scrolling="no"): Cal.com sizes it to the
+//   booking, so an overflow while it moves only clips for a moment;
+// - at most 896px wide, as on full.dev: Cal.com's layout needs 1040px once
+//   its frame is 1024px wide or more.
+// The space: up to a 768px frame, the viewport less 40px of padding, Cal.com
+// stacks the booking, about 85vw + 50rem high with a day of times, and less
+// as the day's times pass. That is held only while it loads, so no space is
+// left over below the fold. Wider, it is one row of 534 to 571px, held
+// throughout so the footer in view stays put.
+// The attribute is not data-cal-link: embed.js opens a popup for any click
+// inside an element with that attribute.
+import { Spinner } from "@/components/ui/spinner"
+
 type Props = {
   url: string
   linkLabel: string
+  loadingLabel: string
   class?: string
 }
 
-const { url, linkLabel, class: className } = Astro.props
+const { url, linkLabel, loadingLabel, class: className } = Astro.props
 const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
 ---
 
 <div
-  data-cal-link={calLink}
+  data-cal-embed={calLink}
   class:list={[
-    "w-full max-w-4xl min-h-96 lg:min-h-134 text-center has-[iframe]:[&>a]:hidden [&_iframe]:transition-opacity [&:not([data-ready])_iframe]:opacity-0",
+    "group relative w-full max-w-4xl text-center",
+    "data-[state=loading]:min-h-[calc(85vw+50rem)]",
+    "min-[809px]:data-[state=loading]:min-h-143 min-[809px]:data-[state=ready]:min-h-143",
+    "[&>cal-inline]:transition-opacity [&:not([data-state=ready])>cal-inline]:opacity-0",
+    "[&:not([data-state=ready])_iframe]:absolute [&:not([data-state=ready])_iframe]:top-0",
     className,
   ]}
 >
-  <a href={url} class="underline underline-offset-4">
+  <a
+    href={url}
+    class="underline underline-offset-4 group-data-[state=loading]:hidden group-data-[state=ready]:hidden"
+  >
     {linkLabel}
   </a>
+  <div class="absolute inset-x-0 top-0 hidden h-96 items-center justify-center min-[809px]:h-143 group-data-[state=loading]:flex">
+    <Spinner class="text-muted-foreground size-6" aria-label={loadingLabel} />
+  </div>
 </div>
 
 <script is:inline>
@@ -66,22 +87,39 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
       }
   })(window, "https://app.cal.com/embed/embed.js", "init")
 
+  const box = document.querySelector("[data-cal-embed]")
+  const setState = (state) => {
+    box.dataset.state = state
+    box.querySelector("iframe")?.toggleAttribute("inert", state !== "ready")
+  }
+  setState("loading")
+
   Cal("init", { origin: "https://app.cal.com" })
-  for (const element of document.querySelectorAll("[data-cal-link]")) {
-    Cal("inline", {
-      elementOrSelector: element,
-      calLink: element.dataset.calLink,
-      config: { layout: "month_view" },
-    })
-  }
+  document
+    .querySelector('script[src="https://app.cal.com/embed/embed.js"]')
+    .addEventListener("error", () => setState("failed"))
+  new MutationObserver((_, observer) => {
+    const iframe = box.querySelector("iframe")
+    if (!iframe) return
+    iframe.setAttribute("scrolling", "no")
+    iframe.toggleAttribute("inert", box.dataset.state !== "ready")
+    observer.disconnect()
+  }).observe(box, { childList: true, subtree: true })
+  Cal("inline", {
+    elementOrSelector: box,
+    calLink: box.dataset.calEmbed,
+    config: { layout: "month_view" },
+  })
   Cal("ui", { theme: "light", layout: "month_view" })
-  // Show the frame once Cal.com has measured it, or has shown its own error
-  // page; after 8 seconds in any case, so it never stays hidden.
-  const reveal = () => {
-    for (const element of document.querySelectorAll("[data-cal-link]"))
-      element.setAttribute("data-ready", "")
-  }
-  Cal("on", { action: "linkReady", callback: reveal })
-  Cal("on", { action: "linkFailed", callback: reveal })
-  setTimeout(reveal, 8000)
+
+  // Show the booking once it has settled. When Cal.com fails, or the booking
+  // is not there after 10 seconds, the link shows until it is.
+  Cal("on", {
+    action: "bookerReady",
+    callback: () => setTimeout(() => setState("ready"), 500),
+  })
+  Cal("on", { action: "linkFailed", callback: () => setState("failed") })
+  setTimeout(() => {
+    if (box.dataset.state === "loading") setState("failed")
+  }, 10000)
 </script>

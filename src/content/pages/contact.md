@@ -19,4 +19,5 @@ options:
 booking:
   url: https://cal.com/silveltman/meeting
   linkLabel: Open de agenda op cal.com
+  loadingLabel: Agenda laden
 ---
