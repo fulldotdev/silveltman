@@ -37,6 +37,18 @@ if (env.WEBDRIVER_URL) {
 if (mobile && !endpoint)
   throw new Error(`BROWSER_TARGET=${target} needs WEBDRIVER_URL (Appium).`)
 
+let extra: Record<string, unknown> = {}
+if (env.WEBDRIVER_CAPABILITIES) {
+  try {
+    const parsed = JSON.parse(env.WEBDRIVER_CAPABILITIES)
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+      throw new Error()
+    extra = parsed
+  } catch {
+    throw new Error("WEBDRIVER_CAPABILITIES must be a JSON object.")
+  }
+}
+
 const headless = env.BROWSER_HEADED !== "1"
 const device = {
   ...(env.DEVICE_NAME && { "appium:deviceName": env.DEVICE_NAME }),
@@ -86,7 +98,7 @@ export const config: WebdriverIO.Config = {
       ...capabilities,
       "wdio:enforceWebDriverClassic": true,
       // Extra capabilities as JSON, such as Appium ports or a grid's options.
-      ...JSON.parse(env.WEBDRIVER_CAPABILITIES || "{}"),
+      ...extra,
     },
   ],
   ...(endpoint && {
