@@ -89,8 +89,12 @@ const android = site.extend({
     const flags = "/data/local/tmp/chrome-command-line"
     const readFlags = async () =>
       (await device.shell(`cat ${flags} 2>/dev/null`)).toString()
+    let failed = false
     try {
-      if (await readFlags())
+      if (
+        (await device.shell(`if [ -e ${flags} ]; then printf exists; fi`))
+          .length
+      )
         fail(
           `${serial} has ${flags} from another run or setup; remove it once nothing uses it.`
         )
@@ -127,8 +131,12 @@ const android = site.extend({
         throw error
       }
       await context.close()
+    } catch (error) {
+      failed = true
+      throw error
     } finally {
-      await device.close()
+      if (failed) await device.close().catch(() => {})
+      else await device.close()
     }
   },
 })
