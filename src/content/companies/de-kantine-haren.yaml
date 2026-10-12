@@ -1,0 +1,10 @@
+name: "De Kantine Haren"
+kind: client
+order: 110
+url: "https://dekantineharen.nl/"
+project: "https://full.dev/projecten/de-kantine-haren/"
+scope: "Een ontmoetingsplek in Haren met horeca, activiteiten en online bestellen."
+work: "Voor De Kantine Haren werken we aan de website, het online bestellen van broodjes en de inschrijving en betaling voor activiteiten."
+tags:
+  - "Website"
+tint: "#eee9e1"

@@ -1,0 +1,10 @@
+name: "Elders Fit"
+kind: client
+order: 290
+url: "https://eldersfit.nl/"
+project: "https://full.dev/projecten/elders-fit/"
+scope: "Beweeglessen en valpreventie voor senioren."
+work: "Voor Elders Fit werken we aan de website met beweegprogramma’s, leslocaties en aanvragen voor een kennismaking."
+tags:
+  - "Website"
+tint: "#edf0df"

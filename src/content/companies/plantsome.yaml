@@ -1,0 +1,16 @@
+name: "Plantsome"
+kind: client
+order: 50
+url: "https://portal.plantsome.com/"
+project: "https://full.dev/projecten/plantsome/"
+scope: "Een van de bekendste online plantenwinkels van Nederland en Canada."
+work: "Voor Plantsome bouwen we aan een B2B-bestelplatform voor winkels, kwekers en het beheerteam. De technische ontwikkeling en ingebruikname worden in stappen uitgevoerd."
+tags:
+  - "B2B-platform"
+  - "Bestellingen"
+  - "Portalen"
+logo:
+  src: ../../assets/brands/plantsome.png
+  height: 25
+screenshot: ../../assets/projects/plantsome.webp
+tint: "#e4ecdc"

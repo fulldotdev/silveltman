@@ -1,0 +1,96 @@
+name: Sil Veltman
+description: Developer en oprichter van Fulldev in Groningen. Ik bouw websites, webshops en webapps, voor bedrijven en agencies.
+languageName: Nederlands
+labels:
+  skipToContent: Naar de inhoud
+  navigation: Hoofdnavigatie
+  menu:
+    label: Menu openen
+    title: Menu
+    description: Navigatie van de site.
+    closeLabel: Menu sluiten
+logo:
+  label: Sil Veltman
+  href: /
+  src: ../../assets/sil-veltman-portret.webp
+person:
+  name: Sil Veltman
+  role: Developer en oprichter van Fulldev
+  avatar: ../../assets/sil-veltman-portret.webp
+  sameAs:
+    - https://www.linkedin.com/in/silveltman/
+    - https://github.com/silveltman
+    - https://www.youtube.com/@silveltm
+    - https://www.instagram.com/silveltman/
+    - https://x.com/silveltm
+    - https://full.dev/over-ons/
+contact:
+  email: sil@full.dev
+  phone: "+31 6 83485163"
+  phoneHref: tel:+31683485163
+  whatsapp: https://wa.me/31683485163
+  meeting: https://full.dev/meeting/
+  city: Groningen
+header:
+  navigation:
+    - label: Home
+      href: /
+    - label: Over mij
+      href: /over-mij/
+    - label: Werk
+      href: /werk/
+    - label: Posts
+      href: /posts/
+  buttons:
+    - label: Contact opnemen
+      href: /contact/
+closing:
+  title: Zullen we even praten?
+  description: Over je website, webshop of webapp, of over bouwen met AI. Plan een gesprek van 30 minuten, of mail of app me.
+  buttons:
+    - label: Plan een gesprek
+      href: https://full.dev/meeting/
+      icon: calendar
+    - label: Mail mij
+      href: mailto:sil@full.dev
+      icon: mail
+    - label: WhatsApp
+      href: https://wa.me/31683485163
+      icon: message-circle
+footer:
+  description: Developer en oprichter van Fulldev in Groningen. Ik bouw websites, webshops en webapps, voor bedrijven en agencies.
+  columns:
+    - title: Pagina's
+      links:
+        - label: Over mij
+          href: /over-mij/
+        - label: Werk
+          href: /werk/
+        - label: Posts
+          href: /posts/
+        - label: Contact
+          href: /contact/
+    - title: Fulldev
+      links:
+        - label: full.dev
+          href: https://full.dev
+        - label: Fulldev-apps
+          href: https://full.dev/apps/
+        - label: Fulldev UI
+          href: https://ui.full.dev
+  contactTitle: Contact
+  socials:
+    - label: LinkedIn
+      href: https://www.linkedin.com/in/silveltman/
+    - label: GitHub
+      href: https://github.com/silveltman
+    - label: YouTube
+      href: https://www.youtube.com/@silveltm
+    - label: Instagram
+      href: https://www.instagram.com/silveltman/
+    - label: X
+      href: https://x.com/silveltm
+  legal:
+    - label: Privacyverklaring
+      href: /privacyverklaring/
+  copyright: Sil Veltman

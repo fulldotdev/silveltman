@@ -1,28 +1,24 @@
 import { defineCollection } from "astro:content"
 import { glob } from "astro/loaders"
 
-import { block, layout, page } from "@/lib/schemas"
+import { companySchema } from "@/schemas/company"
+import { globalSchema } from "@/schemas/global"
+import { pageSchema } from "@/schemas/page"
 
 export const collections = {
-  layouts: defineCollection({
-    loader: glob({
-      pattern: "**/[^_]*.{yaml,yml,json}",
-      base: "src/content/layouts",
-    }),
-    schema: layout,
-  }),
+  // src/content/pages/<path>.md renders at /<path>/ and index.md at the root.
   pages: defineCollection({
-    loader: glob({
-      pattern: "**/[^_]*.{md,mdx}",
-      base: "src/content/pages",
-    }),
-    schema: page,
+    loader: glob({ pattern: "**/*.md", base: "src/content/pages" }),
+    schema: pageSchema,
   }),
-  blocks: defineCollection({
-    loader: glob({
-      pattern: "**/[^_]*.{yaml,yml,json}",
-      base: "src/content/blocks",
-    }),
-    schema: block,
+  // One file per locale, such as nl.yaml.
+  globals: defineCollection({
+    loader: glob({ pattern: "*.yaml", base: "src/content/globals" }),
+    schema: globalSchema,
+  }),
+  // One file per company Sil worked for, shown on /werk/ and the homepage.
+  companies: defineCollection({
+    loader: glob({ pattern: "*.yaml", base: "src/content/companies" }),
+    schema: companySchema,
   }),
 }

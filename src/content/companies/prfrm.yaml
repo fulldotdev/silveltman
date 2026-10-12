@@ -1,0 +1,10 @@
+name: "PRFRM"
+kind: client
+order: 240
+url: "https://prfrm.nl/"
+project: "https://full.dev/projecten/prfrm/"
+scope: "Hybrid coaching voor sporters die training combineren met een druk bestaan."
+work: "Voor PRFRM werken we aan de website met coachingprogramma’s, informatie over de aanpak en een online kennismaking."
+tags:
+  - "Website"
+tint: "#eaeaea"

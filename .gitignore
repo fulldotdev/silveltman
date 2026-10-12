@@ -1,36 +1,17 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
-node_modules
-.pnp
-.pnp.js
+node_modules/
 
-# astro
-.astro/
+# build output
 dist/
+.astro/
 .netlify/
 
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-
-# ide
-.idea
-.fleet
-.vscode
-
-# Environment variables
+# local files: screenshots, notes and environment variables
+.dev/
 .env
 .env.*
 !.env.example
 
-
-# local notes and screenshots
-.dev/
+# misc
+.DS_Store
+*.log

@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from "astro:content"
+
+import type { GlobalSchema } from "@/schemas/global"
+import type { ArticlesSchema } from "@/schemas/layouts/articles"
+import { formatDate, getArticles, getPageHref } from "@/lib/content"
+import Base from "@/layouts/base.astro"
+import { Section, SectionContainer } from "@/components/ui/section"
+import { TypographyH1, TypographyLead } from "@/components/ui/typography"
+import PostCard from "@/components/post-card.astro"
+
+type Props = {
+  global: GlobalSchema
+  page: ArticlesSchema
+  entry: CollectionEntry<"pages">
+}
+
+const { global, page, entry } = Astro.props
+const locale = Astro.currentLocale
+
+const articles = await getArticles(entry.id)
+---
+
+<Base global={global} page={page}>
+  <Section class="pt-16! sm:pt-24!">
+    <SectionContainer class="flex flex-col">
+      <header class="section-head">
+        <TypographyH1>{page.title}</TypographyH1>
+        <TypographyLead>{page.lead}</TypographyLead>
+      </header>
+      <ul class="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {articles.map((article) => (
+          <li>
+            <PostCard
+              href={getPageHref(article)}
+              title={article.data.title}
+              description={article.data.description}
+              date={formatDate(article.data.date, locale)}
+              category={article.data.category}
+              headingLevel="h2"
+            />
+          </li>
+        ))}
+      </ul>
+    </SectionContainer>
+  </Section>
+</Base>

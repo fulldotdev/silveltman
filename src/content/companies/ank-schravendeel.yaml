@@ -1,0 +1,10 @@
+name: "Ank Schravendeel"
+kind: client
+order: 300
+url: "https://ankschravendeel.nl/"
+project: "https://full.dev/projecten/ank-schravendeel/"
+scope: "Meditatie, coaching en retraites met Ank Schravendeel."
+work: "Voor Ank Schravendeel werken we aan de website met de agenda, retraites, lezingen en nieuwsbrieven."
+tags:
+  - "Website"
+tint: "#eee8de"

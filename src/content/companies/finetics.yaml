@@ -1,0 +1,10 @@
+name: "Finetics"
+kind: client
+order: 180
+url: "https://finetics.nl/"
+project: "https://full.dev/projecten/finetics/"
+scope: "Voedingscoaching en begeleiding bij een gezondere leefstijl."
+work: "We breidden de Finetics-website uit van een onepager naar zelfstandige pagina’s voor het aanbod, de doelgroep, het team en resultaten."
+tags:
+  - "Website"
+tint: "#edf0e5"

@@ -1,25 +1,25 @@
 <script>
-  const hostname = window.location.hostname.replace(/^www\./, "")
-  const siteHostname = new URL(import.meta.env.SITE).hostname.replace(
-    /^www\./,
-    ""
+  // The key of the shared full.dev PostHog project (EU cloud). It is public by design.
+  // Leave it empty to turn analytics off.
+  const key: string = "phc_txCmZNAK3YueTeNyvtXmnh9JvK2LdbF3hK3kvxRcEJou"
+
+  // Only on the production domain from `site` in astro.config.ts, after the
+  // page has loaded. PostHog also drops events from headless browsers: check
+  // events in real Chrome on production, intercepting /ingest so nothing
+  // reaches the data.
+  if (
+    key &&
+    window.location.hostname === new URL(import.meta.env.SITE).hostname
   )
-
-  if (hostname === siteHostname) {
-    const startAnalytics = () => {
-      void import("../lib/analytics").then(({ startAnalytics }) =>
-        startAnalytics()
-      )
-    }
-    const scheduleAnalytics = () => {
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(startAnalytics, { timeout: 1000 })
-      } else {
-        setTimeout(startAnalytics, 0)
-      }
-    }
-
-    if (document.readyState === "complete") scheduleAnalytics()
-    else window.addEventListener("load", scheduleAnalytics, { once: true })
-  }
+    window.addEventListener("load", async () => {
+      const { default: posthog } = await import("posthog-js")
+      posthog.init(key, {
+        // Netlify forwards /ingest to PostHog (netlify.toml).
+        api_host: "/ingest",
+        ui_host: "https://eu.posthog.com",
+        defaults: "2026-08-30",
+        cookieless_mode: "always",
+        capture_exceptions: true,
+      })
+    })
 </script>

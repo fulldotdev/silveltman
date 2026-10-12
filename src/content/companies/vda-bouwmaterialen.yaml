@@ -1,0 +1,16 @@
+name: "VDA Bouwmaterialen"
+kind: client
+order: 80
+url: "https://vdabouwmaterialen.nl/"
+project: "https://full.dev/projecten/vda-bouwmaterialen/"
+scope: "Een bouwmaterialenplatform met productdata, vertaling en image automation."
+work: "Voor VDA Bouwmaterialen ontwikkelden we de Astro-website verder met beheersbare productinformatie, automatische afbeeldingsnamen en meertalige content."
+tags:
+  - "Astro"
+  - "Contentbeheer"
+  - "Meertalig"
+logo:
+  src: ../../assets/brands/vda-bouwmaterialen.svg
+  height: 26
+screenshot: ../../assets/projects/vda-bouwmaterialen.webp
+tint: "#ece7df"

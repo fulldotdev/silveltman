@@ -1,0 +1,10 @@
+name: "AMB Detailing"
+kind: client
+order: 130
+url: "https://ambdetailing.nl/"
+project: "https://full.dev/projecten/amb-detailing/"
+scope: "Auto detailing, coatings en transport vanuit Bolsward."
+work: "We bouwden de website van AMB Detailing opnieuw op en breidden deze uit met dienstenpagina’s, veelgestelde vragen en een blog."
+tags:
+  - "Website"
+tint: "#f1ece0"

@@ -1,0 +1,81 @@
+---
+// The one camera for every 3D block composition: straight on, from above,
+// the floor tilted away by `--tilt` only (no turn, no diagonal). The floor is
+// a plane of `width` by `height` pixels, centred in the scene. Blocks are laid
+// out on the floor with normal flow (`floor` takes Tailwind layout classes) or
+// absolutely positioned. The scene takes its size from `class`; `--scale`,
+// `--ox` and `--oy` move and scale the floor for a tight fit.
+//
+// A scene holds the first frame of its motion until it scrolls into view,
+// and pauses again while it is off screen (`data-wait`, see the script
+// below and src/styles/globals.css). `wait={false}` opts out: the hero row, which is
+// in view at load, and scenes inside a larger composition that waits as a
+// whole, such as the bridge on the homepage.
+interface Props {
+  width: number
+  height: number
+  floor?: string
+  wait?: boolean
+  class?: string
+  style?: Record<string, string | number>
+}
+const {
+  width,
+  height,
+  floor,
+  wait = true,
+  class: className,
+  style = {},
+  ...rest
+} = Astro.props
+---
+
+<div
+  {...rest}
+  class:list={["block-scene", className]}
+  style={{ "--w": `${width}px`, "--h": `${height}px`, ...style }}
+  data-wait={wait ? "" : undefined}
+  aria-hidden="true"
+>
+  <div class:list={["block-floor", floor]}>
+    <slot />
+  </div>
+</div>
+
+<style>
+  .block-scene {
+    --tilt: 46deg;
+    position: relative;
+    perspective: 1400px;
+    perspective-origin: 50% 30%;
+  }
+  .block-floor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--w);
+    height: var(--h);
+    transform: translate(-50%, -50%) translate(var(--ox, 0px), var(--oy, 0px))
+      scale(var(--scale, 1)) rotateX(var(--tilt));
+    transform-style: preserve-3d;
+  }
+</style>
+
+<script>
+  // One observer for every composition that waits for the reader
+  // ([data-wait]). `data-inview` is set once 35% of it shows and removed
+  // when it has left the screen; src/styles/globals.css pauses its animations
+  // without it.
+  const share = 0.35
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const { target, isIntersecting, intersectionRatio } of entries) {
+        if (intersectionRatio >= share) target.setAttribute("data-inview", "")
+        else if (!isIntersecting) target.removeAttribute("data-inview")
+      }
+    },
+    { threshold: [0, share] }
+  )
+  for (const item of document.querySelectorAll("[data-wait]"))
+    observer.observe(item)
+</script>

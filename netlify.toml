@@ -7,3 +7,59 @@ NODE_VERSION = "24"
 PNPM_FLAGS = "--frozen-lockfile --ignore-scripts --ignore-pnpmfile"
 pnpm_config_ignore_scripts = "true"
 pnpm_config_ignore_pnpmfile = "true"
+
+# PostHog, through this domain so blockers of analytics domains don't drop it.
+# The asset rules come first; see posthog.com/docs/advanced/proxy/netlify.
+[[redirects]]
+from = "/ingest/static/*"
+to = "https://eu-assets.i.posthog.com/static/:splat"
+host = "eu-assets.i.posthog.com"
+status = 200
+force = true
+
+[[redirects]]
+from = "/ingest/array/*"
+to = "https://eu-assets.i.posthog.com/array/:splat"
+host = "eu-assets.i.posthog.com"
+status = 200
+force = true
+
+[[redirects]]
+from = "/ingest/*"
+to = "https://eu.i.posthog.com/:splat"
+host = "eu.i.posthog.com"
+status = 200
+force = true
+
+# The previous site published its sitemap here.
+[[redirects]]
+from = "/sitemap-index.xml"
+to = "/sitemap.xml"
+status = 301
+
+# The 404 page is a content page, so editors can change it.
+[[redirects]]
+from = "/*"
+to = "/404/"
+status = 404
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+# The Fulldev CMS shows the site beside its assistant, so it may frame it.
+Content-Security-Policy = "frame-ancestors 'self' https://cms.full.dev https://app.full.dev"
+
+[[headers]]
+for = "/_astro/*"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/manifest.webmanifest"
+
+[headers.values]
+Content-Type = "application/manifest+json"

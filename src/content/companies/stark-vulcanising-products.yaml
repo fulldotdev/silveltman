@@ -1,0 +1,10 @@
+name: "STARK Vulcanising Products"
+kind: client
+order: 260
+url: "https://starkvulcanisingproducts.com/"
+project: "https://full.dev/projecten/stark-vulcanising-products/"
+scope: "Vulkanisatiepersen en producten voor transportbanden."
+work: "Voor STARK Vulcanising Products werken we aan de Engelstalige website met productinformatie, downloads en zakelijke aanvragen."
+tags:
+  - "Website"
+tint: "#eee6e5"

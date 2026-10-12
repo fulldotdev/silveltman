@@ -1,0 +1,255 @@
+---
+// The one 3D block: a stack of squircle layers in CSS 3D. The first layer is
+// the face, the layers behind it form the sides, and a soft shadow lies on the
+// floor under the block. The face is one flat tone and the sides run between
+// two tones of one colour, through the block tokens in src/styles/globals.css; the
+// `.dark` tokens give the dark faces and the orange lit block. No light, glow
+// or reflection.
+//
+// A block lives on the floor of a `BlockScene`. Two poses can be given as
+// custom properties: `--rest` is where it lies on the floor (a slide or turn
+// in the plane, the shadow moves along), `--pose` is how it hangs above the
+// floor (a lift or tilt, the shadow stays). Motions:
+//   drift  settles from `--from` onto the floor, then bobs and turns slowly
+//   wave   settles, then a slow bump runs through the group by `--i`
+//   float  hangs in the air at `--pose` and keeps drifting there
+//   land   drops onto the floor from `--drop`, rests, fades and drops again
+// Two hover poses go on the block through `class`, for a card that holds
+// the scene and carries `group`:
+//   turn   turns the block a quarter in the plane (the shadow turns along)
+//   part   slides it by `--dx` and `--dy`, pulling a layout apart
+// Reduced motion keeps both poses off.
+interface Props {
+  size?: number
+  width?: number
+  height?: number
+  depth?: number
+  step?: number
+  tone?: "white" | "lit" | "open"
+  motion?: "drift" | "wave" | "float" | "land"
+  class?: string
+  style?: Record<string, string | number>
+}
+const {
+  size = 42,
+  width = size,
+  height = size,
+  depth = 16,
+  step = 2,
+  tone = "white",
+  motion,
+  class: className,
+  style = {},
+  ...rest
+} = Astro.props
+const layers = tone === "open" ? 1 : Math.max(2, Math.round(depth / step))
+---
+
+<div
+  {...rest}
+  class:list={[
+    "b3d",
+    tone !== "white" && `b3d-${tone}`,
+    motion && `b3d-${motion}`,
+    className,
+  ]}
+  style={{
+    "--bw": `${width}px`,
+    "--bh": `${height}px`,
+    "--d": `${tone === "open" ? 0 : depth}px`,
+    "--step": `${step}px`,
+    ...style,
+  }}
+>
+  {tone !== "open" && <span class="b3d-shadow" />}
+  <div class="b3d-body">
+    {Array.from({ length: layers }, (_, layer) => (
+      <i style={{ "--l": layer }} />
+    ))}
+  </div>
+</div>
+
+<style>
+  .b3d {
+    position: relative;
+    flex: none;
+    width: var(--bw);
+    height: var(--bh);
+    transform: var(--rest, none);
+    transform-style: preserve-3d;
+    --r: calc(min(var(--bw), var(--bh)) * var(--fd-block-ratio));
+    --face: var(--fd-block-fill);
+    --side: var(--fd-block-side);
+    --line: var(--fd-block-line);
+    --blur: 5px;
+  }
+  .b3d-lit {
+    --face: var(--primary);
+    --side: var(--fd-block-side-lit);
+    --line: transparent;
+  }
+  .b3d-shadow {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--r);
+    background: var(--fd-block-shadow);
+    filter: blur(var(--blur));
+    transform: translate3d(var(--sx, 0px), var(--sy, 0px), 0.5px)
+      scale(var(--ss, 1));
+  }
+  .b3d-body {
+    position: absolute;
+    inset: 0;
+    transform: var(--pose, none);
+    transform-style: preserve-3d;
+  }
+  .b3d-body > i {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--r);
+    background: var(--side);
+    transform: translateZ(calc(var(--d) - var(--l) * var(--step)));
+  }
+  .b3d-body > i:first-child {
+    background: var(--face);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+  }
+  /* The open block is the outline of a missing one, drawn on the floor. */
+  .b3d-open .b3d-body > i:first-child {
+    background: transparent;
+    box-shadow: none;
+    outline: 2px dashed var(--primary);
+    outline-offset: -2px;
+    transform: translateZ(1px);
+  }
+
+  /* Settling uses transform; the ongoing motion uses the separate translate
+     and rotate properties, so the two never fight. */
+  .b3d-drift .b3d-body {
+    animation:
+      b3d-settle 1.6s var(--ease-settle) backwards,
+      b3d-drift calc(2.6s + var(--i, 0) * 0.35s) ease-in-out 1.6s infinite
+        alternate;
+  }
+  .b3d-drift .b3d-shadow {
+    animation: b3d-shadow-in 1.6s ease-out backwards;
+  }
+  .b3d-wave .b3d-body {
+    animation:
+      b3d-settle 1.6s var(--ease-settle) backwards,
+      b3d-wave var(--wave, 4.8s) ease-in-out calc(1.6s + var(--i, 0) * 0.12s)
+        infinite;
+  }
+  .b3d-float .b3d-body {
+    animation: b3d-float calc(4.2s + var(--i, 0) * 0.4s) ease-in-out
+      calc(var(--i, 0) * -1.3s) infinite;
+  }
+  .b3d-float .b3d-shadow {
+    --blur: 9px;
+    opacity: 0.4;
+  }
+  /* The body drops; the layers fade. Opacity on the body itself would
+     flatten its 3D layers. */
+  .b3d-land .b3d-body {
+    animation: b3d-land var(--land, 5s) ease-in-out var(--delay, 0s) infinite;
+  }
+  .b3d-land .b3d-body > i,
+  .b3d-land .b3d-shadow {
+    animation: b3d-land-fade var(--land, 5s) linear var(--delay, 0s) infinite;
+  }
+
+  .turn {
+    transition: rotate var(--fd-duration-settle) var(--ease-settle);
+  }
+  :global(.group:hover) .turn {
+    rotate: z 90deg;
+  }
+  .part {
+    transition: translate var(--fd-duration-settle) var(--ease-settle);
+  }
+  :global(.group:hover) .part {
+    translate: var(--dx) var(--dy);
+  }
+  /* Reduced motion only shortens transitions (src/styles/globals.css), so the poses
+     themselves are turned off there. */
+  @media (prefers-reduced-motion: reduce) {
+    :global(.group:hover) :is(.turn, .part) {
+      rotate: none;
+      translate: none;
+    }
+  }
+
+  @keyframes b3d-settle {
+    from {
+      transform: var(--from, var(--pose, none));
+    }
+    to {
+      transform: var(--pose, none);
+    }
+  }
+  @keyframes b3d-shadow-in {
+    from {
+      opacity: 0.2;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes b3d-drift {
+    from {
+      translate: 0 0 0;
+      rotate: z 0deg;
+    }
+    to {
+      translate: 0 0 calc(4px + var(--i, 0) * 1px);
+      rotate: z calc((var(--i, 0) - 2) * 4deg);
+    }
+  }
+  @keyframes b3d-wave {
+    0%,
+    30%,
+    100% {
+      translate: 0 0 0;
+    }
+    12% {
+      translate: 0 0 7px;
+    }
+  }
+  @keyframes b3d-float {
+    0%,
+    100% {
+      translate: 0 0 0;
+      rotate: z 0deg;
+    }
+    50% {
+      translate: 3px -4px 10px;
+      rotate: z 12deg;
+    }
+  }
+  @keyframes b3d-land {
+    0% {
+      translate: 0 0 var(--drop, 28px);
+      animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+    }
+    32%,
+    92% {
+      translate: 0 0 0;
+    }
+    100% {
+      translate: 0 0 var(--drop, 28px);
+    }
+  }
+  @keyframes b3d-land-fade {
+    0% {
+      opacity: 0;
+    }
+    12%,
+    84% {
+      opacity: 1;
+    }
+    92%,
+    100% {
+      opacity: 0;
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+name: "Sterk Haren"
+kind: client
+order: 200
+url: "https://sterkharen.nl/"
+project: "https://full.dev/projecten/sterk-haren/"
+scope: "Boksen en mindfulness voor kinderen en jongeren in Haren."
+work: "Voor Sterk Haren werken we aan de website met groepslessen, persoonlijke training en informatie voor ouders en scholen."
+tags:
+  - "Website"
+tint: "#e6ecf4"

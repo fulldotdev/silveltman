@@ -1,0 +1,17 @@
+name: "Skantrae"
+kind: client
+order: 70
+url: "https://www.skantrae.com/"
+project: "https://full.dev/projecten/skantrae/"
+via: Small Giants
+scope: "Een gevestigde deurenfabrikant die in vrijwel elk interieurproject opduikt."
+work: "Via Small Giants werken we aan de Next.js-website en het Sanity-contentbeheer van Skantrae. Ook maakten we de paginaflow rond de bestaande kastconfigurator."
+tags:
+  - "Next.js"
+  - "Sanity"
+  - "Paginaopbouw"
+logo:
+  src: ../../assets/brands/skantrae.svg
+  height: 22
+screenshot: ../../assets/projects/skantrae.webp
+tint: "#ece8e1"

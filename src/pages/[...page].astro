@@ -1,78 +1,30 @@
 ---
-// This page is used for dynamic page building.
-// It is still experimental and not yet documented or included within fulldev/ui.
-import { Font } from "astro:assets"
-import { getCollection, getEntry, render } from "astro:content"
-import config from "fulldev:config"
+// Keep this route generic. A new page type needs a schema in
+// src/schemas/layouts, an entry in src/schemas/page.ts and a layout in
+// src/layouts with the same name, not a branch here.
+import { getCollection, render } from "astro:content"
 
-import { Button } from "@/components/ui/button"
-import { Icon } from "@/components/ui/icon"
-import ModeToggleProvider from "@/components/ui/mode-toggle/mode-toggle-provider.astro"
-import Block from "@/components/block.astro"
-import Layout from "@/components/layout.astro"
+import { getGlobal } from "@/lib/content"
 
 export async function getStaticPaths() {
   const pages = await getCollection("pages")
-  return pages.map((page) => {
-    return {
-      params: {
-        page: page.id === "index" ? undefined : page.id,
-      },
-      props: page,
-    }
-  })
+  return pages.map((page) => ({
+    params: { page: page.id === "index" ? undefined : page.id },
+    props: { page },
+  }))
 }
 
-const { layout, ...page } = Astro.props.data
-const { Content } = await render(Astro.props)
+const { page } = Astro.props
+const { Content, headings } = await render(page)
+const global = await getGlobal(Astro.currentLocale)
 
-const indexLayout = await getEntry("layouts", "index")
-const pageLayout = layout ? await getEntry("layouts", layout) : undefined
-const mergedLayout = { ...indexLayout?.data, ...pageLayout?.data }
+const layouts = import.meta.glob<{ default: any }>("../layouts/*.astro", {
+  eager: true,
+})
+const Layout = layouts[`../layouts/${page.data.type}.astro`]?.default
+if (!Layout) throw new Error(`Add src/layouts/${page.data.type}.astro`)
 ---
 
-<Layout
-  {...config}
-  {...mergedLayout}
-  {...page}
-  {...mergedLayout.seo}
-  {...page.seo}
->
-  <Fragment slot="head">
-    <ModeToggleProvider />
-    <Font cssVariable="--font-base" preload />
-    <Font cssVariable="--font-heading" preload />
-    <Fragment set:html={mergedLayout.head} />
-  </Fragment>
-  <Block block={mergedLayout.header} />
-  <Block block={mergedLayout.banner} />
-  <main class="@container flex flex-col">
-    <Block block={page}>
-      <Content />
-    </Block>
-    {page.sections?.map((section) => <Block block={section} />)}
-    {pageLayout?.data.sections?.map((section) => <Block block={section} />)}
-    {indexLayout?.data.sections?.map((section) => <Block block={section} />)}
-  </main>
-  <Button
-    class="absolute right-4 bottom-4"
-    size="icon-lg"
-    target="_blank"
-    {...mergedLayout.bubble}
-  >
-    <Icon {...mergedLayout.bubble} />
-  </Button>
-  <Block block={mergedLayout.footer} />
-  <style>
-    /* Needed for astro:fonts */
-    body {
-      font-family: var(--font-base);
-
-      h1,
-      h2 {
-        font-family: var(--font-heading);
-      }
-    }
-  </style>
-  <Fragment set:html={mergedLayout.body} />
+<Layout global={global} page={page.data} entry={page} headings={headings}>
+  <Content />
 </Layout>

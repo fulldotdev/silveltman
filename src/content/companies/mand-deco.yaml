@@ -1,0 +1,10 @@
+name: "Mand & Deco"
+kind: client
+order: 230
+url: "https://www.mandendeco.nl/"
+project: "https://full.dev/projecten/mand-deco/"
+scope: "Een Shopify-webshop voor manden, verpakkingen en groothandelsbestellingen."
+work: "We hielpen Mand & Deco overstappen naar Shopify en bouwden de groothandelsfunctionaliteit verder uit met verpakkingsaantallen en staffelkorting."
+tags:
+  - "Shopify"
+tint: "#eee8df"

@@ -1,0 +1,37 @@
+---
+import type { HTMLAttributes } from "astro/types"
+
+import "@/styles/global.css"
+
+import { cn } from "@/lib/utils"
+
+type Props = HTMLAttributes<"html">
+
+const { class: className, lang, ...props } = Astro.props
+---
+
+<html
+  class={cn(
+    "bg-background text-foreground has-data-[variant=inset]:bg-sidebar overscroll-none scroll-smooth",
+    className
+  )}
+  data-slot="layout"
+  lang={lang || Astro.currentLocale || "en"}
+  {...props}
+>
+  <slot />
+</html>
+
+<style is:global>
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  @view-transition {
+    navigation: auto;
+  }
+</style>

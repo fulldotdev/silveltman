@@ -1,0 +1,106 @@
+---
+import { Image } from "astro:assets"
+
+import type { GlobalSchema } from "@/schemas/global"
+import type { AboutSchema } from "@/schemas/layouts/about"
+import Base from "@/layouts/base.astro"
+import { Card, CardDescription, CardTitle } from "@/components/ui/card"
+import {
+  Section,
+  SectionContainer,
+  SectionDescription,
+  SectionTitle,
+} from "@/components/ui/section"
+import {
+  Typography,
+  TypographyH1,
+  TypographyLead,
+} from "@/components/ui/typography"
+import BlockIcon from "@/components/block-icon.astro"
+
+type Props = {
+  global: GlobalSchema
+  page: AboutSchema
+}
+
+const { global, page } = Astro.props
+---
+
+<Base global={global} page={page}>
+  <Section class="pt-16! sm:pt-24!">
+    <SectionContainer class="grid gap-12 lg:grid-cols-[1.15fr_1fr] lg:items-start lg:gap-16">
+      <div>
+        <header>
+          <TypographyH1>{page.title}</TypographyH1>
+          <TypographyLead class="mt-6">{page.lead}</TypographyLead>
+        </header>
+        <Typography class="site-prose mt-10">
+          <slot />
+        </Typography>
+      </div>
+      <div class="panel bg-muted aspect-[4/5] lg:sticky lg:top-[calc(var(--fd-header-h)+2rem)]">
+        <Image
+          src={page.image.src}
+          alt={page.image.alt}
+          widths={[480, 720, 960]}
+          sizes="(min-width: 64rem) 36rem, 100vw"
+          loading="eager"
+          class="size-full object-cover"
+        />
+      </div>
+    </SectionContainer>
+  </Section>
+
+  <Section class="pt-0!">
+    <SectionContainer class="flex flex-col">
+      <div class="section-head">
+        <SectionTitle>{page.timeline.title}</SectionTitle>
+        <SectionDescription>{page.timeline.description}</SectionDescription>
+      </div>
+      <ol class="mx-auto mt-16 flex w-full max-w-(--fd-measure-wide) flex-col">
+        {page.timeline.items.map((item) => (
+          <li class="grid gap-2 border-t py-7 sm:grid-cols-[10rem_1fr] sm:gap-8">
+            <p class="text-muted-foreground text-ui pt-0.5">{item.period}</p>
+            <div class="flex flex-col gap-2">
+              <h3 class="text-title">
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    class="underline-offset-4 hover:underline"
+                  >
+                    {item.title}
+                  </a>
+                ) : (
+                  item.title
+                )}
+              </h3>
+              <p class="text-copy text-muted-foreground">{item.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </SectionContainer>
+  </Section>
+
+  <Section class="pt-0!">
+    <SectionContainer class="flex flex-col">
+      <div class="section-head">
+        <SectionTitle>{page.values.title}</SectionTitle>
+        <SectionDescription>{page.values.description}</SectionDescription>
+      </div>
+      <ul class="mt-16 grid gap-5 md:grid-cols-3">
+        {page.values.items.map((value, index) => (
+          <li>
+            <Card class="h-full gap-4 px-(--card-spacing)">
+              <BlockIcon lit={index} />
+              <CardTitle as="h3" class="mt-2">
+                {value.title}
+              </CardTitle>
+              <CardDescription>{value.description}</CardDescription>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </SectionContainer>
+  </Section>
+</Base>

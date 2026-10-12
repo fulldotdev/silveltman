@@ -1,0 +1,10 @@
+name: Elevantum
+kind: agency
+order: 30
+url: https://elevantum.nl/
+scope: Marketingbureau. Wij doen de techniek van hun websites.
+tags:
+  - Astro
+logo:
+  src: ../../assets/brands/elevantum.svg
+  height: 36

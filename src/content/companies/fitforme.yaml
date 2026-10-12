@@ -1,0 +1,17 @@
+name: "FitForMe"
+kind: client
+order: 30
+url: "https://fitforme.com/"
+project: "https://full.dev/projecten/fitforme/"
+via: Small Giants
+scope: "Een internationale health brand, vertrouwd door honderdduizenden klanten."
+work: "Via Small Giants werkten we aan een Shopify-proof-of-concept voor FitForMe, met productpagina’s en onderzoek naar de benodigde koppelingen."
+tags:
+  - "Shopify"
+  - "Proof of concept"
+  - "Productpagina’s"
+logo:
+  src: ../../assets/brands/fitforme.png
+  height: 26
+screenshot: ../../assets/projects/fitforme.webp
+tint: "#e6ebfa"

@@ -1,0 +1,25 @@
+---
+import type { GlobalSchema } from "@/schemas/global"
+import type { PageLayoutSchema } from "@/schemas/layouts/page"
+import Base from "@/layouts/base.astro"
+import { Section, SectionContainer } from "@/components/ui/section"
+import { Typography, TypographyH1 } from "@/components/ui/typography"
+
+type Props = {
+  global: GlobalSchema
+  page: PageLayoutSchema
+}
+
+const { global, page } = Astro.props
+---
+
+<Base global={global} page={page}>
+  <Section class="pt-16! sm:pt-24!">
+    <SectionContainer class="max-w-[calc(var(--fd-measure)+2*var(--gutter))]">
+      <TypographyH1>{page.title}</TypographyH1>
+      <Typography as="article" class="site-prose mt-8">
+        <slot />
+      </Typography>
+    </SectionContainer>
+  </Section>
+</Base>

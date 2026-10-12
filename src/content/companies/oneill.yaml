@@ -1,0 +1,17 @@
+name: "O'Neill"
+kind: client
+order: 20
+url: "https://nl.oneill.com/"
+project: "https://full.dev/projecten/oneill/"
+via: Small Giants
+scope: "Een iconisch surf- en lifestylemerk met wereldwijde herkenning."
+work: "Via Small Giants werkten we aan de Shopify-webshop van O’Neill, waaronder taalverwijzingen tussen shops en de technische overdracht."
+tags:
+  - "Shopify"
+  - "Hreflang"
+  - "Technische overdracht"
+logo:
+  src: ../../assets/brands/oneill.png
+  height: 30
+screenshot: ../../assets/projects/oneill.webp
+tint: "#e2eaf1"

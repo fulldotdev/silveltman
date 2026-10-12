@@ -1,0 +1,16 @@
+name: "PetSave"
+kind: client
+order: 100
+url: "https://registreren.petsave.nl/"
+project: "https://full.dev/projecten/petsave/"
+scope: "Een organisatie voor dierenregistratie en identificatie met microchips."
+work: "Voor PetSave ontwikkelden we het registratieformulier voor dieren, met online betaling en de mogelijkheid om een NFC-chip mee te bestellen."
+tags:
+  - "Registratie"
+  - "Betalingen"
+  - "NFC"
+logo:
+  src: ../../assets/brands/petsave.webp
+  height: 28
+screenshot: ../../assets/projects/petsave.webp
+tint: "#f3e7ea"
