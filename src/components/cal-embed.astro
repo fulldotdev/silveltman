@@ -14,7 +14,7 @@
 //   booking, so an overflow while it moves only clips for a moment;
 // - at most 896px wide, as on full.dev: Cal.com's layout needs 1040px once
 //   its frame is 1024px wide or more.
-// The space: below a 768px frame, the viewport less 40px of padding, Cal.com
+// The space: up to a 768px frame, the viewport less 40px of padding, Cal.com
 // stacks the booking, about 85vw + 50rem high with a day of times; wider, it
 // is one row of 534 to 571px.
 // The attribute is not data-cal-link: embed.js opens a popup for any click
@@ -37,7 +37,7 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
   class:list={[
     "group relative w-full max-w-4xl text-center",
     "data-[state=loading]:min-h-[calc(85vw+50rem)] data-[state=ready]:min-h-[calc(85vw+50rem)]",
-    "min-[808px]:data-[state=loading]:min-h-143 min-[808px]:data-[state=ready]:min-h-143",
+    "min-[809px]:data-[state=loading]:min-h-143 min-[809px]:data-[state=ready]:min-h-143",
     "[&>cal-inline]:transition-opacity [&:not([data-state=ready])>cal-inline]:opacity-0",
     "[&:not([data-state=ready])_iframe]:absolute [&:not([data-state=ready])_iframe]:top-0",
     className,
@@ -49,7 +49,7 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
   >
     {linkLabel}
   </a>
-  <div class="absolute inset-x-0 top-0 hidden h-96 items-center justify-center min-[808px]:h-143 group-data-[state=loading]:flex">
+  <div class="absolute inset-x-0 top-0 hidden h-96 items-center justify-center min-[809px]:h-143 group-data-[state=loading]:flex">
     <Spinner class="text-muted-foreground size-6" aria-label={loadingLabel} />
   </div>
 </div>
