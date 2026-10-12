@@ -5,6 +5,7 @@ Sil Veltman's personal one-page site, a static, content-driven Astro site built 
 ## Commands
 
 - `pnpm check` runs on every PR through the organization workflow. `pnpm build` also validates the HTML and internal links, and Netlify runs it, so a failure fails the deploy. Run `pnpm fix` before you commit.
+- `BASE_URL=<url> pnpm browser:test` runs the WebdriverIO browser smoke; see `tests/browser/README.md` for targets and devices. New browser tests use it; `pnpm a11y` keeps its Playwright scan.
 - `pnpm images` converts source photos in `src` to the standard below and updates their references. Run it after adding photos or pulling CMS uploads.
 
 ## Layout
