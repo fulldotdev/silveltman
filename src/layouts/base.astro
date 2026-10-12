@@ -24,9 +24,11 @@ import SiteHeader from "@/components/site-header.astro"
 type Props = {
   global: GlobalSchema
   page: BaseSchema
+  // Only the page itself, without the header and footer.
+  bare?: boolean
 }
 
-const { global, page } = Astro.props
+const { global, page, bare } = Astro.props
 const locale = Astro.currentLocale ?? defaultLocale
 
 const site = Astro.site?.href
@@ -131,31 +133,37 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     <Posthog />
   </LayoutHead>
   <LayoutBody>
-    <a
-      href="#main"
-      class="bg-background sr-only z-50 p-3 focus:not-sr-only focus:fixed"
-    >
-      {global.labels.skipToContent}
-    </a>
-    <SiteHeader logo={global.logo} button={global.header.button} />
+    {!bare && (
+      <>
+        <a
+          href="#main"
+          class="bg-background sr-only z-50 p-3 focus:not-sr-only focus:fixed"
+        >
+          {global.labels.skipToContent}
+        </a>
+        <SiteHeader logo={global.logo} button={global.header.button} />
+      </>
+    )}
     <LayoutMain id="main">
       <slot />
     </LayoutMain>
-    <div class="dark dark-tail">
-      <SiteFooter
-        cta={
-          Astro.url.pathname === global.footer.button.href
-            ? undefined
-            : {
-                title: global.footer.title,
-                description: global.footer.description,
-                button: global.footer.button,
-              }
-        }
-        socials={global.footer.socials}
-        legal={global.footer.legal}
-        copyright={`© ${new Date().getFullYear()} ${global.footer.copyright}`}
-      />
-    </div>
+    {!bare && (
+      <div class="dark dark-tail">
+        <SiteFooter
+          cta={
+            Astro.url.pathname === global.footer.button.href
+              ? undefined
+              : {
+                  title: global.footer.title,
+                  description: global.footer.description,
+                  button: global.footer.button,
+                }
+          }
+          socials={global.footer.socials}
+          legal={global.footer.legal}
+          copyright={`© ${new Date().getFullYear()} ${global.footer.copyright}`}
+        />
+      </div>
+    )}
   </LayoutBody>
 </Layout>
