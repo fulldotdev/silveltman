@@ -41,11 +41,7 @@ const { options, booking } = page
           </li>
         ))}
       </ul>
-      <CalEmbed
-        url={booking.url}
-        linkLabel={booking.linkLabel}
-        class="mt-14 w-full max-w-5xl"
-      />
+      <CalEmbed url={booking.url} linkLabel={booking.linkLabel} class="mt-14" />
     </SectionContainer>
   </Section>
 </Base>
