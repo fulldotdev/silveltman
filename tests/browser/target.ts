@@ -102,7 +102,27 @@ const android = site.extend({
       try {
         // Stops Chrome on the device, then starts it again with its existing
         // profile, so cookies and storage carry over between tests and runs.
-        context = await device.launchBrowser()
+        // launchBrowser has no timeout; fail before the fixture deadline so
+        // the catch below can remove this launch's flags while adb is open.
+        let timer: ReturnType<typeof setTimeout> | undefined
+        try {
+          context = await Promise.race([
+            device.launchBrowser(),
+            new Promise<never>((_, reject) => {
+              timer = setTimeout(
+                () =>
+                  reject(
+                    new Error(
+                      `Chrome on ${serial} did not connect within 20 seconds.`
+                    )
+                  ),
+                20_000
+              )
+            }),
+          ])
+        } finally {
+          clearTimeout(timer)
+        }
       } catch (error) {
         // Removes the flags this launch left, then reports its failure.
         const left = await readFlags().catch(() => "")
