@@ -4,6 +4,15 @@
 // booking, so the page scrolls instead of the frame. The direct link shows
 // until the calendar is in, so it stays when JavaScript or Cal.com's script
 // does not run.
+//
+// No scrollbars inside the frame:
+// - Cal.com's layout needs 1040px once its frame is 1024px wide or more,
+//   so a frame of 1024 to 1039px scrolls sideways. At most 896px, as on
+//   full.dev, keeps the frame below that range.
+// - Cal.com shows the frame at 300px high before it measures the booking,
+//   which scrolls for a moment. The frame stays transparent until Cal.com
+//   reports linkReady, after its first measurement (see reveal below), and
+//   the space the booking takes at 896px is kept free meanwhile.
 type Props = {
   url: string
   linkLabel: string
@@ -16,7 +25,10 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
 
 <div
   data-cal-link={calLink}
-  class:list={["min-h-96 text-center has-[iframe]:[&>a]:hidden", className]}
+  class:list={[
+    "w-full max-w-4xl min-h-96 lg:min-h-134 text-center has-[iframe]:[&>a]:hidden [&_iframe]:transition-opacity [&:not([data-ready])_iframe]:opacity-0",
+    className,
+  ]}
 >
   <a href={url} class="underline underline-offset-4">
     {linkLabel}
@@ -63,4 +75,13 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
     })
   }
   Cal("ui", { theme: "light", layout: "month_view" })
+  // Show the frame once Cal.com has measured it, or has shown its own error
+  // page; after 8 seconds in any case, so it never stays hidden.
+  const reveal = () => {
+    for (const element of document.querySelectorAll("[data-cal-link]"))
+      element.setAttribute("data-ready", "")
+  }
+  Cal("on", { action: "linkReady", callback: reveal })
+  Cal("on", { action: "linkFailed", callback: reveal })
+  setTimeout(reveal, 8000)
 </script>
