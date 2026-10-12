@@ -9,7 +9,7 @@ pnpm dev      # local server
 pnpm check    # format, types, ESLint, knip, photos, translations
 pnpm build    # build, HTML validation and link check
 pnpm a11y     # build and scan every page with axe
-BASE_URL=<url> pnpm browser:test  # WebdriverIO smoke, see tests/browser/README.md
+BASE_URL=<url> pnpm browser:test  # Playwright smoke, see tests/browser/README.md
 pnpm images   # convert new photos in src to the WebP standard
 pnpm ui:add @fulldev/<component>
 ```

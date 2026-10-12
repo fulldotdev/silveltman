@@ -2,18 +2,12 @@
   "$schema": "https://unpkg.com/knip@6/schema.json",
   // The page route loads layouts through import.meta.glob.
   "entry": ["src/layouts/*.astro"],
-  // The browser tests' config; it loads the specs and @wdio/local-runner.
-  "webdriver-io": {
-    "config": ["tests/browser/wdio.conf.ts"],
-    "entry": ["tests/browser/*.spec.ts"],
-  },
+  "playwright": { "config": ["tests/browser/playwright.config.ts"] },
   // Fulldev UI components export every part; an unused component still fails.
   "ignoreIssues": { "src/components/ui/**": ["exports", "types"] },
   "ignoreDependencies": [
     // Read from node_modules by the Icon component.
     "lucide-static",
     "simple-icons",
-    // WebdriverIO loads it for the config's runner: "local".
-    "@wdio/local-runner",
   ],
 }
