@@ -115,9 +115,20 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
   Cal("ui", { theme: "light", layout: "month_view" })
 
   // Cal.com shows its frame at linkReady. When Cal.com fails, or the frame is
-  // not there after 10 seconds, the link shows instead until it is.
-  Cal("on", { action: "linkReady", callback: () => setState("ready") })
-  Cal("on", { action: "linkFailed", callback: () => setState("failed") })
+  // not there after 10 seconds, the link shows instead. Only a slow frame
+  // still takes over: Cal.com keeps a failed one hidden.
+  let calFailed = false
+  Cal("on", {
+    action: "linkReady",
+    callback: () => calFailed || setState("ready"),
+  })
+  Cal("on", {
+    action: "linkFailed",
+    callback: () => {
+      calFailed = true
+      setState("failed")
+    },
+  })
   setTimeout(() => {
     if (box.dataset.state === "loading") setState("failed")
   }, 10000)
