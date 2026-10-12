@@ -31,10 +31,20 @@ host = "eu.i.posthog.com"
 status = 200
 force = true
 
-# The previous site published its sitemap here.
+# Addresses of the previous site.
 [[redirects]]
 from = "/sitemap-index.xml"
 to = "/sitemap.xml"
+status = 301
+
+[[redirects]]
+from = "/sitemap-0.xml"
+to = "/sitemap.xml"
+status = 301
+
+[[redirects]]
+from = "/contact.html"
+to = "/contact/"
 status = 301
 
 # The 404 page is a content page, so editors can change it.

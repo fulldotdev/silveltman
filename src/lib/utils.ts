@@ -6,7 +6,7 @@ import { createCn } from "cn/config"
 export const cn = createCn({
   extend: {
     theme: {
-      text: ["ui", "copy", "title", "closing"],
+      text: ["ui", "copy", "closing"],
       ease: ["settle"],
     },
   },

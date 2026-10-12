@@ -1,8 +1,9 @@
 ---
 // The Cal.com booking page of `url`, inline through Cal.com's official
 // embed.js, as on full.dev's contact page. The embed grows with the
-// booking, so the page scrolls instead of the frame. Without JavaScript a
-// direct link takes its place.
+// booking, so the page scrolls instead of the frame. The direct link shows
+// until the calendar is in, so it stays when JavaScript or Cal.com's script
+// does not run.
 type Props = {
   url: string
   linkLabel: string
@@ -13,12 +14,13 @@ const { url, linkLabel, class: className } = Astro.props
 const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
 ---
 
-<div data-cal-link={calLink} class:list={["min-h-96", className]}>
-  <noscript>
-    <a href={url} class="underline underline-offset-4">
-      {linkLabel}
-    </a>
-  </noscript>
+<div
+  data-cal-link={calLink}
+  class:list={["min-h-96 text-center has-[iframe]:[&>a]:hidden", className]}
+>
+  <a href={url} class="underline underline-offset-4">
+    {linkLabel}
+  </a>
 </div>
 
 <script is:inline>

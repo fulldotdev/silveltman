@@ -137,7 +137,14 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     >
       {global.labels.skipToContent}
     </a>
-    <SiteHeader logo={global.logo} button={global.header.button} />
+    <SiteHeader
+      logo={global.logo}
+      button={
+        Astro.url.pathname === global.header.button.href
+          ? undefined
+          : global.header.button
+      }
+    />
     <LayoutMain id="main">
       <slot />
     </LayoutMain>

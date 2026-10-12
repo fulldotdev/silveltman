@@ -1,6 +1,7 @@
 ---
-// The header of the one-pager: Sil's face and name, and one action. There
-// are no pages to navigate, so there is no menu.
+// The header of the one-pager: Sil's face and name, and one action (left
+// out on the page it links to). There are no pages to navigate, so there is
+// no menu.
 import type { ImageMetadata } from "astro"
 
 import { Button } from "@/components/ui/button"
@@ -9,7 +10,7 @@ import { Logo, LogoImage, LogoText } from "@/components/ui/logo"
 
 type Props = {
   logo: { label: string; href: string; src: ImageMetadata }
-  button: { label: string; href: string }
+  button?: { label: string; href: string }
 }
 
 const { logo, button } = Astro.props
@@ -21,8 +22,10 @@ const { logo, button } = Astro.props
       <LogoImage src={logo.src} alt="" />
       <LogoText>{logo.label}</LogoText>
     </Logo>
-    <Button as="a" href={button.href} size="sm">
-      {button.label}
-    </Button>
+    {button && (
+      <Button as="a" href={button.href} size="sm">
+        {button.label}
+      </Button>
+    )}
   </HeaderContainer>
 </Header>

@@ -2,10 +2,10 @@
 type: contact
 translationKey: contact
 title: Contact
-description: Neem contact op met Sil Veltman via mail, telefoon of WhatsApp, of plan direct een videogesprek van 30 minuten in zijn agenda.
+description: Neem contact op met Sil Veltman via mail, telefoon of WhatsApp, of plan direct een videogesprek in zijn agenda.
 seo:
   title: Contact | Sil Veltman
-lead: Mail, bel of app me, of plan direct een gesprek van 30 minuten.
+lead: Mail, bel of app me, of plan direct een gesprek.
 options:
   - label: sil@full.dev
     href: mailto:sil@full.dev
