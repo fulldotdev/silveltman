@@ -1,0 +1,28 @@
+---
+// The header of the one-pager: Sil's face and name, and one action. There
+// are no pages to navigate, so there is no menu.
+import type { ImageMetadata } from "astro"
+
+import { Button } from "@/components/ui/button"
+import { Header, HeaderContainer } from "@/components/ui/header"
+import { Logo, LogoImage, LogoText } from "@/components/ui/logo"
+
+type Props = {
+  logo: { label: string; href: string; src: ImageMetadata }
+  button: { label: string; href: string }
+}
+
+const { logo, button } = Astro.props
+---
+
+<Header class="sticky top-0 h-(--fd-header-h)">
+  <HeaderContainer class="items-center justify-between">
+    <Logo href={logo.href}>
+      <LogoImage src={logo.src} alt="" />
+      <LogoText>{logo.label}</LogoText>
+    </Logo>
+    <Button as="a" href={button.href} size="sm">
+      {button.label}
+    </Button>
+  </HeaderContainer>
+</Header>

@@ -1,6 +1,6 @@
 # Sil Veltman
 
-The personal website of Sil Veltman at [silveltman.nl](https://silveltman.nl), an Astro site on the Fulldev astro-template in the Fulldev brand. `DESIGN.md` holds the design rules and `AGENTS.md` the structure and workflow.
+The personal website of Sil Veltman at [silveltman.nl](https://silveltman.nl): a one-page Astro site on the Fulldev astro-template in the Fulldev brand. `DESIGN.md` holds the design rules and `AGENTS.md` the structure and workflow.
 
 ## Commands
 
@@ -15,8 +15,7 @@ pnpm ui:add @fulldev/<component>
 
 ## Content
 
-- Pages are Markdown in `src/content/pages`, with the page type in frontmatter `type`. Posts are in `src/content/pages/posts/`.
-- Companies are YAML in `src/content/companies`, one file per company.
-- Site name, navigation, the closing and the footer are in `src/content/globals/nl.yaml`.
+- The page is `src/content/pages/index.md`: the hero and the list of videos. Add a Short with its title, link and frame in `src/assets/videos`.
+- Name, contact details, the closing and the footer are in `src/content/globals/nl.yaml`.
 
 Netlify builds `main` to silveltman.nl and every PR to a Deploy Preview.

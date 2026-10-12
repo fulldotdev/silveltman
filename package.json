@@ -39,8 +39,6 @@
     "typescript-eslint": "^8.71.0"
   },
   "dependencies": {
-    "@data-slot/dialog": "^1.0.2",
-    "@data-slot/navigation-menu": "^1.0.2",
     "@lexingtonthemes/seo": "^0.4.0",
     "@lucide/astro": "^1.49.0",
     "@tailwindcss/vite": "^4.3.3",

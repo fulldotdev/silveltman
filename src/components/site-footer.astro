@@ -1,7 +1,7 @@
 ---
-// The footer at the bottom of the dark end, as on full.dev: the name with
-// the description and the social buttons, the page columns and the contact
-// details, then the copyright and the legal links.
+// The footer at the bottom of the dark end, after full.dev's: the name with
+// the description and the social buttons, the contact details, then the
+// copyright and the legal links.
 import { Button } from "@/components/ui/button"
 import { Icon } from "@/components/ui/icon"
 import { Section, SectionContainer } from "@/components/ui/section"
@@ -13,13 +13,12 @@ type Props = {
   href: string
   description: string
   socials: Link[]
-  columns: { title: string; links: Link[] }[]
   contact: { title: string; links: Link[] }
   legal: Link[]
   copyright: string
 }
 
-const { name, href, description, socials, columns, contact, legal, copyright } =
+const { name, href, description, socials, contact, legal, copyright } =
   Astro.props
 
 // Simple Icons and Lucide have no LinkedIn logo, so it is drawn here.
@@ -30,8 +29,8 @@ const linkedin =
 <footer class="site-footer">
   <Section class="pt-8! pb-10! lg:pt-12!">
     <SectionContainer class="flex flex-col gap-12">
-      <div class="grid grid-cols-2 gap-12 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
-        <div class="col-span-2 flex flex-col items-start gap-5 lg:col-span-1">
+      <div class="grid gap-12 lg:grid-cols-[2fr_1fr]">
+        <div class="flex flex-col items-start gap-5">
           <a href={href} class="text-title font-medium">
             {name}
           </a>
@@ -66,23 +65,21 @@ const linkedin =
             ))}
           </ul>
         </div>
-        {[...columns, contact].map((column) => (
-          <div class="flex flex-col gap-4">
-            <h2 class="text-ui font-medium">{column.title}</h2>
-            <ul class="flex flex-col gap-3">
-              {column.links.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    class="text-muted-foreground hover:text-foreground text-ui transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        <div class="flex flex-col gap-4">
+          <h2 class="text-ui font-medium">{contact.title}</h2>
+          <ul class="flex flex-col gap-3">
+            {contact.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-muted-foreground hover:text-foreground text-ui transition-colors"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div class="text-muted-foreground flex flex-col gap-3 border-t pt-8 text-sm sm:flex-row sm:justify-between">
         <p>{copyright}</p>

@@ -1,20 +1,10 @@
 ---
 import { Image } from "astro:assets"
-import ArrowRight from "@lucide/astro/icons/arrow-right"
-import Play from "@lucide/astro/icons/play"
 
 import type { GlobalSchema } from "@/schemas/global"
 import type { HomeSchema } from "@/schemas/layouts/home"
-import {
-  formatDate,
-  getArticles,
-  getCompanies,
-  getPageHref,
-} from "@/lib/content"
 import Base from "@/layouts/base.astro"
-import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import {
   Section,
   SectionContainer,
@@ -22,10 +12,7 @@ import {
   SectionTitle,
 } from "@/components/ui/section"
 import { TypographyH1, TypographyLead } from "@/components/ui/typography"
-import BlockIcon from "@/components/block-icon.astro"
-import CompanyCard from "@/components/company-card.astro"
-import PostCard from "@/components/post-card.astro"
-import ReviewCard from "@/components/review-card.astro"
+import VideoTile from "@/components/video-tile.astro"
 
 type Props = {
   global: GlobalSchema
@@ -33,269 +20,69 @@ type Props = {
 }
 
 const { global, page } = Astro.props
-const locale = Astro.currentLocale
-
-const companies = (await getCompanies("client"))
-  .filter((company) => company.data.screenshot)
-  .slice(0, 4)
-const posts = (await getArticles("posts")).slice(0, 3)
-const faces = page.reviews.items.filter((review) => review.image).slice(0, 5)
+const { hero, videos } = page
 ---
 
 <Base global={global} page={page}>
-  <Section class="pt-10! pb-0! sm:pt-16!">
-    <SectionContainer class="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
-      <div class="flex flex-col items-start">
-        <TypographyH1 size="lg">{page.hero.title}</TypographyH1>
-        <TypographyLead class="mt-6 max-w-(--fd-measure-narrow)">
-          {page.hero.description}
-        </TypographyLead>
-        <div class="mt-9 flex flex-wrap gap-3">
-          {page.hero.buttons.map((button, index) => (
-            <Button
-              as="a"
-              href={button.href}
-              size="lg"
-              variant={index === 0 ? "default" : "outline"}
-            >
-              {button.label}
-            </Button>
-          ))}
-        </div>
-        <div class="mt-10 flex items-center gap-4">
-          <div class="flex -space-x-2">
-            {faces.map((review) => (
-              <Avatar class="ring-background size-9 ring-2">
-                <AvatarImage src={review.image} alt="" />
-              </Avatar>
-            ))}
-          </div>
-          <p class="text-muted-foreground max-w-56 text-sm">
-            {page.hero.proof}
-          </p>
-        </div>
+  <Section class="pt-16! pb-0! sm:pt-24!">
+    <SectionContainer class="flex flex-col items-center text-center">
+      <TypographyH1 size="lg" class="max-w-(--fd-measure)">
+        {hero.title}
+      </TypographyH1>
+      <TypographyLead class="mt-6 max-w-(--fd-measure-narrow)">
+        {hero.description}
+      </TypographyLead>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        {hero.buttons.map((button, index) => (
+          <Button
+            as="a"
+            href={button.href}
+            size="lg"
+            variant={index === 0 ? "default" : "outline"}
+          >
+            {button.label}
+          </Button>
+        ))}
       </div>
-      <div class="panel bg-muted relative aspect-[4/5] lg:aspect-square">
+      <div class="panel bg-muted mt-16 aspect-4/5 w-full max-w-80 sm:mt-20">
         <Image
-          src={page.hero.image.src}
-          alt={page.hero.image.alt}
-          widths={[480, 720, 960]}
-          sizes="(min-width: 64rem) 36rem, 100vw"
+          src={hero.image.src}
+          alt={hero.image.alt}
+          widths={[320, 480, 640]}
+          sizes="20rem"
           loading="eager"
           fetchpriority="high"
           class="size-full object-cover"
         />
       </div>
     </SectionContainer>
-    <SectionContainer class="mt-16 flex flex-col items-center gap-8 sm:mt-24">
-      <h2 class="text-lg font-semibold tracking-tight">{page.brands.title}</h2>
-      <ul class="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
-        {page.brands.logos.map((logo) => (
-          <li>
-            <Image
-              src={logo.src}
-              alt={logo.name}
-              height={logo.height}
-              class="w-auto opacity-70 brightness-0"
-              style={{ height: `${logo.height}px` }}
-            />
-          </li>
-        ))}
-      </ul>
-    </SectionContainer>
   </Section>
 
-  <Section>
+  <Section id={videos.id}>
     <SectionContainer class="flex flex-col">
       <div class="section-head">
-        <SectionTitle>{page.roles.title}</SectionTitle>
-        <SectionDescription>{page.roles.description}</SectionDescription>
+        <SectionTitle>{videos.title}</SectionTitle>
+        <SectionDescription>{videos.description}</SectionDescription>
       </div>
-      <ul class="mt-16 grid gap-5 md:grid-cols-3">
-        {page.roles.items.map((role, index) => (
-          <li>
-            <Card
-              as="a"
-              href={role.href}
-              target={role.href.startsWith("http") ? "_blank" : undefined}
-              rel={role.href.startsWith("http") ? "noreferrer" : undefined}
-              class="group h-full gap-4 px-(--card-spacing)"
-            >
-              <BlockIcon lit={index} />
-              <CardTitle as="h3" class="mt-2">
-                {role.title}
-              </CardTitle>
-              <CardDescription>{role.description}</CardDescription>
-              <span class="text-ui mt-auto flex items-center justify-between gap-3 pt-2 font-medium">
-                {role.linkLabel}
-                <Button
-                  as="span"
-                  variant="outline"
-                  size="icon"
-                  aria-hidden="true"
-                >
-                  <ArrowRight />
-                </Button>
-              </span>
-            </Card>
-          </li>
-        ))}
-      </ul>
-    </SectionContainer>
-  </Section>
-
-  <Section class="pt-0!">
-    <SectionContainer class="flex flex-col">
-      <div class="section-head">
-        <SectionTitle>{page.companies.title}</SectionTitle>
-        <SectionDescription>{page.companies.description}</SectionDescription>
-      </div>
-      <ul class="mt-16 grid gap-5 md:grid-cols-2">
-        {companies.map((company) => (
-          <li class="flex">
-            <CompanyCard
-              company={company.data}
-              viaLabel="Via"
-              projectLabel={`Bekijk het project ${company.data.name} op full.dev`}
-            />
+      {/* A centred last row, so fourteen Shorts still sit evenly. */}
+      <ul class="mt-16 flex flex-wrap justify-center gap-x-5 gap-y-8">
+        {videos.items.map((video) => (
+          <li class="w-[calc((100%-1.25rem)/2)] sm:w-[calc((100%-2.5rem)/3)] lg:w-[calc((100%-3.75rem)/4)]">
+            <VideoTile {...video} />
           </li>
         ))}
       </ul>
       <Button
         as="a"
-        href={page.companies.button.href}
+        href={videos.button.href}
+        target="_blank"
+        rel="noreferrer"
         size="lg"
         variant="outline"
         class="mt-12 self-center"
       >
-        {page.companies.button.label}
+        {videos.button.label}
       </Button>
-    </SectionContainer>
-  </Section>
-
-  <Section class="pt-0!">
-    <SectionContainer>
-      <Card class="grid gap-10 p-8 sm:p-12 lg:grid-cols-[1fr_1.4fr] lg:items-center">
-        <div>
-          <SectionTitle>{page.figures.title}</SectionTitle>
-          <SectionDescription class="mt-5">
-            {page.figures.description}
-          </SectionDescription>
-        </div>
-        <dl class="grid gap-8 sm:grid-cols-3">
-          {page.figures.items.map((figure) => (
-            <div class="flex flex-col-reverse gap-1 border-t pt-5">
-              <dt class="text-muted-foreground">{figure.label}</dt>
-              <dd class="text-stat leading-tight font-semibold tracking-tight">
-                {figure.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </Card>
-    </SectionContainer>
-  </Section>
-
-  {posts.length > 0 && (
-    <Section class="pt-0!">
-      <SectionContainer class="flex flex-col">
-        <div class="section-head">
-          <SectionTitle>{page.posts.title}</SectionTitle>
-          <SectionDescription>{page.posts.description}</SectionDescription>
-        </div>
-        <ul class="mt-16 grid gap-5 md:grid-cols-3">
-          {posts.map((post) => (
-            <li>
-              <PostCard
-                href={getPageHref(post)}
-                title={post.data.title}
-                description={post.data.description}
-                date={formatDate(post.data.date, locale)}
-                category={post.data.category}
-              />
-            </li>
-          ))}
-        </ul>
-        <Button
-          as="a"
-          href={page.posts.button.href}
-          size="lg"
-          variant="outline"
-          class="mt-12 self-center"
-        >
-          {page.posts.button.label}
-        </Button>
-      </SectionContainer>
-    </Section>
-  )}
-
-  {page.videos && (
-    <Section class="pt-0!">
-      <SectionContainer class="flex flex-col">
-        <div class="section-head">
-          <SectionTitle>{page.videos.title}</SectionTitle>
-          <SectionDescription>{page.videos.description}</SectionDescription>
-        </div>
-        <ul class="mt-16 grid grid-cols-2 gap-5 md:grid-cols-3 lg:grid-cols-6">
-          {page.videos.items.map((video) => (
-            <li>
-              <a
-                href={video.href}
-                target="_blank"
-                rel="noreferrer"
-                class="group flex flex-col gap-3"
-              >
-                <span class="panel bg-muted relative block aspect-[9/16]">
-                  <Image
-                    src={video.thumbnail}
-                    alt=""
-                    widths={[240, 360, 480]}
-                    sizes="(min-width: 64rem) 13rem, (min-width: 48rem) 33vw, 50vw"
-                    class="ease-settle size-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                  />
-                  <Button
-                    as="span"
-                    variant="outline"
-                    size="icon-lg"
-                    class="absolute bottom-3 left-3"
-                    aria-hidden="true"
-                  >
-                    <Play />
-                  </Button>
-                </span>
-                <span class="text-ui font-medium text-balance">
-                  {video.title}
-                </span>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <Button
-          as="a"
-          href={page.videos.button.href}
-          target="_blank"
-          rel="noreferrer"
-          size="lg"
-          variant="outline"
-          class="mt-12 self-center"
-        >
-          {page.videos.button.label}
-        </Button>
-      </SectionContainer>
-    </Section>
-  )}
-
-  <Section class="pt-0!">
-    <SectionContainer class="flex flex-col">
-      <div class="section-head">
-        <SectionTitle>{page.reviews.title}</SectionTitle>
-        <SectionDescription>{page.reviews.description}</SectionDescription>
-      </div>
-      <div class="mt-16 gap-5 space-y-5 md:columns-2 lg:columns-3">
-        {page.reviews.items.map((review) => (
-          <ReviewCard {...review} />
-        ))}
-      </div>
     </SectionContainer>
   </Section>
 </Base>

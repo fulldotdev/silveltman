@@ -6,14 +6,11 @@ import type { GlobalSchema } from "@/schemas/global"
 import type { BaseSchema } from "@/schemas/layouts/base"
 import {
   defaultLocale,
-  getGlobal,
-  getLocaleHref,
   getMarkdownHref,
   getPageHref,
   getTranslations,
   locales,
 } from "@/lib/content"
-import Header1 from "@/components/blocks/header-1.astro"
 import {
   Layout,
   LayoutBody,
@@ -23,6 +20,7 @@ import {
 import Closing from "@/components/closing.astro"
 import Posthog from "@/components/posthog.astro"
 import SiteFooter from "@/components/site-footer.astro"
+import SiteHeader from "@/components/site-header.astro"
 
 type Props = {
   global: GlobalSchema
@@ -36,8 +34,7 @@ const site = Astro.site?.href
 const markdown = !page.seo?.noindex && getMarkdownHref(Astro.url.pathname)
 
 // The indexed translations of this page, including itself, by locale. They
-// get hreflang links, with the default locale as x-default, and the language
-// switch goes to them, or to the home of a language without one.
+// get hreflang links, with the default locale as x-default.
 const translations = new Map(
   page.seo?.noindex
     ? []
@@ -45,20 +42,10 @@ const translations = new Map(
         .filter(([, translation]) => !translation.data.seo?.noindex)
         .map(([language, translation]) => [language, getPageHref(translation)])
 )
-const languages = await Promise.all(
-  locales
-    .filter((other) => other !== locale)
-    .map(async (other) => ({
-      label: (await getGlobal(other)).languageName,
-      href: translations.get(other) ?? getLocaleHref(other),
-    }))
-)
 const alternates = translations.size > 1 ? [...translations] : []
 const defaultHref = alternates.length && translations.get(defaultLocale)
 if (defaultHref) alternates.push(["x-default", defaultHref])
 
-// The page or the section a page belongs to, such as /posts/ for a post.
-const section = `/${Astro.url.pathname.split("/")[1]}/`.replace("//", "/")
 const avatar = await getImage({ src: global.person.avatar, width: 512 })
 const jsonLd: WithContext<WebSite | Person>[] = [
   {
@@ -150,17 +137,7 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     >
       {global.labels.skipToContent}
     </a>
-    <Header1
-      class="sticky top-0 h-(--fd-header-h)"
-      logo={global.logo}
-      {...global.header}
-      navigation={[...global.header.navigation, ...languages].map((item) => ({
-        ...item,
-        active: item.href === section,
-      }))}
-      navigationLabel={global.labels.navigation}
-      menu={global.labels.menu}
-    />
+    <SiteHeader logo={global.logo} button={global.header.button} />
     <LayoutMain id="main">
       <slot />
     </LayoutMain>
@@ -171,7 +148,6 @@ const jsonLd: WithContext<WebSite | Person>[] = [
         href={global.logo.href}
         description={global.footer.description}
         socials={global.footer.socials}
-        columns={global.footer.columns}
         contact={{
           title: global.footer.contactTitle,
           links: [

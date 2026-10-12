@@ -1,6 +1,6 @@
 # Astro site
 
-Sil Veltman's personal site, a static, content-driven Astro site built on the Fulldev Astro template. `DESIGN.md` holds the design rules; follow it for any page, section, component or copy change.
+Sil Veltman's personal one-page site, a static, content-driven Astro site built on the Fulldev Astro template. `DESIGN.md` holds the design rules; follow it for any section, component or copy change.
 
 ## Commands
 
@@ -12,8 +12,6 @@ Sil Veltman's personal site, a static, content-driven Astro site built on the Fu
 - `src/content/pages/<path>.md` renders at `/<path>/`; `index.md` is the homepage and `<folder>/index.md` the folder's page.
 - Languages: the default locale (`nl`) lives at the root, other locales in `src/content/pages/<locale>/` under `/<locale>/`. Each language has its own pages with freely translated slugs. Pages with the same `translationKey` are translations of each other: when both are indexed, they get `hreflang` links and the language switch goes to them, otherwise to the home of that language.
 - `src/content/globals/<locale>.yaml`: site name, labels, contact details, header and footer per language.
-- Articles: a folder such as `posts/` has an `index.md` with `type: articles`, which lists the `type: article` pages in that folder.
-- `src/content/companies/<slug>.yaml`: one company Sil worked for, shown on `/werk/` and the homepage.
 - `src/schemas/page.ts` is the union of page types, chosen by frontmatter `type`; each type has a schema in `src/schemas/layouts/<type>.ts` and a layout in `src/layouts/<type>.astro`, which maps content to block props. `base.astro` is the shared shell.
 - `src/components/ui` and `src/components/blocks`: unchanged [Fulldev UI](https://ui.full.dev) copies. Other files in `src/components` are site components.
 
@@ -46,4 +44,4 @@ Sil Veltman's personal site, a static, content-driven Astro site built on the Fu
 - Logos and icons are SVG where possible. A logo or icon input that accepts raster files uses the same options with `width: 800` and `height: 800`, twice the largest size a logo is shown at.
 - Give each Netlify form a unique `name`.
 - Fonts: configure them in `astro.config.ts` with a `cssVariable` (`--font-sans`, `--font-heading` or `--font-mono`) and load each with `<Font>` in the head of `src/layouts/base.astro`. Fulldev UI loads no fonts itself.
-- Page-specific structured data goes in the layout, through the `head` slot of `base.astro`; see `src/layouts/article.astro`.
+- Page-specific structured data goes in the layout, through the `head` slot of `base.astro`.

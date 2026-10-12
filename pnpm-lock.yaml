@@ -169,12 +169,6 @@ importers:
 
   .:
     dependencies:
-      '@data-slot/dialog':
-        specifier: ^1.0.2
-        version: 1.0.2
-      '@data-slot/navigation-menu':
-        specifier: ^1.0.2
-        version: 1.0.2
       '@lexingtonthemes/seo':
         specifier: ^0.4.0
         version: 0.4.0(astro@7.3.5(@types/node@24.19.0)(jiti@2.7.0)(yaml@2.9.1))
@@ -659,15 +653,6 @@ packages:
   '@clack/prompts@1.8.1':
     resolution: {integrity: sha512-dlT1m5e/0yUL0kRNcQn7yGLVThkgbB0Ga/1AmfDDC/8ik6AIiSf2QLQO2zPYvefsHP0aFgxO93cVLCCfDp7kzQ==}
     engines: {node: '>= 20.12.0'}
-
-  '@data-slot/core@1.0.2':
-    resolution: {integrity: sha512-x48OCoPuPpZviCBi9tGJXRX05mB/XPb+//2MVlQU6x3kQQVexSZONNfyv791+4WJz+nxi7oxjryiLmTLCFNVEw==}
-
-  '@data-slot/dialog@1.0.2':
-    resolution: {integrity: sha512-Xke0TXqQHYlsW1SGcY/t/bX1Gr3doTq1+fHTngNJ16QThz7xr96VzAXZkTKGJo/bTe4NmO87qpILRSq4QiZfZA==}
-
-  '@data-slot/navigation-menu@1.0.2':
-    resolution: {integrity: sha512-duGcIWtwjFwurSZZsgUrrbIGgxUVext81cpOIIo2DIVuC/JhtcW5xD+AllPDqXvbyhhsv9fKcLx76WRF2koIIA==}
 
   '@dotenvx/dotenvx@1.75.1':
     resolution: {integrity: sha512-/BITOC9dmS/edY2zQwZNicQ059O6RKabtQfyEafV0nGtfYRNHYy1DIPiYVcov40+tob9hfmBnbR963dS+EQ1DQ==}
@@ -5117,16 +5102,6 @@ snapshots:
       fast-string-width: 3.0.2
       fast-wrap-ansi: 0.2.2
       sisteransi: 1.0.5
-
-  '@data-slot/core@1.0.2': {}
-
-  '@data-slot/dialog@1.0.2':
-    dependencies:
-      '@data-slot/core': 1.0.2
-
-  '@data-slot/navigation-menu@1.0.2':
-    dependencies:
-      '@data-slot/core': 1.0.2
 
   '@dotenvx/dotenvx@1.75.1':
     dependencies:

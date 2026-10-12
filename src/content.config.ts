@@ -1,7 +1,6 @@
 import { defineCollection } from "astro:content"
 import { glob } from "astro/loaders"
 
-import { companySchema } from "@/schemas/company"
 import { globalSchema } from "@/schemas/global"
 import { pageSchema } from "@/schemas/page"
 
@@ -15,10 +14,5 @@ export const collections = {
   globals: defineCollection({
     loader: glob({ pattern: "*.yaml", base: "src/content/globals" }),
     schema: globalSchema,
-  }),
-  // One file per company Sil worked for, shown on /werk/ and the homepage.
-  companies: defineCollection({
-    loader: glob({ pattern: "*.yaml", base: "src/content/companies" }),
-    schema: companySchema,
   }),
 }

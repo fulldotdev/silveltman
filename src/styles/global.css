@@ -56,13 +56,10 @@
 /* Site tokens for values that markup repeats. Also listed in the cn()
    merge config in src/lib/utils.ts. */
 @theme {
-  --text-label: 0.8125rem; /* 13px: small labels */
   --text-ui: 0.9375rem; /* 15px: buttons, links and interface copy */
   --text-copy: 1.0625rem; /* 17px: body copy, answers and quotes */
   --text-copy--line-height: 1.6;
-  /* 36 to 44px: key figures */
-  --text-stat: clamp(2.25rem, 1.2rem + 3.4vw, 2.75rem);
-  /* Card titles and the closing title, which the registry has no part for. */
+  /* The footer name and the closing title, which the registry has no part for. */
   --text-title: 1.375rem; /* 22px */
   --text-title--line-height: 1.3;
   --text-title--letter-spacing: var(--tracking-tight);
@@ -73,18 +70,8 @@
   --text-closing--font-weight: 500;
   /* Every title is semibold (the registry's `font-semibold`) at 550. */
   --font-weight-semibold: 550;
-  --color-soft-blue: #e5ecfa; /* panel behind illustrations, light only */
-  --color-browser-edge: #eeeeee; /* browser frame around screenshots */
-  --color-browser-dot: #e3e3e3;
-  /* Screens stay white on every tint. */
-  --color-screen: #ffffff;
-  /* The one menu shadow: the mobile menu. */
-  --shadow-sheet: var(--fd-brand-shadow-sheet);
-  /* The one settling curve: screenshots rising, blocks settling. */
+  /* The one settling curve: video frames on hover, blocks settling. */
   --ease-settle: cubic-bezier(0.2, 0.7, 0.2, 1);
-  /* Screenshots, in the warm brown of the block shadow. */
-  --shadow-desk:
-    0 0 0 1px rgb(40 32 20 / 0.06), 0 18px 40px rgb(40 32 20 / 0.12);
 }
 
 /* Light is the default: a warm stone page with white cards. Blue is the
@@ -108,9 +95,8 @@
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: #ffffff;
   --border: #e4e2dd;
-  /* Edges of registry fields. Site controls use --fd-control-edge. */
+  /* Edges of registry fields. Buttons use --fd-control-edge. */
   --input: #cdc9c0;
-  --fd-connector: #cdc9c0;
   --fd-field: var(--fd-brand-control-edge-light);
   --fd-field-hover: var(--fd-brand-control-edge-hover-light);
   /* Buttons: a white face with the field edge (3.4:1 on stone). The
@@ -166,7 +152,6 @@
   --destructive-foreground: #ffffff;
   --border: #221f1a;
   --input: rgb(255 255 255 / 20%);
-  --fd-connector: rgb(255 255 255 / 35%);
   /* The raised face of buttons and of the closing floor's blocks. */
   --fd-face-raised: var(--fd-brand-control-face-dark);
   --fd-control-face: var(--fd-face-raised);
@@ -202,13 +187,9 @@
   --gutter: 1.25rem;
   --section-padding: clamp(5.5rem, 9vw, 8rem);
   --fd-header-h: 4rem;
-  --fd-r-block: calc(42px * var(--fd-block-ratio));
   --fd-r-button: var(--fd-brand-r-control);
-  --fd-r-card: 15px;
   --fd-r-panel: 18px;
-  --fd-r-well: 0.875rem;
   --fd-r-avatar: 9px;
-  --fd-r-tag: var(--fd-brand-r-tag);
   --fd-block-ratio: calc(0.3 * 9 / 16);
   /* Text measures: leads beside art, reading text, centred section heads. */
   --fd-measure-narrow: 32.5rem;
@@ -220,7 +201,6 @@
 }
 @supports (corner-shape: squircle) {
   :root {
-    --fd-r-card: 26px;
     --fd-r-panel: 32px;
     --fd-block-ratio: 0.3;
   }
@@ -417,24 +397,14 @@
   }
 }
 
-/* Buttons: the registry Button with its own variants and sizes. Every
-   button takes the button radius, also the sheet's trigger and close
-   buttons, which are registry Buttons under another data-slot. */
-:is(
-  [data-slot="button"],
-  [data-slot="dialog-trigger"],
-  [data-slot="dialog-close"]
-) {
+/* Buttons: the registry Button with its own variants and sizes, with the
+   button radius. The default and outline variants are lifted faces (see
+   below). Their heights are 36, 40 and 44px (sm, default, lg) and 36 or
+   40px square (icon, icon-lg). */
+[data-slot="button"] {
   border-radius: var(--fd-r-button);
 }
-/* The default and outline variants are lifted faces (see below). Their
-   heights are 36, 40 and 44px (sm, default, lg) and 36 or 40px square
-   (icon, icon-lg). */
-:is(
-  [data-slot="button"],
-  [data-slot="dialog-trigger"],
-  [data-slot="dialog-close"]
-):is([data-variant="default"], [data-variant="outline"]) {
+[data-slot="button"]:is([data-variant="default"], [data-variant="outline"]) {
   border: 0;
   background: var(--fd-control-face);
   color: var(--foreground);
@@ -465,73 +435,15 @@
     height: 2.5rem;
   }
 }
-/* Ghost buttons stay flat without an edge and tint to muted on hover,
-   keyboard focus and the current page. */
-:is(
-  [data-slot="button"],
-  [data-slot="dialog-trigger"],
-  [data-slot="dialog-close"]
-)[data-variant="ghost"] {
-  border: 0;
-  transition-property: color, background-color;
-  transition-duration: var(--default-transition-duration);
-  transition-timing-function: var(--default-transition-timing-function);
-  &[data-size="default"] {
-    height: 2.25rem;
-    padding-inline: 0.75rem;
-    color: var(--foreground);
-    font-size: var(--text-ui);
-    line-height: inherit;
-  }
-  &:is([data-size="icon"], [data-size="icon-sm"]) {
-    width: 2.25rem;
-    height: 2.25rem;
-    color: var(--foreground);
-  }
-  &:active {
-    translate: none;
-  }
-  &:is(:hover, :focus-visible, [aria-current="page"], [aria-expanded="true"]) {
-    background: var(--muted);
-    color: var(--foreground);
-    box-shadow: none;
-  }
-}
 
-/* The header's page links look like ghost buttons. */
-[data-slot="navigation-menu-list"]
-  > [data-slot="navigation-menu-item"]
-  > [data-slot="navigation-menu-link"] {
-  height: 2.25rem;
-  padding-inline: 0.75rem;
-  border-radius: var(--fd-r-button);
-  color: var(--foreground);
-  font-size: var(--text-ui);
-  font-weight: 500;
-  line-height: inherit;
-  transition-property: color, background-color;
-  transition-duration: var(--default-transition-duration);
-  transition-timing-function: var(--default-transition-timing-function);
-  &:is(:hover, :focus-visible, [aria-current="page"], [data-active]) {
-    background: var(--muted);
-    color: var(--foreground);
-  }
-}
-
-/* Lifted faces: the default and outline buttons and link cards stand on
-   the floor shadow of a 3D block. They can be clicked, so their edge is
-   2px; static cards keep 1px. Hover lifts the face 1px and grows the
-   shadow, active presses it back. This is the one list of lifted faces: a
-   new control or card joins here and sets its colours with --k-edge and
-   --k-shade below. :where() keeps the list's specificity at zero, so those
-   colour rules win. */
+/* Lifted faces: the default and outline buttons stand on the floor shadow
+   of a 3D block. They can be clicked, so their edge is 2px. Hover lifts the
+   face 1px and grows the shadow, active presses it back. A Button drawn as
+   a span inside a link, such as the play button of a video, lifts with its
+   link. :where() keeps the specificity at zero, so the colour rules below
+   win. */
 :where(
-  :is(
-    [data-slot="button"],
-    [data-slot="dialog-trigger"],
-    [data-slot="dialog-close"]
-  ):is([data-variant="default"], [data-variant="outline"]),
-  a[data-slot="card"]
+  [data-slot="button"]:is([data-variant="default"], [data-variant="outline"])
 ) {
   --k-edge: var(--fd-control-edge);
   --k-shade: var(--fd-block-shadow);
@@ -565,80 +477,25 @@
 }
 
 /* Faces: an outline face has a 2px edge at 3:1 or better; the default
-   (primary) has none and a floor shadow tinted with the accent. The link
-   card arrow turns primary when its card is hovered or focused. */
-:is(
-    [data-slot="button"],
-    [data-slot="dialog-trigger"],
-    [data-slot="dialog-close"]
-  )[data-variant="outline"]:hover {
+   (primary) has none and a floor shadow tinted with the accent. A button
+   inside a link turns primary when the link is hovered or focused. */
+[data-slot="button"][data-variant="outline"]:hover {
   --k-edge: var(--fd-control-edge-hover);
 }
-:is([data-slot="button"], [data-slot="dialog-close"])[data-variant="default"],
+[data-slot="button"][data-variant="default"],
 a:is(:hover, :focus-visible) span[data-slot="button"][data-variant] {
   --k-edge: transparent;
   --k-shade: var(--fd-primary-shadow);
   background: var(--primary);
   color: var(--primary-foreground);
 }
-:is(
-    [data-slot="button"],
-    [data-slot="dialog-close"]
-  )[data-variant="default"]:is(:hover, :active) {
+[data-slot="button"][data-variant="default"]:is(:hover, :active) {
   background: var(--fd-primary-hover);
 }
 
-/* Cards: the registry Card with the card radius, a 1px border edge, 32px
-   spacing and the page's text size. A Card rendered as a link is a link
-   card: its border edge is 2px at rest, the control edge on hover, and it
-   lifts. */
-[data-slot="card"] {
-  border-radius: var(--fd-r-card);
-  font-size: inherit;
-  line-height: inherit;
-  &:not([data-size="sm"]) {
-    --card-spacing: 2rem;
-  }
-  &:not(a) {
-    box-shadow: inset 0 0 0 1px var(--border);
-  }
-}
-[data-slot="card-title"] {
-  font-size: var(--text-title);
-  line-height: var(--text-title--line-height);
-  letter-spacing: var(--text-title--letter-spacing);
-}
-[data-slot="card-description"] {
-  font-size: var(--text-copy);
-  line-height: var(--text-copy--line-height);
-}
-a[data-slot="card"] {
-  --k-edge: var(--border);
-}
-a[data-slot="card"]:hover {
-  --k-edge: var(--fd-control-edge);
-  --k-shade: var(--fd-block-shadow);
-}
-
-/* Badges: an outline Badge is a label with the tag radius on the page
-   colour. */
-[data-slot="badge"][data-variant="outline"] {
-  height: auto;
-  padding: 0.3rem 0.65rem;
-  border: 0;
-  border-radius: var(--fd-r-tag);
-  background: var(--background);
-  box-shadow: inset 0 0 0 1px var(--border);
-  color: var(--foreground);
-  font-size: var(--text-label);
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-/* Avatars: the avatar radius with squircle corners and no edge. A larger
-   avatar passes its role radius as --avatar-radius. */
+/* Avatars: the avatar radius with squircle corners and no edge. */
 [data-slot="avatar"] {
-  border-radius: var(--avatar-radius, var(--fd-r-avatar));
+  border-radius: var(--fd-r-avatar);
   corner-shape: squircle;
   &::after {
     content: none;
@@ -648,27 +505,15 @@ a[data-slot="card"]:hover {
     corner-shape: inherit;
   }
 }
-[data-slot="avatar-image"] {
-  background: var(--card);
-}
-[data-slot="avatar-fallback"] {
-  color: inherit;
-  font-weight: 500;
-}
 
-/* The header and the mobile menu surface: the page colour, and the one
-   menu shadow under the menu. */
+/* The header takes the page colour. The logo is Sil's face in the avatar
+   shape. */
 [data-slot="header"] {
   background: var(--background);
 }
-/* The logo is Sil's face in the avatar shape. */
 [data-slot="logo-image"] {
   width: 1.875rem;
   height: 1.875rem;
   border-radius: var(--fd-r-avatar);
   object-fit: cover;
-}
-[data-slot="dialog-content"][data-side] {
-  background: var(--background);
-  box-shadow: var(--shadow-sheet);
 }

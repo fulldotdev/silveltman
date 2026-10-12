@@ -13,13 +13,14 @@ import Block from "@/components/block-3d.astro"
 import BlockScene from "@/components/block-scene.astro"
 
 type Props = {
+  id: string
   title: string
   description: string
   buttons: { label: string; href: string; icon: string }[]
   person: { name: string; role: string; avatar: ImageMetadata }
 }
 
-const { title, description, buttons, person } = Astro.props
+const { id, title, description, buttons, person } = Astro.props
 
 const count = 21
 const size = 36
@@ -27,15 +28,15 @@ const pitch = 48
 const lit = Math.floor(count / 2)
 ---
 
-<Section class="closing" aria-labelledby="closing-title">
+<Section id={id} class="closing" aria-labelledby={`${id}-title`}>
   <SectionContainer class="flex flex-col items-center text-center">
     <h2
-      id="closing-title"
+      id={`${id}-title`}
       class="text-closing max-w-(--fd-measure) text-balance"
     >
       {title}
     </h2>
-    <p class="text-muted-foreground text-copy mt-5 max-w-(--fd-measure-narrow)">
+    <p class="text-muted-foreground text-copy mt-5 max-w-(--fd-measure-narrow) text-balance">
       {description}
     </p>
     <div class="mt-9 flex flex-wrap justify-center gap-3">
