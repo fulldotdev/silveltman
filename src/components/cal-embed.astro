@@ -110,6 +110,9 @@ const calLink = new URL(url).pathname.replace(/^\/|\/$/g, "")
     config: {
       layout: "month_view",
       "cal.embed.pageType": "user.event.booking.slots",
+      // The skeleton's theme. Without it, the skeleton follows the visitor's
+      // system and turns dark beside the light booking.
+      theme: "light",
     },
   })
   Cal("ui", { theme: "light", layout: "month_view" })
