@@ -83,15 +83,15 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     name={global.name}
     title={page.seo?.title ?? page.title}
     description={page.seo?.description ?? page.description}
-    image={
-      page.seo?.image ?? { src: global.person.avatar, alt: global.person.name }
-    }
+    image={page.seo?.image ?? global.image}
     canonical={page.seo?.canonical}
     noindex={page.seo?.noindex}
   >
     <Font cssVariable="--font-sans" preload />
     <Font cssVariable="--font-mono" />
     <link rel="sitemap" href="/sitemap.xml" />
+    <meta property="og:locale" content="nl_NL" />
+    <meta name="twitter:creator" content={global.person.x} />
     {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
     {alternates.map(([language, href]) => (
       <link rel="alternate" hreflang={language} href={new URL(href, site)} />

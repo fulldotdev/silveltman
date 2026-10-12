@@ -2,7 +2,7 @@
 type: home
 translationKey: home
 title: Sil Veltman
-description: Ik ben Sil Veltman, developer en oprichter van Fulldev in Groningen. Ik bouw websites, webshops en webapps, en ik maak video's over persoonlijke ontwikkeling.
+description: Ik ben Sil Veltman, developer en oprichter van Fulldev in Groningen. Ik bouw websites, webshops en webapps en maak video's over persoonlijke ontwikkeling.
 seo:
   title: Sil Veltman | Developer en oprichter van Fulldev
 hero:

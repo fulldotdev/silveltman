@@ -7,10 +7,14 @@ logo:
   label: Sil Veltman
   href: /
   src: ../../assets/sil-veltman-portret.webp
+image:
+  src: ../../assets/og-sil-veltman.png
+  alt: Sil Veltman, developer en oprichter van Fulldev
 person:
   name: Sil Veltman
   role: Developer en oprichter van Fulldev
   avatar: ../../assets/sil-veltman-portret.webp
+  x: "@silveltm"
   sameAs:
     - https://www.linkedin.com/in/silveltman/
     - https://github.com/silveltman

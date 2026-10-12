@@ -19,12 +19,15 @@ export const globalSchema = ({ image }: SchemaContext) =>
         href: z.string(),
         src: image(),
       }),
-      // The person the site is about: the Person in the structured data, and
-      // the image when a page has none of its own.
+      // The social image of every page without one of its own: 1200 by 630.
+      image: z.object({ src: image(), alt: z.string() }),
+      // The person the site is about, for the structured data.
       person: z.object({
         name: z.string(),
         role: z.string(),
         avatar: image(),
+        // The X handle, for twitter:creator.
+        x: z.string(),
         sameAs: z.string().array(),
       }),
       // For the structured data; the contact page has its own options.

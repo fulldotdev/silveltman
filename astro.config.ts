@@ -42,6 +42,9 @@ export default defineConfig({
     favicons({
       name: "Sil Veltman",
       short_name: "Sil Veltman",
+      // The brand's stone page and dark end, also behind the app icons.
+      themes: ["#f8f7f4", "#0c0b09"],
+      background: "#f8f7f4",
       // A website, not an app: open in the browser and keep only the
       // icons current browsers use.
       manifest: { display: "browser", display_override: [], start_url: "/" },

@@ -2,7 +2,9 @@
 type: page
 translationKey: privacy
 title: Privacyverklaring
-description: Hoe silveltman.nl omgaat met persoonsgegevens.
+description: "Welke gegevens silveltman.nl verwerkt: bezoek zonder cookies, video's via YouTube, de agenda van Cal.com en contact via mail, telefoon of WhatsApp."
+seo:
+  title: Privacyverklaring | Sil Veltman
 ---
 
 Deze website is van Sil Veltman, oprichter van Fulldev in Groningen. Hieronder staat welke gegevens deze website verwerkt en waarom.
