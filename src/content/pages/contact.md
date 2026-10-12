@@ -15,8 +15,6 @@ options:
     href: https://wa.me/31683485163
     icon: message-circle
 booking:
-  title: Plan een gesprek
-  description: 30 minuten via Google Meet. Kies hieronder een moment dat jou uitkomt.
   url: https://cal.com/silveltman/meeting
   linkLabel: Open de agenda op cal.com
 ---

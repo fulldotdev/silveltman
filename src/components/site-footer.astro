@@ -1,7 +1,8 @@
 ---
-// The footer at the end of every page: the dark end, centred. A title and
-// one line, the button to the contact page (left out on that page), the
-// social buttons, and the copyright with the legal links.
+// The footer at the end of every page: the dark end, centred. The call to
+// action (a title, one line and the button to the contact page), the
+// social buttons, and the copyright with the legal links. The contact page
+// leaves the call to action out.
 import { Button } from "@/components/ui/button"
 import { Icon } from "@/components/ui/icon"
 import { Section, SectionContainer } from "@/components/ui/section"
@@ -9,15 +10,13 @@ import { Section, SectionContainer } from "@/components/ui/section"
 type Link = { label: string; href: string }
 
 type Props = {
-  title: string
-  description: string
-  button?: Link
+  cta?: { title: string; description: string; button: Link }
   socials: Link[]
   legal: Link[]
   copyright: string
 }
 
-const { title, description, button, socials, legal, copyright } = Astro.props
+const { cta, socials, legal, copyright } = Astro.props
 
 // Simple Icons and Lucide have no LinkedIn logo, so it is drawn here.
 const linkedin =
@@ -25,18 +24,22 @@ const linkedin =
 ---
 
 <footer>
-  <Section class="pt-20! pb-10! sm:pt-28!">
+  <Section class:list={["pb-10!", cta ? "pt-20! sm:pt-28!" : "pt-12!"]}>
     <SectionContainer class="flex flex-col items-center text-center">
-      <h2 class="text-closing max-w-(--fd-measure) text-balance">{title}</h2>
-      <p class="text-muted-foreground text-copy mt-5 max-w-(--fd-measure-narrow) text-balance">
-        {description}
-      </p>
-      {button && (
-        <Button as="a" href={button.href} size="lg" class="mt-9">
-          {button.label}
-        </Button>
+      {cta && (
+        <>
+          <h2 class="text-closing max-w-(--fd-measure) text-balance">
+            {cta.title}
+          </h2>
+          <p class="text-muted-foreground text-copy mt-5 max-w-(--fd-measure-narrow) text-balance">
+            {cta.description}
+          </p>
+          <Button as="a" href={cta.button.href} size="lg" class="mt-9">
+            {cta.button.label}
+          </Button>
+        </>
       )}
-      <ul class="mt-14 flex flex-wrap justify-center gap-2">
+      <ul class:list={["flex flex-wrap justify-center gap-2", cta && "mt-14"]}>
         {socials.map((social) => (
           <li>
             <Button

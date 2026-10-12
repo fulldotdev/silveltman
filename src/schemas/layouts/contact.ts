@@ -12,10 +12,8 @@ export const contactSchema = (ctx: SchemaContext) =>
       lead: z.string(),
       options: linkSchema.extend({ icon: z.string() }).array(),
       booking: z.object({
-        title: z.string(),
-        description: z.string(),
         url: z.url(),
-        // The direct link under the calendar, for when it does not load.
+        // The direct link that shows when the calendar cannot load.
         linkLabel: z.string(),
       }),
     })

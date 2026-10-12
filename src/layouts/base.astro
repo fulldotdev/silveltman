@@ -143,12 +143,17 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     </LayoutMain>
     <div class="dark dark-tail">
       <SiteFooter
-        {...global.footer}
-        button={
+        cta={
           Astro.url.pathname === global.footer.button.href
             ? undefined
-            : global.footer.button
+            : {
+                title: global.footer.title,
+                description: global.footer.description,
+                button: global.footer.button,
+              }
         }
+        socials={global.footer.socials}
+        legal={global.footer.legal}
         copyright={`© ${new Date().getFullYear()} ${global.footer.copyright}`}
       />
     </div>
