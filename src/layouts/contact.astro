@@ -41,7 +41,18 @@ const { options, booking } = page
           </li>
         ))}
       </ul>
-      <CalEmbed url={booking.url} linkLabel={booking.linkLabel} class="mt-14" />
+      <CalEmbed
+        url={booking.url}
+        linkLabel={booking.linkLabel}
+        loadingLabel={booking.loadingLabel}
+        class="mt-14"
+      />
     </SectionContainer>
   </Section>
+  <link
+    slot="head"
+    rel="preload"
+    href="https://app.cal.com/embed/embed.js"
+    as="script"
+  />
 </Base>

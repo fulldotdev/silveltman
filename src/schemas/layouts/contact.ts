@@ -15,6 +15,8 @@ export const contactSchema = (ctx: SchemaContext) =>
         url: z.url(),
         // The direct link that shows when the calendar cannot load.
         linkLabel: z.string(),
+        // What a screen reader hears while the calendar loads.
+        loadingLabel: z.string(),
       }),
     })
     .strict()
