@@ -1,5 +1,5 @@
 import { _android, test as base } from "@playwright/test"
-import type { Browser } from "@playwright/test"
+import type { Browser, BrowserContext } from "@playwright/test"
 
 // The target of this run and the page each test gets. See
 // tests/browser/README.md.
@@ -27,8 +27,10 @@ const site = base.extend({
 
 // iOS: the one open tab of Mobile Safari, through ios_webkit_debug_proxy for
 // the chosen simulator or device. Safari offers no new contexts or pages, so
-// every test shares that tab with its cookies and storage. The connection
-// lasts the whole run, so Playwright saves a failed test's trace first.
+// every test shares that tab with its cookies and storage. The tab must
+// already show BASE_URL, because going to another site from it can time out
+// after the page rendered. The connection lasts the whole run, so Playwright
+// saves a failed test's trace first.
 const ios = site.extend<object, { safari: Browser }>({
   safari: [
     async ({ playwright }, provide) => {
@@ -53,16 +55,22 @@ const ios = site.extend<object, { safari: Browser }>({
     },
     { scope: "worker" },
   ],
-  page: async ({ safari }, provide) => {
+  page: async ({ safari, baseURL }, provide) => {
     const pages = safari.contexts().flatMap((context) => context.pages())
+    const open = `open exactly one tab at ${baseURL} before the run`
     if (pages.length !== 1)
-      fail(`Mobile Safari has ${pages.length} tabs open; leave exactly one.`)
-    await provide(pages[0]!)
+      fail(`Mobile Safari has ${pages.length} tabs open; ${open}.`)
+    const page = pages[0]!
+    const origin = (url: string) => URL.parse(url)?.origin
+    if (origin(page.url()) !== origin(baseURL!))
+      fail(`Mobile Safari's tab shows ${page.url() || "nothing"}; ${open}.`)
+    await provide(page)
   },
 })
 
-// Android: a fresh Chrome on the chosen adb device or emulator. Playwright
-// records no Android trace by itself, so this keeps one of a failed test.
+// Android: Chrome on the chosen adb device or emulator, restarted for each
+// test. Playwright records no Android trace by itself, so this keeps one of a
+// failed test.
 const android = site.extend({
   // eslint-disable-next-line no-empty-pattern
   page: async ({}, provide, testInfo) => {
@@ -76,23 +84,47 @@ const android = site.extend({
     const device = devices.find((d) => d.serial() === serial)
     const found = others.map((d) => d.serial()).join(", ") || "none"
     if (!device) fail(`No adb device ${serial}; found ${found}.`)
+    // launchBrowser writes Chrome's flags to this file and removes it only
+    // when Chrome connects.
+    const flags = "/data/local/tmp/chrome-command-line"
+    const readFlags = async () =>
+      (await device.shell(`cat ${flags} 2>/dev/null`)).toString()
     try {
-      // Stops Chrome on the device, then starts it with a new profile.
-      const context = await device.launchBrowser()
-      await context.tracing.start({ screenshots: true, snapshots: true })
-      const page = await context.newPage()
-      await provide(page)
-      if (testInfo.status === testInfo.expectedStatus)
-        await context.tracing.stop()
-      else {
-        const path = testInfo.outputPath("trace.zip")
-        await context.tracing.stop({ path })
-        await testInfo.attach("trace", { path })
-        const screenshot = await page.screenshot()
-        await testInfo.attach("screenshot", {
-          body: screenshot,
-          contentType: "image/png",
-        })
+      if (await readFlags())
+        fail(
+          `${serial} has ${flags} from another run or setup; remove it once nothing uses it.`
+        )
+      let context: BrowserContext
+      try {
+        // Stops Chrome on the device, then starts it again with its existing
+        // profile, so cookies and storage carry over between tests and runs.
+        context = await device.launchBrowser()
+      } catch (error) {
+        // Removes the flags this launch left, then reports its failure.
+        const left = await readFlags().catch(() => "")
+        if (left.includes("--remote-debugging-socket-name=playwright_"))
+          await device.shell(`rm ${flags}`).catch(() => {})
+        throw error
+      }
+      try {
+        await context.tracing.start({ screenshots: true, snapshots: true })
+        const page = await context.newPage()
+        await provide(page)
+        if (testInfo.status === testInfo.expectedStatus)
+          await context.tracing.stop()
+        else {
+          const path = testInfo.outputPath("trace.zip")
+          await context.tracing.stop({ path })
+          await testInfo.attach("trace", { path })
+          const screenshot = await page.screenshot()
+          await testInfo.attach("screenshot", {
+            body: screenshot,
+            contentType: "image/png",
+          })
+        }
+      } catch (error) {
+        await context.close().catch(() => {})
+        throw error
       }
       await context.close()
     } finally {
