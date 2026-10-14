@@ -53,6 +53,9 @@ from = "/*"
 to = "/404/"
 status = 404
 
+[context.production]
+command = "pnpm run check && pnpm run build"
+
 [[headers]]
 for = "/*"
 
@@ -73,3 +76,6 @@ for = "/manifest.webmanifest"
 
 [headers.values]
 Content-Type = "application/manifest+json"
+
+[context.deploy-preview]
+ignore = "false"
