@@ -4,9 +4,9 @@ import type { Browser, BrowserContext } from "@playwright/test"
 // The target of this run and the page each test gets. See
 // tests/browser/README.md.
 const env = process.env
-const targets = ["chrome", "firefox", "webkit", "ios", "android"] as const
+const targets = ["chromium", "firefox", "webkit", "ios", "android"] as const
 export const target = (env.BROWSER_TARGET ||
-  "chrome") as (typeof targets)[number]
+  "chromium") as (typeof targets)[number]
 if (!targets.includes(target))
   throw new Error(`BROWSER_TARGET must be one of ${targets.join(", ")}.`)
 
