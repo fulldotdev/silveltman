@@ -1,4 +1,4 @@
-# The browser smoke in Chrome against a deployment, on request. See
+# The browser smoke in Chromium against a deployment, on request. See
 # tests/browser/README.md.
 name: Browser smoke
 
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  chrome:
+  chromium:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -26,6 +26,7 @@ jobs:
           node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm exec playwright install --with-deps chromium --only-shell
       - run: pnpm browser:test
         env:
           BASE_URL: ${{ inputs.base_url }}

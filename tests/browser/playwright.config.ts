@@ -15,7 +15,7 @@ const run = fileURLToPath(
 // Desktop targets use Playwright's own browsers; target.ts connects iOS and
 // Android.
 const browsers = {
-  chrome: { browserName: "chromium", channel: "chrome" },
+  chromium: { browserName: "chromium" },
   firefox: { browserName: "firefox" },
   webkit: { browserName: "webkit" },
   ios: {},
