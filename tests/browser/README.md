@@ -3,8 +3,8 @@
 Playwright Test, one target per run. `smoke.spec.ts` opens the homepage and checks its address, title and heading; it changes nothing. `pnpm a11y` stays the accessibility scan.
 
 ```sh
-BASE_URL=https://deploy-preview-1--example.netlify.app vp run browser:test
-BASE_URL=https://deploy-preview-1--example.netlify.app BROWSER_TARGET=firefox vp run browser:test
+BASE_URL=https://deploy-preview-1--example.netlify.app vp run test:browser
+BASE_URL=https://deploy-preview-1--example.netlify.app BROWSER_TARGET=firefox vp run test:browser
 ```
 
 `BASE_URL` is required; there is no default site. Each run writes to `.dev/browser/<run-id>/`: `results` keeps a screenshot, trace and error context of each failed test, and `report` the HTML report (`vp exec playwright show-report .dev/browser/<run-id>/report`). Screenshots and traces show what the page shows, so keep them off for signed-in pages.

@@ -27,7 +27,7 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm exec playwright install --with-deps chromium --only-shell
-      - run: pnpm browser:test
+      - run: pnpm test:browser
         env:
           BASE_URL: ${{ inputs.base_url }}
           BROWSER_RUN_ID: ${{ github.run_id }}-${{ github.run_attempt }}
