@@ -1,7 +1,7 @@
 // Checks the translations of a site with more than one language.
 //
-//   node scripts/translations.ts        the content, in `check:source`
-//   node scripts/translations.ts dist   the built pages, in `check:build`
+//   node scripts/translations.ts        the content, in `check`
+//   node scripts/translations.ts dist   the built pages, in `build`
 //
 // Content: pages with the same translationKey are translations of each
 // other. The page in the default locale is the source, and every other

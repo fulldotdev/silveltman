@@ -1,6 +1,9 @@
 import { defineConfig, fontProviders } from "astro/config"
+import netlifyDev from "@netlify/vite-plugin"
 import tailwindcss from "@tailwindcss/vite"
 import favicons from "astro-favicons"
+
+import checkBuild from "./src/integrations/check-build"
 
 export default defineConfig({
   // The production URL. Canonical links, the sitemap, robots.txt and the
@@ -60,6 +63,10 @@ export default defineConfig({
         yandex: false,
       },
     }),
+
+    checkBuild(),
   ],
-  vite: { plugins: [tailwindcss()] },
+  vite: {
+    plugins: [tailwindcss(), netlifyDev({ edgeFunctions: { enabled: false } })],
+  },
 })

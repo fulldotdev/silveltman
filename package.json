@@ -5,16 +5,15 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "check:build": "node scripts/translations.ts dist && html-validate dist && linkinator dist",
     "a11y": "pnpm build && playwright install chromium --only-shell && node scripts/a11y.mjs",
     "test:browser": "playwright test --config tests/browser/playwright.config.ts",
-    "preview": "astro preview",
-    "check:source": "prettier --check . && tsc --noEmit --noCheck && astro check --minimumFailingSeverity hint && eslint . && knip && node scripts/images.ts --check && node scripts/translations.ts",
-    "fix:source": "prettier --write . && eslint . --fix",
+    "preview": "vp dlx netlify-cli@27.12.1 serve --context deploy-preview",
+    "check": "prettier --check . && tsc --noEmit --noCheck && astro check --minimumFailingSeverity hint && eslint . && knip && node scripts/images.ts --check && node scripts/translations.ts",
+    "fix": "prettier --write . && eslint . --fix",
     "images": "node scripts/images.ts",
     "ui:add": "node scripts/ui-add.ts"
   },
-  "packageManager": "pnpm@12.11.2",
+  "packageManager": "pnpm@12.14.0",
   "engines": {
     "node": ">=24.11.0 <25"
   },
@@ -39,7 +38,8 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "schema-dts": "^2.0.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.71.0"
+    "typescript-eslint": "^8.71.0",
+    "@netlify/vite-plugin": "3.0.1"
   },
   "dependencies": {
     "@lexingtonthemes/seo": "^0.4.0",

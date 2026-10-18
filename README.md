@@ -6,9 +6,8 @@ The personal website of Sil Veltman at [silveltman.nl](https://silveltman.nl): a
 
 ```sh
 vp run dev                # local server
-vp run check:source       # format, types, ESLint, knip, photos, translations
+vp run check       # format, types, ESLint, knip, photos, translations
 vp run build              # build
-vp run check:build        # translation links, HTML validation and link check of the build
 vp run a11y               # build and scan every page with axe
 BASE_URL=<url> vp run test:browser  # Playwright smoke, see tests/browser/README.md
 vp run images             # convert new photos in src to the WebP standard
