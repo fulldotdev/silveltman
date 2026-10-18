@@ -7,7 +7,7 @@
     "build": "astro build",
     "a11y": "pnpm build && playwright install chromium --only-shell && node scripts/a11y.mjs",
     "test:browser": "playwright test --config tests/browser/playwright.config.ts",
-    "preview": "vp dlx netlify-cli@27.12.1 serve --context deploy-preview",
+    "preview": "vp dlx --package=netlify-cli@27.12.1 netlify serve --context deploy-preview",
     "check": "prettier --check . && tsc --noEmit --noCheck && astro check --minimumFailingSeverity hint && eslint . && knip && node scripts/images.ts --check && node scripts/translations.ts",
     "fix": "prettier --write . && eslint . --fix",
     "images": "node scripts/images.ts",
