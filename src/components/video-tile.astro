@@ -33,6 +33,9 @@ const id = new URL(href).pathname.split("/").pop()
       <Image
         src={thumbnail}
         alt=""
+        format="webp"
+        loading="lazy"
+        decoding="async"
         widths={[240, 360, 480, 720]}
         sizes="(min-width: 64rem) 19rem, (min-width: 40rem) 33vw, 50vw"
         class="ease-settle size-full object-cover transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"

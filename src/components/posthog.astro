@@ -1,25 +1,56 @@
 <script>
-  // The key of the shared full.dev PostHog project (EU cloud). It is public by design.
+  import { afterLoad } from "@/lib/after-load"
+  import { scrubUrls } from "@/lib/posthog-urls"
+
+  // The shared full.dev PostHog project key (EU cloud). Public by design.
   // Leave it empty to turn analytics off.
   const key: string = "phc_txCmZNAK3YueTeNyvtXmnh9JvK2LdbF3hK3kvxRcEJou"
 
-  // Only on the production domain from `site` in astro.config.ts, after the
-  // page has loaded. PostHog also drops events from headless browsers: check
-  // events in real Chrome on production, intercepting /ingest so nothing
-  // reaches the data.
   if (
     key &&
+    !navigator.webdriver &&
     window.location.hostname === new URL(import.meta.env.SITE).hostname
   )
-    window.addEventListener("load", async () => {
-      const { default: posthog } = await import("posthog-js")
+    afterLoad(async () => {
+      const { PostHog } = await import("posthog-js")
+      const posthog = new PostHog()
+      // The same-origin proxy must not receive existing app/legacy cookies.
+      const fetchOptions: RequestInit = {
+        credentials: "omit",
+        cache: "no-store",
+      }
       posthog.init(key, {
-        // Netlify forwards /ingest to PostHog (netlify.toml).
         api_host: "/ingest",
+        api_transport: "fetch",
+        disable_beacon: true,
+        fetch_options: fetchOptions,
         ui_host: "https://eu.posthog.com",
         defaults: "2026-08-30",
+        // No persistent visitor ID; SDK cleanup stays separate from app storage.
         cookieless_mode: "always",
-        capture_exceptions: true,
+        persistence: "memory",
+        persistence_name: "website",
+        person_profiles: "never",
+        // Also prevents reading advertising IDs from URL parameters or cookies.
+        save_campaign_params: false,
+        property_denylist: ["ph_keyword", "$initial_ph_keyword"],
+        capture_pageview: true,
+        capture_pageleave: true,
+        disable_scroll_properties: true,
+        autocapture: false,
+        capture_dead_clicks: false,
+        capture_heatmaps: false,
+        capture_exceptions: false,
+        capture_performance: false,
+        disable_session_recording: true,
+        disable_surveys: true,
+        disable_product_tours: true,
+        disable_conversations: true,
+        advanced_disable_flags: true,
+        before_send: (event) =>
+          event && ["$pageview", "$pageleave"].includes(event.event)
+            ? scrubUrls(event, undefined, { referrerOriginsOnly: true })
+            : null,
       })
     })
 </script>

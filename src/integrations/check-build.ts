@@ -7,10 +7,9 @@ export default function checkBuild(): AstroIntegration {
     hooks: {
       // Keep this integration last so every generated file is checked.
       "astro:build:done": () => {
-        execSync(
-          "node scripts/translations.ts dist && html-validate dist && linkinator dist",
-          { stdio: "inherit" }
-        )
+        execSync("node scripts/translations.ts dist && fulldev-check dist", {
+          stdio: "inherit",
+        })
       },
     },
   }

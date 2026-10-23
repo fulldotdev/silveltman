@@ -47,6 +47,13 @@ const alternates = translations.size > 1 ? [...translations] : []
 const defaultHref = alternates.length && translations.get(defaultLocale)
 if (defaultHref) alternates.push(["x-default", defaultHref])
 
+const socialImage = await getImage({
+  src: (page.seo?.image ?? global.image).src,
+  format: "png",
+  width: 1200,
+  height: 630,
+  quality: "medium",
+})
 const avatar = await getImage({ src: global.person.avatar, width: 512 })
 const jsonLd: WithContext<WebSite | Person>[] = [
   {
@@ -93,6 +100,16 @@ const jsonLd: WithContext<WebSite | Person>[] = [
     <Font cssVariable="--font-mono" />
     <link rel="sitemap" href="/sitemap.xml" />
     <meta property="og:locale" content="nl_NL" />
+    <meta name="twitter:title" content={page.seo?.title ?? page.title} />
+    <meta
+      name="twitter:description"
+      content={page.seo?.description ?? page.description}
+    />
+    <meta name="twitter:image" content={new URL(socialImage.src, site).href} />
+    <meta
+      name="twitter:image:alt"
+      content={(page.seo?.image ?? global.image).alt}
+    />
     <meta name="twitter:creator" content={global.person.x} />
     {markdown && <link rel="alternate" type="text/markdown" href={markdown} />}
     {alternates.map(([language, href]) => (
