@@ -16,12 +16,7 @@ function withoutQuery(value: string) {
   }
 }
 
-/**
- * PostHog's before_send for addresses: every text in an event's
- * properties, $set and $set_once, also nested, such as $current_url,
- * $referrer, $initial_current_url and a web vital's URLs, goes through
- * `clean`, by default `withoutQuery`. Campaign parameters are read before.
- */
+/** Strip private URL details; referring URLs retain only their origin. */
 export function scrubUrls(
   event: CaptureResult | null,
   clean: (text: string) => string = withoutQuery
