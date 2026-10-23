@@ -33,8 +33,10 @@
         person_profiles: "never",
         // Also prevents reading advertising IDs from URL parameters or cookies.
         save_campaign_params: false,
+        property_denylist: ["ph_keyword", "$initial_ph_keyword"],
         capture_pageview: true,
         capture_pageleave: true,
+        disable_scroll_properties: true,
         autocapture: false,
         capture_dead_clicks: false,
         capture_heatmaps: false,

@@ -32,9 +32,17 @@ export function scrubUrls(
     if (!value || typeof value !== "object" || seen.has(value)) return
     seen.add(value)
     for (const [key, nested] of Object.entries(value)) {
-      if (typeof nested === "string")
-        (value as Record<string, unknown>)[key] = clean(nested)
-      else scrub(nested)
+      if (typeof nested === "string") {
+        let text = clean(nested)
+        if (/referrer/i.test(key) && /^https?:\/\//i.test(text)) {
+          try {
+            text = new URL(text).origin + "/"
+          } catch {
+            text = ""
+          }
+        }
+        ;(value as Record<string, unknown>)[key] = text
+      } else scrub(nested)
     }
   }
   for (const values of [event.properties, event.$set, event.$set_once])
