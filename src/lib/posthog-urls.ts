@@ -16,10 +16,11 @@ function withoutQuery(value: string) {
   }
 }
 
-/** Strip private URL details; referring URLs retain only their origin. */
+/** Strip URL queries and optionally limit referring URLs to their origin. */
 export function scrubUrls(
   event: CaptureResult | null,
-  clean: (text: string) => string = withoutQuery
+  clean: (text: string) => string = withoutQuery,
+  { referrerOriginsOnly = false }: { referrerOriginsOnly?: boolean } = {}
 ) {
   if (!event) return null
   const seen = new WeakSet<object>()
@@ -29,7 +30,11 @@ export function scrubUrls(
     for (const [key, nested] of Object.entries(value)) {
       if (typeof nested === "string") {
         let text = clean(nested)
-        if (/referrer/i.test(key) && /^https?:\/\//i.test(text)) {
+        if (
+          referrerOriginsOnly &&
+          /referrer/i.test(key) &&
+          /^https?:\/\//i.test(text)
+        ) {
           try {
             text = new URL(text).origin + "/"
           } catch {

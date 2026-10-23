@@ -49,7 +49,7 @@
         advanced_disable_flags: true,
         before_send: (event) =>
           event && ["$pageview", "$pageleave"].includes(event.event)
-            ? scrubUrls(event)
+            ? scrubUrls(event, undefined, { referrerOriginsOnly: true })
             : null,
       })
     })
