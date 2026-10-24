@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets"
+import { Picture } from "astro:assets"
 
 import type { GlobalSchema } from "@/schemas/global"
 import type { HomeSchema } from "@/schemas/layouts/home"
@@ -45,11 +45,13 @@ const { hero, videos } = page
         ))}
       </div>
       <div class="panel bg-muted mt-16 aspect-4/5 w-full max-w-80 sm:mt-20">
-        <Image
+        <Picture
           src={hero.image.src}
           alt={hero.image.alt}
-          format="webp"
-          widths={[320, 480, 640]}
+          formats={["avif"]}
+          fallbackFormat="webp"
+          pictureAttributes={{ class: "contents" }}
+          widths={[320, 480, 640, 960]}
           sizes="20rem"
           loading="eager"
           fetchpriority="high"
