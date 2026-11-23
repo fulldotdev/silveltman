@@ -1,0 +1,22 @@
+name: Dependabot
+
+# Dependabot's patch and minor npm updates merge by themselves once the
+# required checks pass. pull_request_target runs this file from main, so a PR
+# cannot change it; the action never checks out the PR.
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+
+permissions: {}
+
+jobs:
+  auto-merge:
+    name: Auto-merge
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
+    runs-on: ${{ vars.CI_RUNNER || (github.event.repository.private == false && 'ubuntu-24.04') || 'blacksmith-2vcpu-ubuntu-2404-arm' }}
+    timeout-minutes: 5
+    steps:
+      - uses: fulldotdev/.github/.github/actions/dependabot@9de7f8298e3aec6623d93796d89842b923cb87fc
+        with:
+          app-client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          app-private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
